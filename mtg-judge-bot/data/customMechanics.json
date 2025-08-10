@@ -1,0 +1,26 @@
+{
+  "warp": {
+    "name": "Warp",
+    "description": "Warp is a keyword ability that allows a player to cast a spell for its warp cost rather than its mana cost. When a player warps a spell, they may pay the warp cost instead of the mana cost. The spell is then exiled with a warp counter on it. The player may cast the exiled spell for its warp cost until the end of their next turn.",
+    "example": "Warp {2} (You may pay {2} rather than pay this spell's mana cost. If you do, exile it with a warp counter on it. You may cast it for its warp cost until the end of your next turn.)",
+    "rulings": [
+      "If you cast a spell for its warp cost, it goes to exile instead of your graveyard as it resolves.",
+      "You can only cast the exiled spell once from exile using warp.",
+      "If the spell is countered after being cast for its warp cost, it still goes to exile.",
+      "The warp ability only works from your hand, not from other zones."
+    ],
+    "sets": ["Edge of Eternities"],
+    "isCustom": true
+  },
+  "menace": {
+    "name": "Menace",
+    "description": "Menace is a keyword ability that makes a creature harder to block. A creature with menace can't be blocked except by two or more creatures.",
+    "example": "This creature has menace. (It can't be blocked except by two or more creatures.)",
+    "rulings": [
+      "If a creature has multiple instances of menace, it's still just 'can't be blocked except by two or more creatures'.",
+      "Menace doesn't interact with abilities that prevent blocking, such as 'can't be blocked'."
+    ],
+    "comprehensiveRule": "702.111",
+    "isCustom": false
+  }
+}
