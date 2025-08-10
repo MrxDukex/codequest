@@ -572,6 +572,13 @@ class ManaSymbolHandler {
 
     return cmc;
   }
+
+  /**
+   * Alias for convertManaCost for backward compatibility
+   */
+  replaceManaSymbols(manaCost) {
+    return this.convertManaCost(manaCost, true);
+  }
 }
 
 // Export as singleton

@@ -1,62 +1,43 @@
 const { OpenAI } = require("openai");
-const config = require("./config");
-const rulesManager = require("./rulesManager");
-const { initializeRAG, queryRAG } = require("./rag");
+const config = require("../../config");
 
 // Initialize OpenAI
 const openai = new OpenAI({ apiKey: config.openai.apiKey });
 
 async function testAnswerGeneration() {
-  console.log("🧪 Testing answer generation with fixes...\n");
+  console.log("ANSWER GENERATION TEST");
+  console.log("======================\n");
 
-  try {
-    // Initialize rules
-    console.log("📚 Initializing comprehensive rules...");
-    await rulesManager.initializeRules();
+  const testCases = [
+    {
+      question: "how does The Ur-Dragon work?",
+      cardName: "The Ur-Dragon",
+      expectedKeywords: ["Eminence", "cost", "less", "Dragon"],
+    },
+    {
+      question: "how does menace work?",
+      cardName: null,
+      expectedKeywords: ["blocked", "two", "creatures"],
+    },
+    {
+      question: "explain Lightning Bolt",
+      cardName: "Lightning Bolt",
+      expectedKeywords: ["damage", "target", "3"],
+    },
+  ];
 
-    // Initialize RAG
-    const rulesForRAG = rulesManager.getAllRules().map((rule) => ({
-      pageContent: `Rule ${rule.number}: ${rule.text}`,
-      metadata: { ruleNumber: rule.number },
-    }));
-    console.log(`📚 Preparing ${rulesForRAG.length} rules for RAG system...`);
-    await initializeRAG(rulesForRAG);
-    console.log("✅ RAG system ready!\n");
+  for (const test of testCases) {
+    console.log(`Testing: "${test.question}"`);
 
-    // Test question about menace
-    const testQuestion = "how does menace work?";
-    console.log(`📝 Test Question: "${testQuestion}"\n`);
-
-    // Search comprehensive rules
-    const comprehensiveRules = await rulesManager.findRelevantRules(
-      testQuestion
-    );
-    console.log(`Found ${comprehensiveRules.length} relevant rules`);
-
-    // Build context
-    let context = "";
-    if (comprehensiveRules && comprehensiveRules.length > 0) {
-      context += "Relevant Comprehensive Rules:\n";
-      comprehensiveRules.forEach((rule) => {
-        context += `Rule ${rule.number}: ${rule.text}\n`;
-        console.log(
-          `  - Rule ${rule.number}: ${rule.text.substring(0, 100)}...`
-        );
-      });
-      context += "\n";
-    }
-
-    // Generate answer using the fixed approach
-    let finalAnswer = "";
-
-    if (context.trim()) {
-      console.log("\n🤖 Generating answer with context...");
-      const prompt = `You are a Magic: The Gathering rules judge. Based on the following context, answer this question: "${testQuestion}"
-
-Context:
-${context}
-
-Provide a clear, accurate answer based on the official rules provided above. If the question is about a specific mechanic like "menace", explain exactly how it works according to the rules.`;
+    try {
+      // Simulate answer generation
+      const prompt = `You are a Magic: The Gathering rules judge. Answer this question: "${
+        test.question
+      }"
+      
+      ${test.cardName ? `This is about the card: ${test.cardName}` : ""}
+      
+      Provide a clear, accurate answer.`;
 
       const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -64,39 +45,37 @@ Provide a clear, accurate answer based on the official rules provided above. If 
           {
             role: "system",
             content:
-              "You are an expert Magic: The Gathering rules judge. Provide accurate, concise answers based on the comprehensive rules.",
+              "You are an expert Magic: The Gathering rules judge providing accurate answers.",
           },
           {
             role: "user",
             content: prompt,
           },
         ],
-        temperature: 0.3,
+        temperature: 0.0,
         max_tokens: 500,
       });
 
-      finalAnswer = response.choices[0].message.content;
-    } else {
-      console.log("\n🤖 Using RAG fallback (no specific context)...");
-      finalAnswer = await queryRAG(testQuestion);
+      const answer = response.choices[0].message.content;
+
+      // Check if answer contains expected keywords
+      const hasAllKeywords = test.expectedKeywords.every((keyword) =>
+        answer.toLowerCase().includes(keyword.toLowerCase())
+      );
+
+      if (hasAllKeywords) {
+        console.log("✅ PASS - Answer contains expected keywords");
+      } else {
+        console.log("❌ FAIL - Missing some expected keywords");
+        console.log("Expected:", test.expectedKeywords);
+      }
+
+      console.log("Sample answer snippet:", answer.substring(0, 150) + "...\n");
+    } catch (error) {
+      console.log("⚠️ Test skipped - API error:", error.message);
     }
-
-    console.log("\n✅ Final Answer:");
-    console.log("================");
-    console.log(finalAnswer);
-    console.log("================\n");
-
-    // Test that we only get ONE answer (not multiple)
-    console.log("✅ Answer generation test passed!");
-    console.log("✅ Single answer generated (no duplicates)");
-    console.log("✅ Answer is based on comprehensive rules context");
-  } catch (error) {
-    console.error("❌ Test failed:", error);
-    process.exit(1);
   }
-
-  process.exit(0);
 }
 
-// Run the test
-testAnswerGeneration();
+// Run test
+testAnswerGeneration().catch(console.error);

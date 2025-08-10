@@ -3,6 +3,19 @@ const { OpenAI } = require("openai");
 const config = require("./config");
 const { searchMTGRulesUpdates } = require("./src/webSearch");
 const rulesManager = require("./src/rulesManager");
+const SecurityManager = require("./security-enhancements");
+
+// Initialize security manager
+const security = new SecurityManager();
+
+// Validate environment and API keys
+SecurityManager.validateEnvironment();
+SecurityManager.validateApiKeys();
+SecurityManager.checkFilePermissions();
+SecurityManager.monitorMemoryUsage();
+
+// Set production environment
+process.env.NODE_ENV = "production";
 const { initializeRAG, queryRAG } = require("./src/rag");
 const SearchAggregator = require("./src/webSearch/searchAggregator");
 const KnowledgeCache = require("./src/knowledge/cache");
@@ -10,6 +23,15 @@ const OracleTextParser = require("./src/oracleParser");
 const CardReferenceDetector = require("./src/cardReferenceDetector");
 const manaSymbols = require("./src/manaSymbols");
 const CardSetParser = require("./src/cardSetParser");
+const KeywordDatabase = require("./src/keywordDatabase");
+const KeywordResponseFormatter = require("./src/keywordResponseFormatter");
+const InteractionDatabase = require("./src/interactionDatabase");
+const ComplexRulesDatabase = require("./src/complexRulesDatabase");
+const InlineCardDetector = require("./src/inlineCardDetector");
+const MetaCommand = require("./src/meta/metaCommand");
+
+// Initialize command handlers
+const metaCommand = new MetaCommand();
 
 // Mechanic/keyword to icon mapping
 const mechanicIcons = {
@@ -107,6 +129,10 @@ const searchAggregator = new SearchAggregator({
 });
 
 const knowledgeCache = new KnowledgeCache();
+
+// Response tracking to prevent duplicates
+const processedMessages = new Set();
+const responseInProgress = new Map();
 
 // Initialize Discord client
 const client = new Client({
@@ -397,28 +423,187 @@ client.once("ready", async () => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-  const content = message.content.trim();
+
+  // Security checks
+  if (!security.isChannelWhitelisted(message.channel.id)) {
+    return; // Silently ignore messages from non-whitelisted channels
+  }
+
+  if (!security.checkRateLimit(message.author.id)) {
+    return message.reply(
+      "⚠️ Please wait a moment before sending another command."
+    );
+  }
+
+  // Sanitize input
+  const content = security.sanitizeInput(message.content.trim());
+
+  // Prevent duplicate processing
+  if (processedMessages.has(message.id)) {
+    console.log(`[DUPLICATE] Already processed message ${message.id}`);
+    return;
+  }
+
+  // Check if we're already processing a response for this channel
+  if (responseInProgress.has(message.channel.id)) {
+    console.log(
+      `[IN PROGRESS] Response already in progress for channel ${message.channel.id}`
+    );
+    return;
+  }
+
+  // Mark message as processed and channel as in progress
+  processedMessages.add(message.id);
+  responseInProgress.set(message.channel.id, true);
+
+  // Clean up after 10 seconds
+  setTimeout(() => {
+    processedMessages.delete(message.id);
+    responseInProgress.delete(message.channel.id);
+  }, 10000);
+
+  // Check for inline card references FIRST (works on all messages)
+  if (InlineCardDetector.hasCardReferences(content)) {
+    console.log("[INLINE CARDS] Detected card references in message");
+    const parsedData = InlineCardDetector.parseMessage(content);
+
+    if (parsedData.exceedsLimit) {
+      return message.reply(
+        "⚠️ Maximum 5 cards per message. Please reduce the number of cards."
+      );
+    }
+
+    if (parsedData.hasCards) {
+      const embeds = [];
+      const notFound = [];
+
+      for (const cardRef of parsedData.cards) {
+        try {
+          let cardData = null;
+          if (cardRef.set) {
+            cardData = await CardSetParser.getCardFromSet(
+              cardRef.cleanName,
+              cardRef.set
+            );
+          }
+          if (!cardData) {
+            cardData = await getBestCardPrinting(cardRef.cleanName);
+          }
+
+          if (cardData) {
+            console.log(`[INLINE CARDS] Found card: ${cardData.name}`);
+            const cardImage =
+              cardData.image_uris?.normal ||
+              cardData.card_faces?.[0]?.image_uris?.normal;
+
+            const embedTitle = cardRef.set
+              ? `${cardData.name} ${
+                  cardData.mana_cost ? convertManaCost(cardData.mana_cost) : ""
+                } [${cardRef.set.toUpperCase()}]`
+              : `${cardData.name} ${
+                  cardData.mana_cost ? convertManaCost(cardData.mana_cost) : ""
+                }`;
+
+            const embed = new EmbedBuilder()
+              .setTitle(embedTitle)
+              .setURL(cardData.scryfall_uri)
+              .setColor(getRarityColor(cardData.rarity))
+              .setImage(cardImage);
+
+            let description = `**${cardData.type_line}**`;
+            if (cardData.power && cardData.toughness) {
+              description += ` • ${cardData.power}/${cardData.toughness}`;
+            } else if (cardData.loyalty) {
+              description += ` • Loyalty: ${cardData.loyalty}`;
+            }
+
+            description += `\n${cardData.collector_number} • ${
+              cardData.rarity.charAt(0).toUpperCase() + cardData.rarity.slice(1)
+            }`;
+
+            if (cardData.oracle_text) {
+              const formattedText = formatOracleText(cardData.oracle_text);
+              description += `\n\n${formattedText}`;
+            }
+
+            if (cardData.flavor_text) {
+              description += `\n\n*${cardData.flavor_text}*`;
+            }
+
+            embed.setDescription(description.substring(0, 4096));
+            embeds.push(embed);
+          } else {
+            console.log(`[INLINE CARDS] Card not found: ${cardRef.cleanName}`);
+            const suggestions = await getCardSuggestions(cardRef.cleanName);
+            if (suggestions.length > 0) {
+              notFound.push(
+                `${cardRef.raw} - Did you mean: ${suggestions[0]}?`
+              );
+            } else {
+              notFound.push(cardRef.raw);
+            }
+          }
+        } catch (error) {
+          console.error(
+            `[INLINE CARDS] Error processing ${cardRef.name}:`,
+            error
+          );
+          notFound.push(cardRef.raw);
+        }
+      }
+
+      if (embeds.length > 0) {
+        const responseMessage = { embeds: embeds };
+        if (notFound.length > 0) {
+          responseMessage.content = `⚠️ Cards not found: ${notFound.join(
+            ", "
+          )}`;
+        }
+        await message.channel.send(responseMessage);
+      } else if (notFound.length > 0) {
+        await message.reply(`⚠️ No cards found: ${notFound.join(", ")}`);
+      }
+    }
+    return;
+  }
+
+  // !meta command for tournament meta analysis
+  if (content.startsWith("!meta")) {
+    const args = content.slice(5).trim().split(/\s+/);
+    return metaCommand.handle(message, args);
+  }
 
   // !commands command to list all available commands
   if (content === "!commands") {
     const commandsList = [
       {
         cmd: "!judge [question]",
-        desc: "Get Magic: The Gathering rules clarifications powered by GPT-4/GPT-3.5.",
+        desc: "Get Magic: The Gathering rules clarifications.",
       },
       {
         cmd: "!card [card name]",
-        desc: "Look up card information from Scryfall, including oracle text and images.",
+        desc: "Look up card information from Scryfall.",
+      },
+      {
+        cmd: "!cards [names]",
+        desc: "Look up multiple cards (comma-separated, max 10).",
+      },
+      {
+        cmd: "!meta [format]",
+        desc: "Get current tournament meta breakdown.",
       },
       {
         cmd: "!updaterules",
-        desc: "Manually update/download the latest comprehensive rules from Wizards of the Coast.",
+        desc: "Update the comprehensive rules.",
       },
       {
         cmd: "!rulestatus",
-        desc: "Check the status and last update time of the comprehensive rules.",
+        desc: "Check comprehensive rules status.",
       },
-      // Add more commands here as needed
+      {
+        cmd: "[[card name]]",
+        desc: "Inline card lookup.",
+      },
     ];
     let reply = "**Available Commands:**\n\n";
     for (const c of commandsList) {
