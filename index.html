@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CodeQuest - Learn HTML, CSS, and JavaScript through interactive challenges"
+    />
+    <meta name="theme-color" content="#1a1a2e" />
+    <title>CodeQuest - Learn Web Development</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/themes.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="logo-animation">
+          <i class="fas fa-code"></i>
+        </div>
+        <h2>CodeQuest</h2>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- First Time Tutorial Overlay -->
+    <div id="tutorial-overlay" class="tutorial-overlay hidden">
+      <div class="tutorial-content">
+        <div class="tutorial-step" data-step="1">
+          <h2>🎉 Welcome to CodeQuest!</h2>
+          <p>
+            Your journey to mastering web development starts here. Let's take a
+            quick tour!
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Let's Go!
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="2">
+          <h2>📊 Your Dashboard</h2>
+          <p>
+            Track your progress, XP, level, and daily streaks all in one place.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="3">
+          <h2>📚 Three Learning Paths</h2>
+          <p>
+            Master HTML, CSS, and JavaScript through 60+ interactive challenges.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="4">
+          <h2>🎮 Gamified Learning</h2>
+          <p>
+            Earn XP, unlock achievements, complete daily quests, and maintain
+            your streak!
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="5">
+          <h2>💡 Get Help When Stuck</h2>
+          <p>
+            Use progressive hints or the "Really Stuck" option to keep learning
+            without frustration.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="6">
+          <h2>🚀 Ready to Start!</h2>
+          <p>
+            Your progress auto-saves and syncs across devices. Let's begin your
+            coding journey!
+          </p>
+          <button class="btn btn-primary" onclick="completeTutorial()">
+            Start Learning
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container hidden">
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <div
+          class="nav-brand"
+          onclick="switchView('dashboard')"
+          style="cursor: pointer"
+        >
+          <i class="fas fa-code"></i>
+          <span>CodeQuest</span>
+        </div>
+        <div class="nav-user">
+          <div class="user-xp">
+            <span class="xp-amount" id="nav-xp">0 XP</span>
+            <div class="xp-bar-small">
+              <div class="xp-progress-small" id="nav-xp-progress"></div>
+            </div>
+          </div>
+          <div class="user-level">
+            <span id="nav-level">Lvl 1</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view active">
+          <div class="dashboard-hero">
+            <div class="hero-left">
+              <h1 class="greeting" id="greeting">Welcome Back!</h1>
+              <p class="subtitle" id="subtitle">
+                Let's continue your learning journey
+              </p>
+              <div class="quick-stats">
+                <div class="stat-item">
+                  <i class="fas fa-fire"></i>
+                  <div>
+                    <span class="stat-value" id="streak-value">0</span>
+                    <span class="stat-label">Day Streak</span>
+                  </div>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-trophy"></i>
+                  <div>
+                    <span class="stat-value" id="achievements-value">0</span>
+                    <span class="stat-label">Achievements</span>
+                  </div>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <div>
+                    <span class="stat-value" id="time-value">0h</span>
+                    <span class="stat-label">Total Time</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-right">
+              <div class="level-card">
+                <div class="level-circle">
+                  <span id="level-display">1</span>
+                </div>
+                <h3>Level <span id="level-text">1</span></h3>
+                <div class="xp-bar">
+                  <div class="xp-fill" id="xp-fill"></div>
+                </div>
+                <p class="xp-text">
+                  <span id="current-xp">0</span> /
+                  <span id="needed-xp">100</span> XP
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Continue Learning Section -->
+          <section class="continue-section" id="continue-section">
+            <div class="section-header">
+              <h2>
+                <i class="fas fa-play-circle"></i> Continue Where You Left Off
+              </h2>
+            </div>
+            <div class="continue-card" id="continue-card">
+              <div class="continue-info">
+                <span class="continue-category">HTML</span>
+                <h3 class="continue-title">No challenges in progress</h3>
+                <p class="continue-progress">Start a new challenge below!</p>
+              </div>
+              <button class="btn btn-primary" onclick="startFirstChallenge()">
+                <i class="fas fa-rocket"></i> Start Learning
+              </button>
+            </div>
+          </section>
+
+          <!-- Daily Quest Section -->
+          <section class="daily-quest-section">
+            <div class="section-header">
+              <h2><i class="fas fa-calendar-check"></i> Daily Quest</h2>
+              <span class="quest-timer" id="quest-timer"
+                >Resets in 12h 34m</span
+              >
+            </div>
+            <div class="quest-card" id="daily-quest">
+              <div class="quest-icon">🎯</div>
+              <div class="quest-details">
+                <h3 id="quest-title">Complete any challenge</h3>
+                <p id="quest-description">
+                  Complete any challenge to maintain your streak
+                </p>
+                <div class="quest-reward">
+                  <i class="fas fa-star"></i>
+                  <span id="quest-xp">+50 Bonus XP</span>
+                </div>
+              </div>
+              <div class="quest-status" id="quest-status">
+                <i class="fas fa-circle-notch"></i>
+              </div>
+            </div>
+          </section>
+
+          <!-- Learning Paths Section -->
+          <section class="learning-paths">
+            <div class="section-header">
+              <h2><i class="fas fa-map"></i> Choose Your Path</h2>
+            </div>
+            <div class="paths-grid">
+              <!-- HTML Path -->
+              <div class="path-card html-card" onclick="navigateToPath('html')">
+                <div class="path-icon">
+                  <i class="fab fa-html5"></i>
+                </div>
+                <div class="path-content">
+                  <h3>HTML</h3>
+                  <p>Master the structure of the web</p>
+                  <div class="path-stats">
+                    <span class="challenges-completed" id="html-completed"
+                      >0/20 Complete</span
+                    >
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill html-progress"
+                        id="html-progress"
+                      ></div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-html">
+                    <span id="html-btn-text">Start Path</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- CSS Path -->
+              <div class="path-card css-card" onclick="navigateToPath('css')">
+                <div class="path-icon">
+                  <i class="fab fa-css3-alt"></i>
+                </div>
+                <div class="path-content">
+                  <h3>CSS</h3>
+                  <p>Design beautiful interfaces</p>
+                  <div class="path-stats">
+                    <span class="challenges-completed" id="css-completed"
+                      >0/20 Complete</span
+                    >
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill css-progress"
+                        id="css-progress"
+                      ></div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-css">
+                    <span id="css-btn-text">Start Path</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- JavaScript Path -->
+              <div
+                class="path-card js-card"
+                onclick="navigateToPath('javascript')"
+              >
+                <div class="path-icon">
+                  <i class="fab fa-js"></i>
+                </div>
+                <div class="path-content">
+                  <h3>JavaScript</h3>
+                  <p>Bring your pages to life</p>
+                  <div class="path-stats">
+                    <span class="challenges-completed" id="js-completed"
+                      >0/25 Complete</span
+                    >
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill js-progress"
+                        id="js-progress"
+                      ></div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-js">
+                    <span id="js-btn-text">Start Path</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Projects Path -->
+              <div
+                class="path-card projects-card locked"
+                onclick="navigateToPath('projects')"
+              >
+                <div class="path-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <div class="path-content">
+                  <h3>Final Projects</h3>
+                  <p>Build real-world applications</p>
+                  <div class="path-stats">
+                    <span class="challenges-completed" id="projects-completed"
+                      >0/5 Complete</span
+                    >
+                    <div class="lock-message">
+                      <i class="fas fa-lock"></i>
+                      <span>Complete basics to unlock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sandbox Section -->
+          <section class="sandbox-section">
+            <div class="sandbox-card" onclick="navigateToPlayground()">
+              <div class="sandbox-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div class="sandbox-content">
+                <h3>🧪 Code Playground</h3>
+                <p>Experiment freely with HTML, CSS, and JavaScript</p>
+              </div>
+              <button class="btn btn-outline">
+                Open Playground
+                <i class="fas fa-external-link-alt"></i>
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Challenge List View -->
+        <div id="challenge-list-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1 id="path-title">HTML Challenges</h1>
+              <p id="path-subtitle">Master the structure of the web</p>
+            </div>
+            <div class="path-progress-header">
+              <span id="path-progress-text">0/20 Complete</span>
+            </div>
+          </div>
+          <div class="challenges-list" id="challenges-list">
+            <!-- Challenges will be dynamically loaded here -->
+          </div>
+        </div>
+
+        <!-- Challenge View -->
+        <div id="challenge-view" class="view">
+          <div class="challenge-header">
+            <button class="btn-back" onclick="backToChallengeList()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="challenge-title-section">
+              <h2 id="challenge-title">Challenge Title</h2>
+              <div class="challenge-meta">
+                <span class="challenge-category" id="challenge-category"
+                  >HTML</span
+                >
+                <span class="challenge-difficulty" id="challenge-difficulty"
+                  >Beginner</span
+                >
+                <span class="challenge-xp" id="challenge-xp">+10 XP</span>
+              </div>
+            </div>
+            <div class="challenge-actions">
+              <button
+                class="btn btn-secondary btn-sm"
+                onclick="giveUpChallenge()"
+              >
+                <i class="fas fa-flag"></i> Give Up
+              </button>
+              <button
+                class="btn btn-outline btn-sm"
+                id="prev-challenge-btn"
+                onclick="previousChallenge()"
+              >
+                <i class="fas fa-chevron-left"></i> Previous
+              </button>
+              <button
+                class="btn btn-primary btn-sm"
+                id="next-challenge-btn"
+                onclick="nextChallenge()"
+                disabled
+              >
+                Next <i class="fas fa-chevron-right"></i>
+              </button>
+              <button
+                class="btn btn-icon"
+                onclick="resetChallenge()"
+                title="Reset Code"
+              >
+                <i class="fas fa-redo"></i>
+              </button>
+              <button
+                class="btn btn-icon"
+                id="code-buttons-toggle"
+                onclick="toggleCodeButtons()"
+                title="Toggle Quick Buttons"
+              >
+                <i class="fas fa-keyboard"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="challenge-container">
+            <!-- Instructions Panel -->
+            <div class="instructions-panel">
+              <div class="panel-tabs">
+                <button
+                  class="tab-btn active"
+                  data-tab="instructions"
+                  onclick="switchTab('instructions')"
+                >
+                  <i class="fas fa-list"></i> Instructions
+                </button>
+                <button
+                  class="tab-btn"
+                  data-tab="hints"
+                  onclick="switchTab('hints')"
+                >
+                  <i class="fas fa-lightbulb"></i> Hints
+                </button>
+                <button
+                  class="tab-btn"
+                  data-tab="tests"
+                  onclick="switchTab('tests')"
+                >
+                  <i class="fas fa-check-circle"></i> Tests
+                </button>
+              </div>
+
+              <div class="tab-content active" data-tab="instructions">
+                <div class="instructions-content" id="instructions-content">
+                  <p>Loading challenge...</p>
+                </div>
+              </div>
+
+              <div class="tab-content" data-tab="hints">
+                <div class="hints-content">
+                  <div class="hints-header">
+                    <p>Need help? Use hints to guide you!</p>
+                    <span class="hints-counter" id="hints-counter"
+                      >0/3 hints used</span
+                    >
+                  </div>
+                  <div class="hints-list" id="hints-list">
+                    <!-- Hints will be loaded here -->
+                  </div>
+                  <div class="really-stuck-section">
+                    <button
+                      class="btn btn-warning"
+                      id="really-stuck-btn"
+                      onclick="showSolution()"
+                    >
+                      <i class="fas fa-eye"></i> I'm Really Stuck - Show
+                      Solution
+                    </button>
+                    <p class="warning-text">
+                      Using this will reduce XP and mark for review
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-content" data-tab="tests">
+                <div class="tests-content">
+                  <div class="tests-header">
+                    <p>Your code must pass these tests:</p>
+                  </div>
+                  <div class="tests-list" id="tests-list">
+                    <!-- Tests will be loaded here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code Editor Panel -->
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span><i class="fas fa-code"></i> Your Code</span>
+                <div class="editor-actions">
+                  <button
+                    class="btn btn-sm btn-success"
+                    onclick="checkAnswer()"
+                  >
+                    <i class="fas fa-check-circle"></i> Check Answer
+                  </button>
+                  <button class="btn btn-sm btn-secondary" onclick="runCode()">
+                    <i class="fas fa-play"></i> Run Code
+                  </button>
+                </div>
+              </div>
+              <div class="quick-code-buttons hidden" id="quick-code-buttons">
+                <!-- Will be populated based on challenge type -->
+              </div>
+              <div class="code-editor" id="code-editor">
+                <textarea id="code-input" spellcheck="false"></textarea>
+              </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+              <div class="preview-header">
+                <span><i class="fas fa-eye"></i> Preview</span>
+                <button class="btn btn-sm" onclick="refreshPreview()">
+                  <i class="fas fa-sync"></i> Refresh
+                </button>
+              </div>
+              <div class="preview-content">
+                <iframe
+                  id="preview-frame"
+                  sandbox="allow-scripts"
+                  title="Code Preview"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playground View -->
+        <div id="playground-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <div class="view-title">
+              <h1>🧪 Code Playground</h1>
+              <p>Experiment freely with HTML, CSS, and JavaScript</p>
+            </div>
+            <div class="playground-actions">
+              <button class="btn btn-outline" onclick="clearPlayground()">
+                <i class="fas fa-trash"></i> Clear All
+              </button>
+              <button class="btn btn-outline" onclick="savePlayground()">
+                <i class="fas fa-save"></i> Save
+              </button>
+            </div>
+          </div>
+          <div class="playground-container">
+            <div class="playground-editors">
+              <div class="playground-editor">
+                <div class="editor-tab"><i class="fab fa-html5"></i> HTML</div>
+                <textarea id="playground-html" spellcheck="false"></textarea>
+              </div>
+              <div class="playground-editor">
+                <div class="editor-tab">
+                  <i class="fab fa-css3-alt"></i> CSS
+                </div>
+                <textarea id="playground-css" spellcheck="false"></textarea>
+              </div>
+              <div class="playground-editor">
+                <div class="editor-tab">
+                  <i class="fab fa-js"></i> JavaScript
+                </div>
+                <textarea id="playground-js" spellcheck="false"></textarea>
+              </div>
+            </div>
+            <div class="playground-preview">
+              <div class="preview-header">
+                <span><i class="fas fa-eye"></i> Live Preview</span>
+                <button class="btn btn-sm" onclick="refreshPlaygroundPreview()">
+                  <i class="fas fa-sync"></i> Refresh
+                </button>
+              </div>
+              <iframe
+                id="playground-frame"
+                sandbox="allow-scripts allow-modals"
+                title="Playground Preview"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements View -->
+        <div id="achievements-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1><i class="fas fa-trophy"></i> Achievements</h1>
+              <p id="achievements-subtitle">0 of 40 unlocked</p>
+            </div>
+          </div>
+          <div class="achievements-grid" id="achievements-grid">
+            <!-- Achievements will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Profile/Stats View -->
+        <div id="profile-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1><i class="fas fa-user"></i> Your Profile</h1>
+            </div>
+          </div>
+          <div class="profile-container">
+            <div class="profile-header-card">
+              <div class="profile-avatar">
+                <span id="profile-level">1</span>
+              </div>
+              <div class="profile-info">
+                <h2 id="profile-name">CodeQuest Learner</h2>
+                <p id="profile-title">Beginner Developer</p>
+                <div class="profile-xp">
+                  <span id="profile-xp-text">0 / 100 XP</span>
+                  <div class="xp-bar">
+                    <div class="xp-fill" id="profile-xp-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <i class="fas fa-code"></i>
+                <h3 id="total-challenges">0</h3>
+                <p>Challenges Completed</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3 id="total-time">0h 0m</h3>
+                <p>Time Spent Learning</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-fire"></i>
+                <h3 id="current-streak">0</h3>
+                <p>Day Streak</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <h3 id="accuracy-stat">0%</h3>
+                <p>Success Rate</p>
+              </div>
+            </div>
+
+            <div class="detailed-stats">
+              <h3>Detailed Statistics</h3>
+              <div class="stat-row">
+                <span>Total XP Earned:</span>
+                <strong id="total-xp">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Challenges Attempted:</span>
+                <strong id="attempted-challenges">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Average Time per Challenge:</span>
+                <strong id="avg-time">0m</strong>
+              </div>
+              <div class="stat-row">
+                <span>Hints Used:</span>
+                <strong id="total-hints">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Perfect Completions:</span>
+                <strong id="perfect-completions">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Longest Streak:</span>
+                <strong id="longest-streak">0 days</strong>
+              </div>
+            </div>
+
+            <div class="progress-breakdown">
+              <h3>Progress by Category</h3>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-html5"></i> HTML</span>
+                  <span id="html-progress-text">0/20</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill html-progress"
+                    id="profile-html-progress"
+                  ></div>
+                </div>
+              </div>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-css3-alt"></i> CSS</span>
+                  <span id="css-progress-text">0/20</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill css-progress"
+                    id="profile-css-progress"
+                  ></div>
+                </div>
+              </div>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-js"></i> JavaScript</span>
+                  <span id="js-progress-text">0/25</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill js-progress"
+                    id="profile-js-progress"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-actions">
+              <button class="btn btn-outline" onclick="exportProgress()">
+                <i class="fas fa-download"></i> Export Progress
+              </button>
+              <button class="btn btn-outline" onclick="syncToObsidian()">
+                <i class="fas fa-sync"></i> Sync to Obsidian
+              </button>
+              <button class="btn btn-danger" onclick="resetProgress()">
+                <i class="fas fa-exclamation-triangle"></i> Reset All Progress
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Bottom Navigation (Mobile) -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" onclick="navigateToDashboard()">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="navigateToPath('html')">
+          <i class="fas fa-book"></i>
+          <span>Learn</span>
+        </button>
+        <button class="nav-item" onclick="navigateToPlayground()">
+          <i class="fas fa-flask"></i>
+          <span>Play</span>
+        </button>
+        <button class="nav-item" onclick="navigateToAchievements()">
+          <i class="fas fa-trophy"></i>
+          <span>Wins</span>
+        </button>
+        <button class="nav-item" onclick="navigateToProfile()">
+          <i class="fas fa-user"></i>
+          <span>Me</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="achievement-popup hidden">
+      <div class="achievement-content">
+        <div class="achievement-icon">🏆</div>
+        <h3>Achievement Unlocked!</h3>
+        <p id="achievement-name">Achievement Name</p>
+        <span id="achievement-xp">+50 XP</span>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/challenges.js"></script>
+    <script src="assets/js/progress.js"></script>
+    <script src="assets/js/gamification.js"></script>
+    <script src="assets/js/editor.js"></script>
+    <script src="assets/js/obsidian.js"></script>
+  </body>
+</html>
