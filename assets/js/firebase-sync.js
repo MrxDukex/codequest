@@ -164,14 +164,17 @@ async function loadFromCloud() {
 
     if (docSnap.exists()) {
       const cloudData = docSnap.data();
-      console.log("📥 Loading progress from cloud:", cloudData);
+      console.log("📥 Loading progress from cloud:");
+      console.log("   - User ID:", userId);
+      console.log("   - Data:", cloudData);
 
       // Merge cloud data with local data
       mergeProgressData(cloudData);
 
       updateSyncStatus("synced");
     } else {
-      console.log("📝 No cloud data found, will sync local data");
+      console.log("📝 No cloud data found for user:", userId);
+      console.log("   Will sync local data to cloud");
       // Upload current local data to cloud
       await saveToCloud();
     }
@@ -257,12 +260,15 @@ function mergeProgressData(cloudData) {
 
     localStorage.setItem("lastUpdated", cloudData.lastUpdated);
 
-    // Refresh the UI if we're on the dashboard
-    if (
-      typeof loadDashboard === "function" &&
-      window.location.hash === "#dashboard"
-    ) {
+    console.log("✅ Local storage updated with cloud data");
+    console.log("   - Completed challenges:", cloudData.completedChallenges);
+    console.log("   - XP:", cloudData.userXP);
+    console.log("   - Level:", cloudData.userLevel);
+
+    // Force refresh the UI
+    if (typeof loadDashboard === "function") {
       loadDashboard();
+      console.log("🔄 Dashboard refreshed with synced data");
     }
   } else {
     console.log("💾 Local data is newer, syncing to cloud");
