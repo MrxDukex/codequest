@@ -524,6 +524,12 @@ function unlockAchievement(achievementId, progress) {
 
 // Show achievement unlock popup
 function showAchievementPopup(achievement) {
+  // Check if popups are enabled
+  const settings = window.getSettings ? window.getSettings() : { notifications: { achievementPopups: true } };
+  if (!settings.notifications.achievementPopups) {
+    return; // Don't show if disabled
+  }
+
   const popup = document.getElementById("achievement-popup");
   document.getElementById("achievement-name").textContent = achievement.name;
   document.getElementById(
@@ -535,10 +541,45 @@ function showAchievementPopup(achievement) {
 
   popup.classList.remove("hidden");
 
+  // Add confetti effect
+  createConfetti();
+
   // Auto-hide after 4 seconds
   setTimeout(() => {
     popup.classList.add("hidden");
   }, 4000);
+}
+
+// Create confetti effect for celebrations
+function createConfetti() {
+  const colors = ['#667eea', '#48bb78', '#f0db4f', '#e34c26', '#264de4', '#f56565'];
+  const confettiCount = 30;
+  
+  for (let i = 0; i < confettiCount; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.cssText = `
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        top: 50%;
+        left: 50%;
+        z-index: 10000;
+        pointer-events: none;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+        opacity: 1;
+        animation: confetti-fall ${2 + Math.random() * 2}s linear forwards;
+        --x: ${(Math.random() - 0.5) * 400}px;
+        --y: ${200 + Math.random() * 300}px;
+        --rotate: ${Math.random() * 360}deg;
+      `;
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 4000);
+    }, i * 20);
+  }
 }
 
 // Load achievements view
