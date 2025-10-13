@@ -849,7 +849,10 @@
                 <p>Adjust editor text size</p>
               </div>
               <div class="setting-control">
-                <select id="editor-font-size" onchange="changeEditorFontSize(this.value)">
+                <select
+                  id="editor-font-size"
+                  onchange="changeEditorFontSize(this.value)"
+                >
                   <option value="small">Small (14px)</option>
                   <option value="medium" selected>Medium (16px)</option>
                   <option value="large">Large (18px)</option>
@@ -862,7 +865,10 @@
                 <p>Syntax highlighting color scheme</p>
               </div>
               <div class="setting-control">
-                <select id="editor-theme" onchange="changeEditorTheme(this.value)">
+                <select
+                  id="editor-theme"
+                  onchange="changeEditorTheme(this.value)"
+                >
                   <option value="dark" selected>Dark</option>
                   <option value="light">Light</option>
                 </select>
@@ -875,7 +881,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="line-numbers" onchange="toggleLineNumbers(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="line-numbers"
+                    onchange="toggleLineNumbers(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -887,7 +898,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="auto-complete" onchange="toggleAutoComplete(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="auto-complete"
+                    onchange="toggleAutoComplete(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -899,7 +915,11 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="word-wrap" onchange="toggleWordWrap(this.checked)">
+                  <input
+                    type="checkbox"
+                    id="word-wrap"
+                    onchange="toggleWordWrap(this.checked)"
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -942,7 +962,11 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="progressive-difficulty" onchange="toggleProgressiveDifficulty(this.checked)">
+                  <input
+                    type="checkbox"
+                    id="progressive-difficulty"
+                    onchange="toggleProgressiveDifficulty(this.checked)"
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -954,7 +978,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="solution-timer" onchange="toggleSolutionTimer(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="solution-timer"
+                    onchange="toggleSolutionTimer(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -971,7 +1000,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="achievement-popups" onchange="toggleAchievementPopups(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="achievement-popups"
+                    onchange="toggleAchievementPopups(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -983,7 +1017,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="daily-reminders" onchange="toggleDailyReminders(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="daily-reminders"
+                    onchange="toggleDailyReminders(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -995,7 +1034,12 @@
               </div>
               <div class="setting-control">
                 <label class="toggle">
-                  <input type="checkbox" id="streak-warnings" onchange="toggleStreakWarnings(this.checked)" checked>
+                  <input
+                    type="checkbox"
+                    id="streak-warnings"
+                    onchange="toggleStreakWarnings(this.checked)"
+                    checked
+                  />
                   <span class="slider"></span>
                 </label>
               </div>
@@ -1020,15 +1064,27 @@
             <h3><i class="fas fa-rocket"></i> Getting Started</h3>
             <div class="help-item">
               <h4>How to Use CodeQuest</h4>
-              <p>CodeQuest helps you learn web development through interactive coding challenges. Choose a learning path (HTML, CSS, or JavaScript), complete challenges, and earn XP to level up!</p>
+              <p>
+                CodeQuest helps you learn web development through interactive
+                coding challenges. Choose a learning path (HTML, CSS, or
+                JavaScript), complete challenges, and earn XP to level up!
+              </p>
             </div>
             <div class="help-item">
               <h4>Writing Code</h4>
-              <p>Type your code in the editor on the left. Click <strong>"Check Answer"</strong> to test your solution. The preview updates automatically as you type.</p>
+              <p>
+                Type your code in the editor on the left. Click
+                <strong>"Check Answer"</strong> to test your solution. The
+                preview updates automatically as you type.
+              </p>
             </div>
             <div class="help-item">
               <h4>Getting Hints</h4>
-              <p>Stuck on a challenge? Click <strong>"Get Hint"</strong> for progressive tips. Need more help? Use <strong>"I'm Really Stuck"</strong> for direct guidance.</p>
+              <p>
+                Stuck on a challenge? Click <strong>"Get Hint"</strong> for
+                progressive tips. Need more help? Use
+                <strong>"I'm Really Stuck"</strong> for direct guidance.
+              </p>
             </div>
           </div>
 
@@ -1037,19 +1093,30 @@
             <h3><i class="fas fa-star"></i> Features</h3>
             <div class="help-item">
               <h4>XP & Leveling</h4>
-              <p>Earn XP by completing challenges. Level up to unlock achievements and show your progress!</p>
+              <p>
+                Earn XP by completing challenges. Level up to unlock
+                achievements and show your progress!
+              </p>
             </div>
             <div class="help-item">
               <h4>Daily Quests</h4>
-              <p>Complete daily quests for bonus XP. Quests reset every 24 hours.</p>
+              <p>
+                Complete daily quests for bonus XP. Quests reset every 24 hours.
+              </p>
             </div>
             <div class="help-item">
               <h4>Streaks</h4>
-              <p>Maintain your learning streak by completing at least one challenge per day. Don't break the chain!</p>
+              <p>
+                Maintain your learning streak by completing at least one
+                challenge per day. Don't break the chain!
+              </p>
             </div>
             <div class="help-item">
               <h4>Achievements</h4>
-              <p>Unlock 40+ achievements by completing challenges, maintaining streaks, and reaching milestones.</p>
+              <p>
+                Unlock 40+ achievements by completing challenges, maintaining
+                streaks, and reaching milestones.
+              </p>
             </div>
           </div>
 
@@ -1088,11 +1155,26 @@
           <div class="help-section">
             <h3><i class="fas fa-lightbulb"></i> Tips for Success</h3>
             <ul class="tips-list">
-              <li><strong>Practice Daily:</strong> Even 15 minutes a day helps build skills consistently.</li>
-              <li><strong>Read Error Messages:</strong> They often tell you exactly what's wrong.</li>
-              <li><strong>Experiment:</strong> Try different approaches to understand concepts better.</li>
-              <li><strong>Use Hints Wisely:</strong> Try solving independently before asking for help.</li>
-              <li><strong>Review Completed Challenges:</strong> Revisit them to reinforce learning.</li>
+              <li>
+                <strong>Practice Daily:</strong> Even 15 minutes a day helps
+                build skills consistently.
+              </li>
+              <li>
+                <strong>Read Error Messages:</strong> They often tell you
+                exactly what's wrong.
+              </li>
+              <li>
+                <strong>Experiment:</strong> Try different approaches to
+                understand concepts better.
+              </li>
+              <li>
+                <strong>Use Hints Wisely:</strong> Try solving independently
+                before asking for help.
+              </li>
+              <li>
+                <strong>Review Completed Challenges:</strong> Revisit them to
+                reinforce learning.
+              </li>
             </ul>
           </div>
 
@@ -1101,15 +1183,24 @@
             <h3><i class="fas fa-question"></i> FAQ</h3>
             <div class="help-item">
               <h4>Is my progress saved?</h4>
-              <p>Yes! Your progress auto-saves locally and syncs to the cloud if you're signed in.</p>
+              <p>
+                Yes! Your progress auto-saves locally and syncs to the cloud if
+                you're signed in.
+              </p>
             </div>
             <div class="help-item">
               <h4>Can I use CodeQuest on mobile?</h4>
-              <p>Absolutely! CodeQuest is fully responsive and works great on phones and tablets.</p>
+              <p>
+                Absolutely! CodeQuest is fully responsive and works great on
+                phones and tablets.
+              </p>
             </div>
             <div class="help-item">
               <h4>What if I want to reset my progress?</h4>
-              <p>Go to your Profile page and click "Reset All Progress" at the bottom.</p>
+              <p>
+                Go to your Profile page and click "Reset All Progress" at the
+                bottom.
+              </p>
             </div>
           </div>
         </div>

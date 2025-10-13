@@ -1,27 +1,42 @@
 // ===== OBSIDIAN INTEGRATION =====
 
-const OBSIDIAN_VAULT_PATH = "C:\\Users\\stivi\\Documents\\Notes\\Notes";
+const OBSIDIAN_API_KEY = "2a672d8391da2dfd65fd3eaadaaa54f08fe971a54e42b70452f2f7914d6e9133";
+const OBSIDIAN_API_URL = "http://127.0.0.1:27123";
 const CODEQUEST_FOLDER = "CodeQuest";
 
-// Export challenge to Obsidian
-function exportChallengeToObsidian(challenge, challengeState) {
+// Export challenge to Obsidian via Local REST API
+async function exportChallengeToObsidian(challenge, challengeState) {
   const markdown = generateChallengeNote(challenge, challengeState);
-
-  // Since we can't directly write to file system from browser,
-  // we'll download the file and user can move it to Obsidian
-  const blob = new Blob([markdown], { type: "text/markdown" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-
   const fileName = `${challenge.id}-${challenge.title.replace(/\s+/g, "-")}.md`;
-  link.download = fileName;
+  const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
 
-  // Auto-download is disabled by default, but we save it for manual export
-  // link.click();
+  try {
+    await createObsidianNote(filePath, markdown);
+    showToast(`Exported "${challenge.title}" to Obsidian!`, "success");
+  } catch (error) {
+    console.error("Failed to export to Obsidian:", error);
+    // Fallback to storing for batch export
+    storeNoteForExport(fileName, markdown);
+    showToast("Stored for batch sync (Obsidian not running?)", "warning");
+  }
+}
 
-  // Store in localStorage for batch export
-  storeNoteForExport(fileName, markdown);
+// Create or update a note in Obsidian via REST API
+async function createObsidianNote(filePath, content) {
+  const response = await fetch(`${OBSIDIAN_API_URL}/vault/${filePath}`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${OBSIDIAN_API_KEY}`,
+      "Content-Type": "text/markdown"
+    },
+    body: content
+  });
+
+  if (!response.ok) {
+    throw new Error(`Obsidian API error: ${response.status}`);
+  }
+
+  return await response.text();
 }
 
 // Generate markdown note for a challenge
@@ -112,8 +127,8 @@ function storeNoteForExport(fileName, content) {
   );
 }
 
-// Sync all pending notes to Obsidian
-function syncToObsidian() {
+// Sync all pending notes to Obsidian via REST API
+async function syncToObsidian() {
   const pendingExports = localStorage.getItem("codequest_pending_exports");
 
   if (!pendingExports || pendingExports === "{}") {
@@ -124,24 +139,48 @@ function syncToObsidian() {
   const notes = JSON.parse(pendingExports);
   const noteCount = Object.keys(notes).length;
 
-  if (
-    confirm(
-      `Export ${noteCount} note${noteCount > 1 ? "s" : ""} to Obsidian vault?`
-    )
-  ) {
-    // Create a zip file with all notes
-    exportNotesAsZip(notes);
+  showToast(`Syncing ${noteCount} notes to Obsidian...`, "info");
 
-    // Clear pending exports
-    localStorage.removeItem("codequest_pending_exports");
+  try {
+    let successCount = 0;
+    let failedCount = 0;
 
-    // Mark achievement
-    const progress = getProgress();
-    checkAchievement("obsidian", progress);
+    for (const [fileName, content] of Object.entries(notes)) {
+      try {
+        const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
+        await createObsidianNote(filePath, content);
+        successCount++;
+      } catch (error) {
+        console.error(`Failed to sync ${fileName}:`, error);
+        failedCount++;
+      }
+    }
 
+    if (successCount > 0) {
+      // Clear synced exports
+      localStorage.removeItem("codequest_pending_exports");
+
+      // Mark achievement
+      const progress = getProgress();
+      checkAchievement("obsidian", progress);
+
+      showToast(
+        `✅ ${successCount} note${successCount > 1 ? "s" : ""} synced to Obsidian!`,
+        "success"
+      );
+    }
+
+    if (failedCount > 0) {
+      showToast(
+        `⚠️ ${failedCount} note${failedCount > 1 ? "s" : ""} failed to sync`,
+        "warning"
+      );
+    }
+  } catch (error) {
+    console.error("Sync failed:", error);
     showToast(
-      `${noteCount} notes exported! Extract to ${OBSIDIAN_VAULT_PATH}\\${CODEQUEST_FOLDER}`,
-      "success"
+      "Failed to sync. Is Obsidian running with Local REST API enabled?",
+      "error"
     );
   }
 }
@@ -247,16 +286,26 @@ ${progress.dailyQuestCompleted ? "✅ Completed" : "⏳ In Progress"}
 **Next:** [[${getNextLogDate(today)}]]
 `;
 
-  // Download the daily log
-  const blob = new Blob([markdown], { type: "text/markdown" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `Daily-Log-${today}.md`;
-  link.click();
-  URL.revokeObjectURL(url);
+  // Send to Obsidian via REST API
+  const fileName = `Daily-Logs/Daily-Log-${today}.md`;
+  const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
 
-  showToast("Daily log generated!", "success");
+  createObsidianNote(filePath, markdown)
+    .then(() => {
+      showToast("Daily log synced to Obsidian!", "success");
+    })
+    .catch((error) => {
+      console.error("Failed to create daily log:", error);
+      // Fallback to download
+      const blob = new Blob([markdown], { type: "text/markdown" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Daily-Log-${today}.md`;
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast("Daily log downloaded (Obsidian not running?)", "warning");
+    });
 }
 
 // Generate progress tracker
@@ -362,16 +411,25 @@ ${progress.completedChallenges
 *Last updated: ${new Date().toLocaleString()}*
 `;
 
-  // Download the progress tracker
-  const blob = new Blob([markdown], { type: "text/markdown" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "Progress-Tracker.md";
-  link.click();
-  URL.revokeObjectURL(url);
+  // Send to Obsidian via REST API
+  const filePath = `${CODEQUEST_FOLDER}/Progress-Tracker.md`;
 
-  showToast("Progress tracker generated!", "success");
+  createObsidianNote(filePath, markdown)
+    .then(() => {
+      showToast("Progress tracker synced to Obsidian!", "success");
+    })
+    .catch((error) => {
+      console.error("Failed to create progress tracker:", error);
+      // Fallback to download
+      const blob = new Blob([markdown], { type: "text/markdown" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Progress-Tracker.md";
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast("Progress tracker downloaded (Obsidian not running?)", "warning");
+    });
 }
 
 // Helper functions for daily log links
@@ -387,8 +445,31 @@ function getNextLogDate(dateStr) {
   return `Daily-Log-${date.toISOString().split("T")[0]}`;
 }
 
+// Test Obsidian API connection
+async function testObsidianConnection() {
+  try {
+    const response = await fetch(`${OBSIDIAN_API_URL}/`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${OBSIDIAN_API_KEY}`
+      }
+    });
+
+    if (response.ok) {
+      showToast("✅ Connected to Obsidian!", "success");
+      return true;
+    } else {
+      showToast("❌ Obsidian API authentication failed", "error");
+      return false;
+    }
+  } catch (error) {
+    showToast("❌ Cannot connect to Obsidian. Is it running?", "error");
+    return false;
+  }
+}
+
 // Export all completed challenges at once
-function exportAllToObsidian() {
+async function exportAllToObsidian() {
   const progress = getProgress();
   const completed = progress.completedChallenges;
 
@@ -400,20 +481,39 @@ function exportAllToObsidian() {
   if (
     confirm(`Export all ${completed.length} completed challenges to Obsidian?`)
   ) {
-    completed.forEach((id) => {
+    showToast(`Exporting ${completed.length} challenges...`, "info");
+
+    let successCount = 0;
+    let failedCount = 0;
+
+    for (const id of completed) {
       const challenge = getAllChallenges().find((c) => c.id === id);
       if (challenge) {
-        exportChallengeToObsidian(challenge, progress.challengeStates[id]);
+        try {
+          await exportChallengeToObsidian(challenge, progress.challengeStates[id]);
+          successCount++;
+        } catch (error) {
+          failedCount++;
+        }
       }
-    });
+    }
 
     // Also generate progress tracker and latest daily log
-    generateProgressTracker();
-    generateDailyLog();
+    await generateProgressTracker();
+    await generateDailyLog();
 
-    showToast(
-      'All notes queued for export! Click "Sync to Obsidian" to download.',
-      "success"
-    );
+    if (successCount > 0) {
+      showToast(
+        `✅ Exported ${successCount} challenges to Obsidian!`,
+        "success"
+      );
+    }
+
+    if (failedCount > 0) {
+      showToast(
+        `⚠️ ${failedCount} challenges failed to export`,
+        "warning"
+      );
+    }
   }
 }
