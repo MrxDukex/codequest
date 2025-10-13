@@ -13,6 +13,8 @@ window.initializeFirebaseSync = function () {
   // Create sync status indicator
   createSyncStatusIndicator();
 
+  console.log('🔥 Initializing Firebase sync...');
+  
   // Listen for auth state changes
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -26,6 +28,9 @@ window.initializeFirebaseSync = function () {
 
       // Set up real-time listener
       setupRealtimeSync();
+      
+      // Override progress functions after sync is ready
+      setTimeout(overrideProgressFunctions, 500);
     } else {
       syncEnabled = false;
       userId = null;
@@ -239,38 +244,45 @@ function setupRealtimeSync() {
 }
 
 // Override the markChallengeComplete function to trigger sync
-const originalMarkChallengeComplete = window.markChallengeComplete;
-if (originalMarkChallengeComplete) {
-  window.markChallengeComplete = function (challengeId) {
-    // Call original function
-    const result = originalMarkChallengeComplete(challengeId);
+function overrideProgressFunctions() {
+  const originalMarkChallengeComplete = window.markChallengeComplete;
+  if (originalMarkChallengeComplete) {
+    window.markChallengeComplete = function (challengeId) {
+      // Call original function
+      const result = originalMarkChallengeComplete(challengeId);
 
-    // Trigger cloud sync
-    localStorage.setItem("lastUpdated", new Date().toISOString());
-    if (syncEnabled) {
-      saveToCloud();
-    }
+      // Trigger cloud sync
+      localStorage.setItem("lastUpdated", new Date().toISOString());
+      if (syncEnabled) {
+        console.log('🔄 Challenge completed, syncing to cloud...');
+        saveToCloud();
+      }
 
-    return result;
-  };
+      return result;
+    };
+  }
+
+  const originalSaveProgress = window.saveProgress;
+  if (originalSaveProgress) {
+    window.saveProgress = function (...args) {
+      // Call original function
+      const result = originalSaveProgress(...args);
+
+      // Trigger cloud sync
+      localStorage.setItem("lastUpdated", new Date().toISOString());
+      if (syncEnabled) {
+        saveToCloud();
+      }
+
+      return result;
+    };
+  }
 }
 
-// Sync when user gains XP or achievements
-const originalSaveProgress = window.saveProgress;
-if (originalSaveProgress) {
-  window.saveProgress = function (...args) {
-    // Call original function
-    const result = originalSaveProgress(...args);
+// Call this after a delay to ensure functions are loaded
+setTimeout(overrideProgressFunctions, 1000);
 
-    // Trigger cloud sync
-    localStorage.setItem("lastUpdated", new Date().toISOString());
-    if (syncEnabled) {
-      saveToCloud();
-    }
 
-    return result;
-  };
-}
 
 // Export functions for testing
 window.saveToCloud = saveToCloud;

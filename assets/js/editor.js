@@ -57,8 +57,8 @@ function loadChallenge(challengeId) {
     autoSaveTimer = setTimeout(saveCurrentChallenge, 5000);
   });
 
-  // Update preview
-  runCode();
+  // Update preview (but don't run tests yet)
+  updatePreview();
 
   // Setup navigation buttons
   updateChallengeNavigation(challenge);
@@ -179,7 +179,8 @@ function loadTests(tests) {
 }
 
 // Run code and update preview
-function runCode() {
+// Update preview without running tests
+function updatePreview() {
   const code = document.getElementById("code-input").value;
   const preview = document.getElementById("preview-frame");
 
@@ -204,9 +205,15 @@ function runCode() {
     `;
 
   preview.srcdoc = fullHTML;
+}
 
+// Run code AND tests (for "Run Code" button)
+function runCode() {
+  updatePreview();
+  
   // Run tests
   setTimeout(() => {
+    const code = document.getElementById("code-input").value;
     runTests(code);
   }, 500);
 }
