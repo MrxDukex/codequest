@@ -194,16 +194,19 @@ async function saveToCloud() {
     const { doc, setDoc } = window.firebaseModules;
 
     // Get all progress data from localStorage
+    const codequestProgress = JSON.parse(localStorage.getItem("codequest_progress") || "{}");
+    
     const progressData = {
-      completedChallenges: JSON.parse(
-        localStorage.getItem("completedChallenges") || "[]"
-      ),
-      userXP: parseInt(localStorage.getItem("userXP") || "0"),
-      userLevel: parseInt(localStorage.getItem("userLevel") || "1"),
-      currentStreak: parseInt(localStorage.getItem("currentStreak") || "0"),
-      longestStreak: parseInt(localStorage.getItem("longestStreak") || "0"),
-      lastActiveDate: localStorage.getItem("lastActiveDate") || null,
-      achievements: JSON.parse(localStorage.getItem("achievements") || "[]"),
+      completedChallenges: codequestProgress.completedChallenges || [],
+      userXP: codequestProgress.xp || 0,
+      userLevel: codequestProgress.level || 1,
+      currentStreak: codequestProgress.streak || 0,
+      longestStreak: codequestProgress.longestStreak || 0,
+      lastActiveDate: codequestProgress.lastActiveDate || null,
+      achievements: codequestProgress.achievements || [],
+      challengeStates: codequestProgress.challengeStates || {},
+      stats: codequestProgress.stats || {},
+      settings: codequestProgress.settings || {},
       lastUpdated: new Date().toISOString(),
     };
 
@@ -230,34 +233,26 @@ function mergeProgressData(cloudData) {
   ) {
     console.log("☁️ Cloud data is newer, updating local storage");
 
-    if (cloudData.completedChallenges) {
-      localStorage.setItem(
-        "completedChallenges",
-        JSON.stringify(cloudData.completedChallenges)
-      );
-    }
-    if (cloudData.userXP !== undefined) {
-      localStorage.setItem("userXP", cloudData.userXP.toString());
-    }
-    if (cloudData.userLevel !== undefined) {
-      localStorage.setItem("userLevel", cloudData.userLevel.toString());
-    }
-    if (cloudData.currentStreak !== undefined) {
-      localStorage.setItem("currentStreak", cloudData.currentStreak.toString());
-    }
-    if (cloudData.longestStreak !== undefined) {
-      localStorage.setItem("longestStreak", cloudData.longestStreak.toString());
-    }
-    if (cloudData.lastActiveDate) {
-      localStorage.setItem("lastActiveDate", cloudData.lastActiveDate);
-    }
-    if (cloudData.achievements) {
-      localStorage.setItem(
-        "achievements",
-        JSON.stringify(cloudData.achievements)
-      );
-    }
-
+    // Get current codequest_progress or create new object
+    const localProgress = JSON.parse(localStorage.getItem("codequest_progress") || "{}");
+    
+    // Update with cloud data
+    const updatedProgress = {
+      ...localProgress,
+      completedChallenges: cloudData.completedChallenges || localProgress.completedChallenges || [],
+      xp: cloudData.userXP !== undefined ? cloudData.userXP : localProgress.xp || 0,
+      level: cloudData.userLevel !== undefined ? cloudData.userLevel : localProgress.level || 1,
+      streak: cloudData.currentStreak !== undefined ? cloudData.currentStreak : localProgress.streak || 0,
+      longestStreak: cloudData.longestStreak !== undefined ? cloudData.longestStreak : localProgress.longestStreak || 0,
+      lastActiveDate: cloudData.lastActiveDate || localProgress.lastActiveDate,
+      achievements: cloudData.achievements || localProgress.achievements || [],
+      challengeStates: cloudData.challengeStates || localProgress.challengeStates || {},
+      stats: cloudData.stats || localProgress.stats || {},
+      settings: cloudData.settings || localProgress.settings || {},
+    };
+    
+    // Save back to localStorage
+    localStorage.setItem("codequest_progress", JSON.stringify(updatedProgress));
     localStorage.setItem("lastUpdated", cloudData.lastUpdated);
 
     console.log("✅ Local storage updated with cloud data");
