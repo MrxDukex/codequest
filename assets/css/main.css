@@ -289,6 +289,30 @@ body {
   font-size: 0.875rem;
 }
 
+.btn-sync {
+  margin-right: 12px;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-sync:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-1px);
+}
+
+.btn-sync:active {
+  transform: translateY(0);
+}
+
 /* ===== MAIN CONTENT ===== */
 .main-content {
   flex: 1;
@@ -1018,14 +1042,28 @@ body {
 
   .bottom-nav {
     display: flex;
+    z-index: 100;
   }
 
   .user-xp {
     display: none;
   }
 
+  .sync-text {
+    display: none;
+  }
+
+  .btn-sync {
+    padding: 8px !important;
+    margin-right: 8px !important;
+  }
+
   .sandbox-card {
     flex-direction: column;
     text-align: center;
+  }
+
+  .main-content {
+    padding-bottom: 80px;
   }
 }
