@@ -1,23 +1,30 @@
 // ===== OBSIDIAN INTEGRATION =====
 
-const OBSIDIAN_API_KEY = "2a672d8391da2dfd65fd3eaadaaa54f08fe971a54e42b70452f2f7914d6e9133";
+const OBSIDIAN_API_KEY =
+  "2a672d8391da2dfd65fd3eaadaaa54f08fe971a54e42b70452f2f7914d6e9133";
 const OBSIDIAN_API_URL = "http://127.0.0.1:27123";
 const CODEQUEST_FOLDER = "CodeQuest";
 
-// Export challenge to Obsidian via Local REST API
+// Export challenge to Obsidian (via Firebase cloud, then to local vault when PC available)
 async function exportChallengeToObsidian(challenge, challengeState) {
   const markdown = generateChallengeNote(challenge, challengeState);
   const fileName = `${challenge.id}-${challenge.title.replace(/\s+/g, "-")}.md`;
-  const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
 
+  // First, save to Firebase cloud for cross-device access
+  await saveNoteToFirebase(fileName, markdown, 'challenge');
+
+  // Then try to write to local Obsidian if available
   try {
+    const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
     await createObsidianNote(filePath, markdown);
     showToast(`Exported "${challenge.title}" to Obsidian!`, "success");
+    
+    // Mark as synced in Firebase
+    await markNoteAsSynced(fileName);
   } catch (error) {
-    console.error("Failed to export to Obsidian:", error);
-    // Fallback to storing for batch export
-    storeNoteForExport(fileName, markdown);
-    showToast("Stored for batch sync (Obsidian not running?)", "warning");
+    console.error("Failed to write to local Obsidian:", error);
+    // Note is already in Firebase, will sync when PC is on
+    showToast(`"${challenge.title}" saved to cloud (will sync to Obsidian when PC is on)`, "info");
   }
 }
 
@@ -26,10 +33,10 @@ async function createObsidianNote(filePath, content) {
   const response = await fetch(`${OBSIDIAN_API_URL}/vault/${filePath}`, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${OBSIDIAN_API_KEY}`,
-      "Content-Type": "text/markdown"
+      Authorization: `Bearer ${OBSIDIAN_API_KEY}`,
+      "Content-Type": "text/markdown",
     },
-    body: content
+    body: content,
   });
 
   if (!response.ok) {
@@ -115,7 +122,53 @@ ${
 `;
 }
 
-// Store note for batch export
+// Save note to Firebase cloud storage
+async function saveNoteToFirebase(fileName, content, type = 'challenge') {
+  try {
+    const deviceSyncCode = localStorage.getItem('deviceSyncCode');
+    if (!deviceSyncCode) {
+      console.error('No sync code found');
+      return;
+    }
+
+    const db = window.firebaseDb;
+    const { doc, setDoc } = window.firebaseModules;
+
+    const noteData = {
+      fileName,
+      content,
+      type,
+      createdAt: Date.now(),
+      synced: false,
+      deviceId: deviceSyncCode
+    };
+
+    const docRef = doc(db, 'obsidian_notes', `${deviceSyncCode}_${fileName}`);
+    await setDoc(docRef, noteData, { merge: true });
+    
+    console.log('✅ Note saved to Firebase:', fileName);
+  } catch (error) {
+    console.error('Failed to save note to Firebase:', error);
+  }
+}
+
+// Mark note as synced to local Obsidian
+async function markNoteAsSynced(fileName) {
+  try {
+    const deviceSyncCode = localStorage.getItem('deviceSyncCode');
+    if (!deviceSyncCode) return;
+
+    const db = window.firebaseDb;
+    const { doc, setDoc } = window.firebaseModules;
+
+    const docRef = doc(db, 'obsidian_notes', `${deviceSyncCode}_${fileName}`);
+    await setDoc(docRef, { synced: true, syncedAt: Date.now() }, { merge: true });
+  } catch (error) {
+    console.error('Failed to mark note as synced:', error);
+  }
+}
+
+// Store note for batch export (legacy fallback)
 function storeNoteForExport(fileName, content) {
   let pendingExports = localStorage.getItem("codequest_pending_exports");
   pendingExports = pendingExports ? JSON.parse(pendingExports) : {};
@@ -127,39 +180,51 @@ function storeNoteForExport(fileName, content) {
   );
 }
 
-// Sync all pending notes to Obsidian via REST API
+// Sync all pending notes from Firebase to local Obsidian
 async function syncToObsidian() {
-  const pendingExports = localStorage.getItem("codequest_pending_exports");
-
-  if (!pendingExports || pendingExports === "{}") {
-    showToast("No new notes to export", "info");
-    return;
-  }
-
-  const notes = JSON.parse(pendingExports);
-  const noteCount = Object.keys(notes).length;
-
-  showToast(`Syncing ${noteCount} notes to Obsidian...`, "info");
-
   try {
+    // Check if Obsidian is running
+    const isObsidianRunning = await testObsidianConnection(true);
+    
+    if (!isObsidianRunning) {
+      showToast("⚠️ Obsidian is not running. Start Obsidian with Local REST API enabled.", "warning");
+      return;
+    }
+
+    // Get unsynced notes from Firebase
+    const unsyncedNotes = await getUnsyncedNotesFromFirebase();
+
+    if (unsyncedNotes.length === 0) {
+      showToast("✅ All notes are already synced to Obsidian!", "success");
+      return;
+    }
+
+    showToast(`Syncing ${unsyncedNotes.length} notes to Obsidian...`, "info");
+
     let successCount = 0;
     let failedCount = 0;
 
-    for (const [fileName, content] of Object.entries(notes)) {
+    for (const note of unsyncedNotes) {
       try {
-        const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
-        await createObsidianNote(filePath, content);
+        // Determine folder based on note type
+        let folderPath = CODEQUEST_FOLDER;
+        if (note.type === 'daily-log') {
+          folderPath = `${CODEQUEST_FOLDER}/Daily-Logs`;
+        }
+        
+        const filePath = `${folderPath}/${note.fileName}`;
+        await createObsidianNote(filePath, note.content);
+        
+        // Mark as synced in Firebase
+        await markNoteAsSynced(note.fileName);
         successCount++;
       } catch (error) {
-        console.error(`Failed to sync ${fileName}:`, error);
+        console.error(`Failed to sync ${note.fileName}:`, error);
         failedCount++;
       }
     }
 
     if (successCount > 0) {
-      // Clear synced exports
-      localStorage.removeItem("codequest_pending_exports");
-
       // Mark achievement
       const progress = getProgress();
       checkAchievement("obsidian", progress);
@@ -185,6 +250,73 @@ async function syncToObsidian() {
   }
 }
 
+// Get unsynced notes from Firebase
+async function getUnsyncedNotesFromFirebase() {
+  try {
+    const deviceSyncCode = localStorage.getItem('deviceSyncCode');
+    if (!deviceSyncCode) {
+      console.error('No sync code found');
+      return [];
+    }
+
+    const db = window.firebaseDb;
+    const { collection, query, where, getDocs } = window.firebaseModules;
+
+    // Query for unsynced notes
+    const notesRef = collection(db, 'obsidian_notes');
+    const q = query(
+      notesRef,
+      where('deviceId', '==', deviceSyncCode),
+      where('synced', '==', false)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const notes = [];
+
+    querySnapshot.forEach((doc) => {
+      notes.push(doc.data());
+    });
+
+    console.log(`📥 Found ${notes.length} unsynced notes in Firebase`);
+    return notes;
+  } catch (error) {
+    console.error('Failed to get unsynced notes from Firebase:', error);
+    return [];
+  }
+}
+
+// Auto-sync notes when on PC (runs periodically)
+async function autoSyncToObsidianIfAvailable() {
+  try {
+    const isObsidianRunning = await testObsidianConnection(true);
+    
+    if (isObsidianRunning) {
+      const unsyncedNotes = await getUnsyncedNotesFromFirebase();
+      
+      if (unsyncedNotes.length > 0) {
+        console.log(`🔄 Auto-syncing ${unsyncedNotes.length} notes to Obsidian...`);
+        await syncToObsidian();
+      }
+    }
+  } catch (error) {
+    // Silently fail - this is a background operation
+    console.log('Auto-sync skipped (Obsidian not available)');
+  }
+}
+
+// Start auto-sync timer when app loads (checks every 5 minutes)
+if (typeof window !== 'undefined') {
+  // Initial check after 10 seconds
+  setTimeout(() => {
+    autoSyncToObsidianIfAvailable();
+  }, 10000);
+  
+  // Then check every 5 minutes
+  setInterval(() => {
+    autoSyncToObsidianIfAvailable();
+  }, 5 * 60 * 1000);
+}
+
 // Export notes as a downloadable ZIP (simplified version)
 function exportNotesAsZip(notes) {
   // For simplicity, we'll create individual downloads
@@ -204,7 +336,7 @@ function exportNotesAsZip(notes) {
 }
 
 // Generate daily log
-function generateDailyLog() {
+async function generateDailyLog() {
   const progress = getProgress();
   const today = new Date().toISOString().split("T")[0];
 
@@ -286,30 +418,26 @@ ${progress.dailyQuestCompleted ? "✅ Completed" : "⏳ In Progress"}
 **Next:** [[${getNextLogDate(today)}]]
 `;
 
-  // Send to Obsidian via REST API
-  const fileName = `Daily-Logs/Daily-Log-${today}.md`;
-  const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
+  const fileName = `Daily-Log-${today}.md`;
+  
+  // Save to Firebase first
+  await saveNoteToFirebase(fileName, markdown, 'daily-log');
 
-  createObsidianNote(filePath, markdown)
-    .then(() => {
-      showToast("Daily log synced to Obsidian!", "success");
-    })
-    .catch((error) => {
-      console.error("Failed to create daily log:", error);
-      // Fallback to download
-      const blob = new Blob([markdown], { type: "text/markdown" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `Daily-Log-${today}.md`;
-      link.click();
-      URL.revokeObjectURL(url);
-      showToast("Daily log downloaded (Obsidian not running?)", "warning");
-    });
+  // Then try to write to local Obsidian if available
+  try {
+    const filePath = `${CODEQUEST_FOLDER}/Daily-Logs/${fileName}`;
+    await createObsidianNote(filePath, markdown);
+    await markNoteAsSynced(fileName);
+    showToast("Daily log synced to Obsidian!", "success");
+  } catch (error) {
+    console.error("Failed to create daily log:", error);
+    // Saved to Firebase, will sync when PC is on
+    showToast("Daily log saved to cloud (will sync to Obsidian when PC is on)", "info");
+  }
 }
 
 // Generate progress tracker
-function generateProgressTracker() {
+async function generateProgressTracker() {
   const progress = getProgress();
   const stats = getCompletionStats();
 
@@ -411,25 +539,22 @@ ${progress.completedChallenges
 *Last updated: ${new Date().toLocaleString()}*
 `;
 
-  // Send to Obsidian via REST API
-  const filePath = `${CODEQUEST_FOLDER}/Progress-Tracker.md`;
+  const fileName = "Progress-Tracker.md";
+  
+  // Save to Firebase first
+  await saveNoteToFirebase(fileName, markdown, 'tracker');
 
-  createObsidianNote(filePath, markdown)
-    .then(() => {
-      showToast("Progress tracker synced to Obsidian!", "success");
-    })
-    .catch((error) => {
-      console.error("Failed to create progress tracker:", error);
-      // Fallback to download
-      const blob = new Blob([markdown], { type: "text/markdown" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "Progress-Tracker.md";
-      link.click();
-      URL.revokeObjectURL(url);
-      showToast("Progress tracker downloaded (Obsidian not running?)", "warning");
-    });
+  // Then try to write to local Obsidian if available
+  try {
+    const filePath = `${CODEQUEST_FOLDER}/${fileName}`;
+    await createObsidianNote(filePath, markdown);
+    await markNoteAsSynced(fileName);
+    showToast("Progress tracker synced to Obsidian!", "success");
+  } catch (error) {
+    console.error("Failed to create progress tracker:", error);
+    // Saved to Firebase, will sync when PC is on
+    showToast("Progress tracker saved to cloud (will sync to Obsidian when PC is on)", "info");
+  }
 }
 
 // Helper functions for daily log links
@@ -446,24 +571,24 @@ function getNextLogDate(dateStr) {
 }
 
 // Test Obsidian API connection
-async function testObsidianConnection() {
+async function testObsidianConnection(silent = false) {
   try {
     const response = await fetch(`${OBSIDIAN_API_URL}/`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${OBSIDIAN_API_KEY}`
-      }
+        Authorization: `Bearer ${OBSIDIAN_API_KEY}`,
+      },
     });
 
     if (response.ok) {
-      showToast("✅ Connected to Obsidian!", "success");
+      if (!silent) showToast("✅ Connected to Obsidian!", "success");
       return true;
     } else {
-      showToast("❌ Obsidian API authentication failed", "error");
+      if (!silent) showToast("❌ Obsidian API authentication failed", "error");
       return false;
     }
   } catch (error) {
-    showToast("❌ Cannot connect to Obsidian. Is it running?", "error");
+    if (!silent) showToast("❌ Cannot connect to Obsidian. Is it running?", "error");
     return false;
   }
 }
@@ -490,7 +615,10 @@ async function exportAllToObsidian() {
       const challenge = getAllChallenges().find((c) => c.id === id);
       if (challenge) {
         try {
-          await exportChallengeToObsidian(challenge, progress.challengeStates[id]);
+          await exportChallengeToObsidian(
+            challenge,
+            progress.challengeStates[id]
+          );
           successCount++;
         } catch (error) {
           failedCount++;
@@ -510,10 +638,7 @@ async function exportAllToObsidian() {
     }
 
     if (failedCount > 0) {
-      showToast(
-        `⚠️ ${failedCount} challenges failed to export`,
-        "warning"
-      );
+      showToast(`⚠️ ${failedCount} challenges failed to export`, "warning");
     }
   }
 }
