@@ -385,8 +385,24 @@ window.showSyncCode = function () {
   }
 };
 
+// Toggle menu dropdown
+window.toggleMenu = function() {
+  const menu = document.getElementById('menuDropdown');
+  menu.classList.toggle('show');
+};
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+  const menu = document.getElementById('menuDropdown');
+  const menuButton = event.target.closest('.btn-menu');
+  
+  if (!menuButton && menu && menu.classList.contains('show')) {
+    menu.classList.remove('show');
+  }
+});
+
 // Export functions for testing
 window.saveToCloud = saveToCloud;
 window.loadFromCloud = loadFromCloud;
 
-console.log("🔥 Firebase sync module loaded");
+console.log('🔥 Firebase sync module loaded');

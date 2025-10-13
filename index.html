@@ -120,6 +120,25 @@
             <i class="fas fa-sync"></i>
             <span class="sync-text">Sync</span>
           </button>
+          <div class="menu-dropdown">
+            <button class="btn-menu" onclick="toggleMenu()" title="Menu">
+              <i class="fas fa-bars"></i>
+            </button>
+            <div class="menu-content" id="menuDropdown">
+              <button onclick="exportProgress(); toggleMenu();">
+                <i class="fas fa-download"></i> Export Progress
+              </button>
+              <button onclick="syncToObsidian(); toggleMenu();">
+                <i class="fas fa-sync"></i> Sync to Obsidian
+              </button>
+              <button onclick="navigateToProfile(); toggleMenu();" class="hide-on-mobile">
+                <i class="fas fa-user"></i> Profile
+              </button>
+              <button onclick="resetProgress(); toggleMenu();" style="color: #f56565;">
+                <i class="fas fa-exclamation-triangle"></i> Reset Progress
+              </button>
+            </div>
+          </div>
           <div class="user-xp">
             <span class="xp-amount" id="nav-xp">0 XP</span>
             <div class="xp-bar-small">
