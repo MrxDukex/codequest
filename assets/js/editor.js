@@ -210,7 +210,7 @@ function updatePreview() {
 // Run code AND tests (for "Run Code" button)
 function runCode() {
   updatePreview();
-  
+
   // Run tests
   setTimeout(() => {
     const code = document.getElementById("code-input").value;

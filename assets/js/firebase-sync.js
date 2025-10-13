@@ -4,6 +4,53 @@
 let syncEnabled = false;
 let userId = null;
 let syncStatusIndicator = null;
+let deviceSyncCode = null;
+
+// Get or create a shared sync code for all devices
+function getDeviceSyncCode() {
+  // Check localStorage first
+  let code = localStorage.getItem('deviceSyncCode');
+  
+  // If no code exists, try to get from URL parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCode = urlParams.get('sync');
+  
+  if (urlCode) {
+    // Use code from URL and save it
+    code = urlCode;
+    localStorage.setItem('deviceSyncCode', code);
+    console.log('🔗 Using sync code from URL:', code);
+    // Remove the parameter from URL without reloading
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+  } else if (!code) {
+    // Generate a new code (8 random characters)
+    code = Math.random().toString(36).substring(2, 10);
+    localStorage.setItem('deviceSyncCode', code);
+    console.log('🆕 Generated new sync code:', code);
+    showSyncCodePrompt(code);
+  } else {
+    console.log('✅ Using existing sync code:', code);
+  }
+  
+  return code;
+}
+
+// Show sync code to user for other devices
+function showSyncCodePrompt(code) {
+  const syncUrl = `${window.location.origin}${window.location.pathname}?sync=${code}`;
+  
+  setTimeout(() => {
+    const message = `📱 To sync with other devices, open this URL on your phone:\n\n${syncUrl}\n\nOr manually enter sync code: ${code}`;
+    
+    if (confirm(message + '\n\nCopy URL to clipboard?')) {
+      navigator.clipboard.writeText(syncUrl).then(() => {
+        showToast('Sync URL copied to clipboard!', 'success');
+      }).catch(() => {
+        showToast('Sync code: ' + code, 'info');
+      });
+    }
+  }, 2000);
+}
 
 // Initialize Firebase sync when auth is ready
 window.initializeFirebaseSync = function () {
@@ -13,22 +60,26 @@ window.initializeFirebaseSync = function () {
   // Create sync status indicator
   createSyncStatusIndicator();
 
-  console.log('🔥 Initializing Firebase sync...');
+  console.log("🔥 Initializing Firebase sync...");
   
+  // Get device sync code (shared across all devices)
+  deviceSyncCode = getDeviceSyncCode();
+
   // Listen for auth state changes
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      userId = user.uid;
+      // Use deviceSyncCode instead of user.uid for cross-device sync
+      userId = deviceSyncCode;
       syncEnabled = true;
       updateSyncStatus("synced");
-      console.log("✅ Sync enabled for user:", userId);
+      console.log("✅ Sync enabled with code:", deviceSyncCode);
 
       // Load data from Firebase
       loadFromCloud();
 
       // Set up real-time listener
       setupRealtimeSync();
-      
+
       // Override progress functions after sync is ready
       setTimeout(overrideProgressFunctions, 500);
     } else {
@@ -254,7 +305,7 @@ function overrideProgressFunctions() {
       // Trigger cloud sync
       localStorage.setItem("lastUpdated", new Date().toISOString());
       if (syncEnabled) {
-        console.log('🔄 Challenge completed, syncing to cloud...');
+        console.log("🔄 Challenge completed, syncing to cloud...");
         saveToCloud();
       }
 
@@ -282,10 +333,29 @@ function overrideProgressFunctions() {
 // Call this after a delay to ensure functions are loaded
 setTimeout(overrideProgressFunctions, 1000);
 
-
+// Show sync code UI
+window.showSyncCode = function() {
+  const code = localStorage.getItem('deviceSyncCode');
+  if (!code) {
+    showToast('Sync not initialized yet', 'error');
+    return;
+  }
+  
+  const syncUrl = `${window.location.origin}${window.location.pathname}?sync=${code}`;
+  
+  const message = `📱 To sync your progress to another device:\n\n1. Copy the URL below\n2. Open it on your other device\n3. Your progress will sync automatically!\n\n${syncUrl}\n\nSync Code: ${code}`;
+  
+  if (confirm(message + '\n\nCopy URL to clipboard?')) {
+    navigator.clipboard.writeText(syncUrl).then(() => {
+      showToast('✅ Sync URL copied! Open on your phone', 'success');
+    }).catch(() => {
+      alert('Sync code: ' + code + '\n\nManually open: ' + syncUrl);
+    });
+  }
+};
 
 // Export functions for testing
 window.saveToCloud = saveToCloud;
 window.loadFromCloud = loadFromCloud;
 
-console.log("🔥 Firebase sync module loaded");
+console.log('🔥 Firebase sync module loaded');
