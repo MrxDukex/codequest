@@ -2348,12 +2348,12 @@ body {
   .quizzes-list {
     grid-template-columns: 1fr;
   }
-  
+
   .quiz-checkpoint-item {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .quiz-checkpoint-meta {
     justify-content: center;
   }
@@ -2361,7 +2361,11 @@ body {
 
 /* Quiz Checkpoint Items in Challenge List */
 .quiz-checkpoint-item {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.1),
+    rgba(118, 75, 162, 0.1)
+  );
   border: 2px solid var(--primary-color);
   border-radius: 12px;
   padding: 1.5rem;
@@ -2376,7 +2380,7 @@ body {
 }
 
 .quiz-checkpoint-item::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -2394,7 +2398,11 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
   border-color: var(--border-color);
-  background: linear-gradient(135deg, rgba(149, 165, 166, 0.05), rgba(149, 165, 166, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(149, 165, 166, 0.05),
+    rgba(149, 165, 166, 0.1)
+  );
 }
 
 .quiz-checkpoint-item.locked::before {
@@ -2408,7 +2416,11 @@ body {
 
 .quiz-checkpoint-item.passed {
   border-color: var(--success-color);
-  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(46, 204, 113, 0.1),
+    rgba(39, 174, 96, 0.1)
+  );
 }
 
 .quiz-checkpoint-item.passed::before {
@@ -2420,7 +2432,8 @@ body {
 }
 
 @keyframes quiz-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
   }
   50% {
@@ -2432,7 +2445,11 @@ body {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2531,4 +2548,3 @@ body {
 .quiz-checkpoint-item.locked .quiz-checkpoint-status i {
   color: var(--text-secondary);
 }
-

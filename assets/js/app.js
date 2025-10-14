@@ -162,10 +162,11 @@ function loadDashboard() {
 
   // Update daily quest
   updateDailyQuest(progress);
-  
+
   // Update final exam status
   updateFinalExamStatus(progress);
-}function updateFinalExamStatus(progress) {
+}
+function updateFinalExamStatus(progress) {
   const finalExamCard = document.getElementById("final-exam-card");
   const finalExamInfo = document.getElementById("final-exam-info");
   const finalExamDetails = document.getElementById("final-exam-details");
@@ -292,39 +293,28 @@ function loadPathQuizCheckpoints(path, category, progress) {
     return;
   }
 
+  // Only show passed quizzes
+  const passedQuizzes = pathQuizzes.filter(
+    quiz => progress.quizResults?.[quiz.id]?.passed
+  );
+
+  if (passedQuizzes.length === 0) {
+    quizzesContainer.innerHTML = "";
+    return;
+  }
+
   quizzesContainer.innerHTML = `
     <div class="quiz-checkpoints">
       <div class="checkpoint-label">
-        <i class="fas fa-graduation-cap"></i> Quizzes:
+        <i class="fas fa-check-circle"></i> Quizzes Passed:
       </div>
-      ${pathQuizzes
+      ${passedQuizzes
         .map((quiz) => {
-          const afterChallenge = quiz.requiredChallenges.length;
-          const isUnlocked = quiz.requiredChallenges.every((id) =>
-            progress.completedChallenges.includes(id)
-          );
-          const isPassed = progress.quizResults?.[quiz.id]?.passed || false;
-
-          let statusIcon = "🔒";
-          let statusClass = "locked";
-
-          if (isPassed) {
-            statusIcon = "✅";
-            statusClass = "passed";
-          } else if (isUnlocked) {
-            statusIcon = "✨";
-            statusClass = "available";
-          }
-
           return `
-          <div class="checkpoint-item ${statusClass}" 
-               onclick="event.stopPropagation(); ${
-                 isUnlocked || isPassed
-                   ? `navigateToQuiz('${quiz.id}')`
-                   : "return false;"
-               }">
-            <span class="checkpoint-icon">${statusIcon}</span>
-            <span class="checkpoint-text">After #${afterChallenge}</span>
+          <div class="checkpoint-item passed" 
+               onclick="event.stopPropagation(); navigateToQuiz('${quiz.id}')">
+            <span class="checkpoint-icon">✅</span>
+            <span class="checkpoint-text">${quiz.title}</span>
           </div>
         `;
         })
@@ -413,10 +403,19 @@ function loadChallengeList(path) {
   list.innerHTML = "";
 
   // Get quizzes for this path
-  const pathCategory = path === 'html' ? 'HTML' : path === 'css' ? 'CSS' : path === 'javascript' ? 'JavaScript' : '';
+  const pathCategory =
+    path === "html"
+      ? "HTML"
+      : path === "css"
+      ? "CSS"
+      : path === "javascript"
+      ? "JavaScript"
+      : "";
   const quizzes = getQuizzes();
-  const pathQuizzes = Object.values(quizzes).filter(q => q.category === pathCategory);
-  
+  const pathQuizzes = Object.values(quizzes).filter(
+    (q) => q.category === pathCategory
+  );
+
   challenges.forEach((challenge, index) => {
     console.log(
       `Rendering challenge ${index + 1}/${challenges.length}:`,
@@ -463,23 +462,29 @@ function loadChallengeList(path) {
 
     list.appendChild(item);
     console.log(`Appended challenge item ${index + 1} to list`);
-    
+
     // Check if we should add a quiz checkpoint after this challenge
     const challengeNumber = index + 1;
-    const quiz = pathQuizzes.find(q => q.requiredChallenges.length === challengeNumber);
-    
+    const quiz = pathQuizzes.find(
+      (q) => q.requiredChallenges.length === challengeNumber
+    );
+
     if (quiz) {
       const quizResult = progress.quizResults?.[quiz.id];
       const isPassed = quizResult?.passed || false;
-      const isUnlocked = quiz.requiredChallenges.every(id => progress.completedChallenges.includes(id));
-      
+      const isUnlocked = quiz.requiredChallenges.every((id) =>
+        progress.completedChallenges.includes(id)
+      );
+
       const quizItem = document.createElement("div");
-      quizItem.className = `quiz-checkpoint-item ${isPassed ? 'passed' : isUnlocked ? 'unlocked' : 'locked'}`;
-      
+      quizItem.className = `quiz-checkpoint-item ${
+        isPassed ? "passed" : isUnlocked ? "unlocked" : "locked"
+      }`;
+
       if (isUnlocked || isPassed) {
         quizItem.onclick = () => navigateToQuiz(quiz.id);
       }
-      
+
       quizItem.innerHTML = `
         <div class="quiz-checkpoint-icon">
           <i class="fas fa-graduation-cap"></i>
@@ -488,9 +493,15 @@ function loadChallengeList(path) {
           <h3>${quiz.title}</h3>
           <p>${quiz.description}</p>
           <div class="quiz-checkpoint-meta">
-            <span class="badge quiz-badge"><i class="fas fa-question-circle"></i> ${quiz.questions.length} Questions</span>
-            <span class="badge quiz-badge"><i class="fas fa-star"></i> +${quiz.xpReward} XP</span>
-            <span class="badge quiz-badge"><i class="fas fa-chart-line"></i> ${quiz.passingScore}% to Pass</span>
+            <span class="badge quiz-badge"><i class="fas fa-question-circle"></i> ${
+              quiz.questions.length
+            } Questions</span>
+            <span class="badge quiz-badge"><i class="fas fa-star"></i> +${
+              quiz.xpReward
+            } XP</span>
+            <span class="badge quiz-badge"><i class="fas fa-chart-line"></i> ${
+              quiz.passingScore
+            }% to Pass</span>
           </div>
         </div>
         <div class="quiz-checkpoint-status">
@@ -503,7 +514,7 @@ function loadChallengeList(path) {
           }
         </div>
       `;
-      
+
       list.appendChild(quizItem);
     }
   });
