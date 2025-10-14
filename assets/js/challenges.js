@@ -1056,5 +1056,361 @@ document.getElementById('out').textContent = name;
     });
   }
 
-  return [...html, ...moreHTML, ...css, ...moreCSS, ...js, ...moreJS];
+  // ===== REACT CHALLENGES =====
+  const react = [
+    {
+      id: "react-01",
+      title: "Your First React Component",
+      category: "React",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn what React is and create your first functional component.",
+      instructions: `
+        <h4>📚 What is React?</h4>
+        <p>React is a JavaScript library for building user interfaces. It lets you create reusable UI components that update efficiently.</p>
+        
+        <h4>🏗️ What are Components?</h4>
+        <p>Components are like custom HTML elements. They're JavaScript functions that return JSX (HTML-like syntax).</p>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Create a simple functional component called <code>Welcome</code> that returns an h1 saying "Welcome to React!"</p>
+        
+        <h4>Example:</h4>
+        <pre><code>function Welcome() {
+  return &lt;h1&gt;Welcome to React!&lt;/h1&gt;;
+}</code></pre>
+        
+        <h4>💡 Key Points</h4>
+        <ul>
+          <li>Function names start with capital letter</li>
+          <li>Use <code>return</code> to output JSX</li>
+          <li>JSX looks like HTML but it's JavaScript</li>
+        </ul>
+      `,
+      starterCode: `function Welcome() {\n  // Your code here\n}\n`,
+      solution: `function Welcome() {\n  return <h1>Welcome to React!</h1>;\n}`,
+      hints: [
+        "Function should return JSX",
+        "Use return <h1>Welcome to React!</h1>;",
+        "Don't forget the semicolon"
+      ],
+      tests: ["function Welcome", "return", "<h1>"],
+      concepts: ["Components", "JSX", "Functions"]
+    },
+    {
+      id: "react-02",
+      title: "Understanding JSX",
+      category: "React",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn how JSX works and its syntax rules.",
+      instructions: `
+        <h4>📚 What is JSX?</h4>
+        <p>JSX is a syntax extension for JavaScript that looks like HTML. It gets compiled to regular JavaScript.</p>
+        
+        <h4>🏗️ JSX Rules</h4>
+        <ul>
+          <li>Must return a single parent element</li>
+          <li>Use <code>className</code> instead of <code>class</code></li>
+          <li>Close all tags (even self-closing like &lt;img /&gt;)</li>
+          <li>Use camelCase for attributes</li>
+        </ul>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Create a component that returns a div with a heading and paragraph inside.</p>
+      `,
+      starterCode: `function Card() {\n  return (\n    // Your JSX here\n  );\n}\n`,
+      solution: `function Card() {\n  return (\n    <div>\n      <h2>My Card</h2>\n      <p>This is a card component</p>\n    </div>\n  );\n}`,
+      hints: [
+        "Wrap everything in a <div>",
+        "Include an <h2> and <p> tag",
+        "JSX needs proper closing tags"
+      ],
+      tests: ["return", "<div>", "<h2>", "<p>"],
+      concepts: ["JSX", "Syntax", "Components"]
+    }
+  ];
+
+  // Add 18 more React challenges
+  for (let i = 3; i <= 20; i++) {
+    react.push({
+      id: `react-${String(i).padStart(2, '0')}`,
+      title: i === 20 ? "React Review Project: Todo App" : `React Challenge ${i}`,
+      category: "React",
+      difficulty: i < 8 ? "beginner" : i < 15 ? "intermediate" : "advanced",
+      xp: i < 8 ? 15 : i < 15 ? 20 : 25,
+      description: i === 20 ? "Build a complete todo app with React" : "Practice React concepts and hooks.",
+      instructions: "<p>Learn React patterns, state management, and component composition.</p>",
+      starterCode: "function App() {\n  // Your code\n}\n",
+      solution: "function App() { return <div>Solution</div>; }",
+      hints: ["Use React hooks", "Think about component structure"],
+      tests: ["function", "return"],
+      concepts: ["React", "Components", "State"]
+    });
+  }
+
+  // ===== NEXT.JS CHALLENGES =====
+  const nextjs = [
+    {
+      id: "next-01",
+      title: "Introduction to Next.js",
+      category: "Next.js",
+      difficulty: "intermediate",
+      xp: 20,
+      description: "Learn what Next.js is and how it extends React.",
+      instructions: `
+        <h4>📚 What is Next.js?</h4>
+        <p>Next.js is a React framework that provides features like server-side rendering, routing, and optimization out of the box.</p>
+        
+        <h4>🏗️ Key Features</h4>
+        <ul>
+          <li><strong>File-based routing</strong> - Pages created from files</li>
+          <li><strong>Server-side rendering (SSR)</strong> - Better SEO and performance</li>
+          <li><strong>API routes</strong> - Backend endpoints in your app</li>
+          <li><strong>Automatic code splitting</strong> - Faster page loads</li>
+        </ul>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Create a simple Next.js page component that exports a default function.</p>
+        
+        <h4>Example:</h4>
+        <pre><code>export default function Home() {
+  return <h1>Welcome to Next.js!</h1>;
+}</code></pre>
+      `,
+      starterCode: `export default function Home() {\n  // Your code here\n}\n`,
+      solution: `export default function Home() {\n  return <h1>Welcome to Next.js!</h1>;\n}`,
+      hints: [
+        "Use 'export default' for page components",
+        "Return JSX from the function",
+        "Function name should start with capital letter"
+      ],
+      tests: ["export default", "function", "return"],
+      concepts: ["Next.js", "Pages", "Routing"]
+    }
+  ];
+
+  // Add 14 more Next.js challenges
+  for (let i = 2; i <= 15; i++) {
+    nextjs.push({
+      id: `next-${String(i).padStart(2, '0')}`,
+      title: i === 15 ? "Next.js Review Project: Blog" : `Next.js Challenge ${i}`,
+      category: "Next.js",
+      difficulty: i < 6 ? "intermediate" : "advanced",
+      xp: i < 6 ? 20 : 25,
+      description: i === 15 ? "Build a complete blog with Next.js" : "Practice Next.js routing, SSR, and API routes.",
+      instructions: "<p>Master Next.js features like dynamic routes, data fetching, and server components.</p>",
+      starterCode: "export default function Page() {\n  // Your code\n}\n",
+      solution: "export default function Page() { return <div>Solution</div>; }",
+      hints: ["Use Next.js conventions", "Think about routing"],
+      tests: ["export", "function"],
+      concepts: ["Next.js", "SSR", "Routing"]
+    });
+  }
+
+  // ===== MYSQL CHALLENGES =====
+  const mysql = [
+    {
+      id: "mysql-01",
+      title: "Your First SQL Query",
+      category: "MySQL",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn what SQL is and write your first SELECT query.",
+      instructions: `
+        <h4>📚 What is SQL?</h4>
+        <p>SQL (Structured Query Language) is the standard language for working with relational databases. MySQL is one implementation of SQL.</p>
+        
+        <h4>🏗️ Basic SELECT Query</h4>
+        <p>The SELECT statement retrieves data from a database table.</p>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Write a query to select all columns from a table called <code>users</code>.</p>
+        
+        <h4>Syntax:</h4>
+        <pre><code>SELECT * FROM table_name;</code></pre>
+        
+        <h4>💡 Key Points</h4>
+        <ul>
+          <li><code>SELECT</code> - Choose what columns to retrieve</li>
+          <li><code>*</code> - Asterisk means "all columns"</li>
+          <li><code>FROM</code> - Specifies which table</li>
+          <li>End with semicolon <code>;</code></li>
+        </ul>
+      `,
+      starterCode: `-- Write your SQL query here\n`,
+      solution: `SELECT * FROM users;`,
+      hints: [
+        "Use SELECT * to get all columns",
+        "Specify FROM users",
+        "Don't forget the semicolon"
+      ],
+      tests: ["SELECT", "*", "FROM", "users"],
+      concepts: ["SQL", "SELECT", "Queries"]
+    },
+    {
+      id: "mysql-02",
+      title: "Filtering with WHERE",
+      category: "MySQL",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn to filter data using WHERE clause.",
+      instructions: `
+        <h4>📚 WHERE Clause</h4>
+        <p>The WHERE clause filters records based on conditions.</p>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Select all users where age is greater than 18.</p>
+        
+        <h4>Syntax:</h4>
+        <pre><code>SELECT * FROM users WHERE age > 18;</code></pre>
+      `,
+      starterCode: `-- Write your SQL query here\n`,
+      solution: `SELECT * FROM users WHERE age > 18;`,
+      hints: [
+        "Use WHERE clause after FROM",
+        "Use > for greater than",
+        "Column name is 'age'"
+      ],
+      tests: ["SELECT", "FROM", "WHERE", "age", ">"],
+      concepts: ["WHERE", "Filtering", "Conditions"]
+    }
+  ];
+
+  // Add 13 more MySQL challenges
+  for (let i = 3; i <= 15; i++) {
+    mysql.push({
+      id: `mysql-${String(i).padStart(2, '0')}`,
+      title: i === 15 ? "MySQL Review Project: E-commerce Database" : `MySQL Challenge ${i}`,
+      category: "MySQL",
+      difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
+      xp: i < 6 ? 15 : i < 11 ? 20 : 25,
+      description: i === 15 ? "Design and query a complete e-commerce database" : "Practice SQL queries, joins, and database design.",
+      instructions: "<p>Master SQL concepts like JOINs, GROUP BY, indexes, and transactions.</p>",
+      starterCode: "-- Write your SQL query\n",
+      solution: "SELECT * FROM table;",
+      hints: ["Think about table relationships", "Use proper SQL syntax"],
+      tests: ["SELECT"],
+      concepts: ["SQL", "Databases", "Queries"]
+    });
+  }
+
+  // ===== POSTGRESQL CHALLENGES =====
+  const postgresql = [
+    {
+      id: "postgres-01",
+      title: "PostgreSQL Basics",
+      category: "PostgreSQL",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn PostgreSQL-specific features and syntax.",
+      instructions: `
+        <h4>📚 What is PostgreSQL?</h4>
+        <p>PostgreSQL is a powerful, open-source relational database. It's known for reliability and advanced features.</p>
+        
+        <h4>🏗️ Differences from MySQL</h4>
+        <ul>
+          <li>More SQL standard compliant</li>
+          <li>Better support for complex queries</li>
+          <li>Advanced data types (JSON, Arrays)</li>
+          <li>Extensible with custom functions</li>
+        </ul>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Write a query to select all products ordered by price descending.</p>
+        
+        <h4>Syntax:</h4>
+        <pre><code>SELECT * FROM products ORDER BY price DESC;</code></pre>
+      `,
+      starterCode: `-- Write your PostgreSQL query\n`,
+      solution: `SELECT * FROM products ORDER BY price DESC;`,
+      hints: [
+        "Use ORDER BY clause",
+        "DESC means descending order",
+        "Column name is 'price'"
+      ],
+      tests: ["SELECT", "FROM", "ORDER BY", "DESC"],
+      concepts: ["PostgreSQL", "Sorting", "Queries"]
+    }
+  ];
+
+  // Add 14 more PostgreSQL challenges
+  for (let i = 2; i <= 15; i++) {
+    postgresql.push({
+      id: `postgres-${String(i).padStart(2, '0')}`,
+      title: i === 15 ? "PostgreSQL Review Project: Analytics Database" : `PostgreSQL Challenge ${i}`,
+      category: "PostgreSQL",
+      difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
+      xp: i < 6 ? 15 : i < 11 ? 20 : 25,
+      description: i === 15 ? "Build an analytics database with advanced queries" : "Practice PostgreSQL features, JSON handling, and window functions.",
+      instructions: "<p>Master PostgreSQL-specific features like JSON, CTEs, and window functions.</p>",
+      starterCode: "-- Write your query\n",
+      solution: "SELECT * FROM table;",
+      hints: ["Use PostgreSQL syntax", "Leverage advanced features"],
+      tests: ["SELECT"],
+      concepts: ["PostgreSQL", "Advanced SQL"]
+    });
+  }
+
+  // ===== SQLITE CHALLENGES =====
+  const sqlite = [
+    {
+      id: "sqlite-01",
+      title: "Introduction to SQLite",
+      category: "SQLite",
+      difficulty: "beginner",
+      xp: 15,
+      description: "Learn about SQLite and its use cases.",
+      instructions: `
+        <h4>📚 What is SQLite?</h4>
+        <p>SQLite is a lightweight, file-based database. It's perfect for mobile apps, embedded systems, and small to medium websites.</p>
+        
+        <h4>🏗️ Key Features</h4>
+        <ul>
+          <li><strong>Serverless</strong> - No separate server process</li>
+          <li><strong>Zero configuration</strong> - Works out of the box</li>
+          <li><strong>Single file</strong> - Entire database in one file</li>
+          <li><strong>Cross-platform</strong> - Works everywhere</li>
+        </ul>
+        
+        <h4>🎯 Your Task</h4>
+        <p>Create a simple table called <code>notes</code> with id and content columns.</p>
+        
+        <h4>Syntax:</h4>
+        <pre><code>CREATE TABLE notes (
+  id INTEGER PRIMARY KEY,
+  content TEXT
+);</code></pre>
+      `,
+      starterCode: `-- Write your SQLite command\n`,
+      solution: `CREATE TABLE notes (\n  id INTEGER PRIMARY KEY,\n  content TEXT\n);`,
+      hints: [
+        "Use CREATE TABLE statement",
+        "INTEGER PRIMARY KEY for id",
+        "TEXT for content column"
+      ],
+      tests: ["CREATE TABLE", "notes", "INTEGER", "TEXT"],
+      concepts: ["SQLite", "Tables", "Schema"]
+    }
+  ];
+
+  // Add 14 more SQLite challenges
+  for (let i = 2; i <= 15; i++) {
+    sqlite.push({
+      id: `sqlite-${String(i).padStart(2, '0')}`,
+      title: i === 15 ? "SQLite Review Project: Mobile App Database" : `SQLite Challenge ${i}`,
+      category: "SQLite",
+      difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
+      xp: i < 6 ? 15 : i < 11 ? 20 : 25,
+      description: i === 15 ? "Design a complete mobile app database schema" : "Practice SQLite-specific features and optimization.",
+      instructions: "<p>Master SQLite for embedded and mobile applications.</p>",
+      starterCode: "-- Write your SQLite command\n",
+      solution: "SELECT * FROM table;",
+      hints: ["Use SQLite syntax", "Think about mobile constraints"],
+      tests: ["SELECT"],
+      concepts: ["SQLite", "Mobile", "Databases"]
+    });
+  }
+
+  return [...html, ...moreHTML, ...css, ...moreCSS, ...js, ...moreJS, ...react, ...nextjs, ...mysql, ...postgresql, ...sqlite];
 }

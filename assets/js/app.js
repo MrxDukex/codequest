@@ -200,10 +200,19 @@ function loadDashboard() {
   // Update level display
   updateLevelDisplay(progress);
 
-  // Update path progress
+  // Update path progress - Core paths
   updatePathProgress("html", progress);
   updatePathProgress("css", progress);
   updatePathProgress("js", progress);
+  
+  // Update path progress - Framework paths
+  updatePathProgress("react", progress);
+  updatePathProgress("nextjs", progress);
+  
+  // Update path progress - Database paths
+  updatePathProgress("mysql", progress);
+  updatePathProgress("postgresql", progress);
+  updatePathProgress("sqlite", progress);
 
   // Update continue section
   updateContinueSection(progress);
@@ -319,6 +328,11 @@ function updatePathProgress(path, progress) {
     html: "HTML",
     css: "CSS",
     js: "JavaScript",
+    react: "React",
+    nextjs: "Next.js",
+    mysql: "MySQL",
+    postgresql: "PostgreSQL",
+    sqlite: "SQLite"
   };
 
   const category = categoryMap[path] || path;
@@ -444,14 +458,34 @@ function loadChallengeList(path) {
       title: "JavaScript Challenges",
       subtitle: "Bring your pages to life",
     },
+    react: {
+      title: "React Challenges",
+      subtitle: "Build dynamic user interfaces",
+    },
+    nextjs: {
+      title: "Next.js Challenges",
+      subtitle: "Full-stack React framework",
+    },
+    mysql: {
+      title: "MySQL Challenges",
+      subtitle: "Learn relational database management",
+    },
+    postgresql: {
+      title: "PostgreSQL Challenges",
+      subtitle: "Advanced database features",
+    },
+    sqlite: {
+      title: "SQLite Challenges",
+      subtitle: "Lightweight embedded databases",
+    },
     projects: {
       title: "Final Projects",
       subtitle: "Build real-world applications",
     },
   };
 
-  document.getElementById("path-title").textContent = titles[path].title;
-  document.getElementById("path-subtitle").textContent = titles[path].subtitle;
+  document.getElementById("path-title").textContent = titles[path]?.title || "Challenges";
+  document.getElementById("path-subtitle").textContent = titles[path]?.subtitle || "Learn and practice";
 
   const completed = challenges.filter((c) =>
     progress.completedChallenges.includes(c.id)
@@ -468,14 +502,17 @@ function loadChallengeList(path) {
   list.innerHTML = "";
 
   // Get quizzes for this path
-  const pathCategory =
-    path === "html"
-      ? "HTML"
-      : path === "css"
-      ? "CSS"
-      : path === "javascript"
-      ? "JavaScript"
-      : "";
+  const pathCategoryMap = {
+    html: "HTML",
+    css: "CSS",
+    javascript: "JavaScript",
+    react: "React",
+    nextjs: "Next.js",
+    mysql: "MySQL",
+    postgresql: "PostgreSQL",
+    sqlite: "SQLite"
+  };
+  const pathCategory = pathCategoryMap[path] || "";
   const quizzes = getQuizzes();
   const pathQuizzes = Object.values(quizzes).filter(
     (q) => q.category === pathCategory

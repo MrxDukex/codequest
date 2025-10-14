@@ -664,6 +664,14 @@ body {
   margin-bottom: 2rem;
 }
 
+.paths-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.paths-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
 .path-card {
   background: var(--bg-secondary);
   border-radius: var(--radius-xl);
@@ -690,6 +698,26 @@ body {
 
 .path-card.js-card:hover {
   border-color: var(--color-js);
+}
+
+.path-card.react-card:hover {
+  border-color: #61dafb;
+}
+
+.path-card.nextjs-card:hover {
+  border-color: #000000;
+}
+
+.path-card.mysql-card:hover {
+  border-color: #00758f;
+}
+
+.path-card.postgres-card:hover {
+  border-color: #336791;
+}
+
+.path-card.sqlite-card:hover {
+  border-color: #003b57;
 }
 
 .path-card.locked {
@@ -722,6 +750,26 @@ body {
 
 .js-card .path-icon {
   background: var(--gradient-js);
+}
+
+.react-card .path-icon {
+  background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+}
+
+.nextjs-card .path-icon {
+  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+}
+
+.mysql-card .path-icon {
+  background: linear-gradient(135deg, #00758f 0%, #004d61 100%);
+}
+
+.postgres-card .path-icon {
+  background: linear-gradient(135deg, #336791 0%, #235a7a 100%);
+}
+
+.sqlite-card .path-icon {
+  background: linear-gradient(135deg, #003b57 0%, #002838 100%);
 }
 
 .projects-card .path-icon {
@@ -861,6 +909,36 @@ body {
   background: transparent;
   border: 2px solid var(--color-js);
   color: var(--color-js);
+}
+
+.btn-outline-react {
+  background: transparent;
+  border: 2px solid #61dafb;
+  color: #61dafb;
+}
+
+.btn-outline-nextjs {
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+.btn-outline-mysql {
+  background: transparent;
+  border: 2px solid #00758f;
+  color: #00758f;
+}
+
+.btn-outline-postgresql {
+  background: transparent;
+  border: 2px solid #336791;
+  color: #336791;
+}
+
+.btn-outline-sqlite {
+  background: transparent;
+  border: 2px solid #003b57;
+  color: #003b57;
 }
 
 .btn-sm {
