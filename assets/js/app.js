@@ -465,7 +465,7 @@ function startFirstChallenge() {
 // ===== CHALLENGE LIST =====
 function loadChallengeList(path) {
   const challenges = getAllChallenges().filter(
-    (c) => c.category.toLowerCase() === path
+    (c) => c.category.toLowerCase().replace(/\./g, '') === path
   );
   const progress = getProgress();
 
