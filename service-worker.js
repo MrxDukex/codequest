@@ -1,4 +1,4 @@
-const CACHE_NAME = "codequest-v1";
+const CACHE_NAME = "codequest-v2";
 const urlsToCache = [
   "/",
   "/index.html",
@@ -17,6 +17,8 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
+  // Force the waiting service worker to become the active service worker
+  self.skipWaiting();
 });
 
 // Fetch event - serve from cache when possible
@@ -43,4 +45,6 @@ self.addEventListener("activate", (event) => {
       );
     })
   );
+  // Take control of all pages immediately
+  return self.clients.claim();
 });
