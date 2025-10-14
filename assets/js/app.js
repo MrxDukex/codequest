@@ -295,7 +295,7 @@ function loadPathQuizCheckpoints(path, category, progress) {
 
   // Only show passed quizzes
   const passedQuizzes = pathQuizzes.filter(
-    quiz => progress.quizResults?.[quiz.id]?.passed
+    (quiz) => progress.quizResults?.[quiz.id]?.passed
   );
 
   if (passedQuizzes.length === 0) {
