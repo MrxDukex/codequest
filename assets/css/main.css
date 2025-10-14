@@ -1233,8 +1233,9 @@ body {
 .playground-container {
   display: flex;
   gap: 1rem;
-  height: calc(100vh - 250px);
-  min-height: 500px;
+  height: calc(100vh - 280px);
+  min-height: 400px;
+  max-height: 600px;
 }
 
 .playground-mode {
@@ -1304,8 +1305,9 @@ body {
 
 .editor-tab {
   background: var(--bg-tertiary);
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1314,13 +1316,13 @@ body {
 
 .playground-editor textarea {
   flex: 1;
-  padding: 1rem;
+  padding: 0.75rem;
   background: var(--bg-primary);
   color: var(--text-primary);
   border: none;
   font-family: "Fira Code", "Consolas", "Monaco", monospace;
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.5;
   resize: none;
   outline: none;
 }
