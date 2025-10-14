@@ -1064,7 +1064,8 @@ document.getElementById('out').textContent = name;
       category: "React",
       difficulty: "beginner",
       xp: 15,
-      description: "Learn what React is and create your first functional component.",
+      description:
+        "Learn what React is and create your first functional component.",
       instructions: `
         <h4>📚 What is React?</h4>
         <p>React is a JavaScript library for building user interfaces. It lets you create reusable UI components that update efficiently.</p>
@@ -1092,10 +1093,10 @@ document.getElementById('out').textContent = name;
       hints: [
         "Function should return JSX",
         "Use return <h1>Welcome to React!</h1>;",
-        "Don't forget the semicolon"
+        "Don't forget the semicolon",
       ],
       tests: ["function Welcome", "return", "<h1>"],
-      concepts: ["Components", "JSX", "Functions"]
+      concepts: ["Components", "JSX", "Functions"],
     },
     {
       id: "react-02",
@@ -1124,28 +1125,33 @@ document.getElementById('out').textContent = name;
       hints: [
         "Wrap everything in a <div>",
         "Include an <h2> and <p> tag",
-        "JSX needs proper closing tags"
+        "JSX needs proper closing tags",
       ],
       tests: ["return", "<div>", "<h2>", "<p>"],
-      concepts: ["JSX", "Syntax", "Components"]
-    }
+      concepts: ["JSX", "Syntax", "Components"],
+    },
   ];
 
   // Add 18 more React challenges
   for (let i = 3; i <= 20; i++) {
     react.push({
-      id: `react-${String(i).padStart(2, '0')}`,
-      title: i === 20 ? "React Review Project: Todo App" : `React Challenge ${i}`,
+      id: `react-${String(i).padStart(2, "0")}`,
+      title:
+        i === 20 ? "React Review Project: Todo App" : `React Challenge ${i}`,
       category: "React",
       difficulty: i < 8 ? "beginner" : i < 15 ? "intermediate" : "advanced",
       xp: i < 8 ? 15 : i < 15 ? 20 : 25,
-      description: i === 20 ? "Build a complete todo app with React" : "Practice React concepts and hooks.",
-      instructions: "<p>Learn React patterns, state management, and component composition.</p>",
+      description:
+        i === 20
+          ? "Build a complete todo app with React"
+          : "Practice React concepts and hooks.",
+      instructions:
+        "<p>Learn React patterns, state management, and component composition.</p>",
       starterCode: "function App() {\n  // Your code\n}\n",
       solution: "function App() { return <div>Solution</div>; }",
       hints: ["Use React hooks", "Think about component structure"],
       tests: ["function", "return"],
-      concepts: ["React", "Components", "State"]
+      concepts: ["React", "Components", "State"],
     });
   }
 
@@ -1183,28 +1189,34 @@ document.getElementById('out').textContent = name;
       hints: [
         "Use 'export default' for page components",
         "Return JSX from the function",
-        "Function name should start with capital letter"
+        "Function name should start with capital letter",
       ],
       tests: ["export default", "function", "return"],
-      concepts: ["Next.js", "Pages", "Routing"]
-    }
+      concepts: ["Next.js", "Pages", "Routing"],
+    },
   ];
 
   // Add 14 more Next.js challenges
   for (let i = 2; i <= 15; i++) {
     nextjs.push({
-      id: `next-${String(i).padStart(2, '0')}`,
-      title: i === 15 ? "Next.js Review Project: Blog" : `Next.js Challenge ${i}`,
+      id: `next-${String(i).padStart(2, "0")}`,
+      title:
+        i === 15 ? "Next.js Review Project: Blog" : `Next.js Challenge ${i}`,
       category: "Next.js",
       difficulty: i < 6 ? "intermediate" : "advanced",
       xp: i < 6 ? 20 : 25,
-      description: i === 15 ? "Build a complete blog with Next.js" : "Practice Next.js routing, SSR, and API routes.",
-      instructions: "<p>Master Next.js features like dynamic routes, data fetching, and server components.</p>",
+      description:
+        i === 15
+          ? "Build a complete blog with Next.js"
+          : "Practice Next.js routing, SSR, and API routes.",
+      instructions:
+        "<p>Master Next.js features like dynamic routes, data fetching, and server components.</p>",
       starterCode: "export default function Page() {\n  // Your code\n}\n",
-      solution: "export default function Page() { return <div>Solution</div>; }",
+      solution:
+        "export default function Page() { return <div>Solution</div>; }",
       hints: ["Use Next.js conventions", "Think about routing"],
       tests: ["export", "function"],
-      concepts: ["Next.js", "SSR", "Routing"]
+      concepts: ["Next.js", "SSR", "Routing"],
     });
   }
 
@@ -1243,10 +1255,10 @@ document.getElementById('out').textContent = name;
       hints: [
         "Use SELECT * to get all columns",
         "Specify FROM users",
-        "Don't forget the semicolon"
+        "Don't forget the semicolon",
       ],
       tests: ["SELECT", "*", "FROM", "users"],
-      concepts: ["SQL", "SELECT", "Queries"]
+      concepts: ["SQL", "SELECT", "Queries"],
     },
     {
       id: "mysql-02",
@@ -1270,28 +1282,35 @@ document.getElementById('out').textContent = name;
       hints: [
         "Use WHERE clause after FROM",
         "Use > for greater than",
-        "Column name is 'age'"
+        "Column name is 'age'",
       ],
       tests: ["SELECT", "FROM", "WHERE", "age", ">"],
-      concepts: ["WHERE", "Filtering", "Conditions"]
-    }
+      concepts: ["WHERE", "Filtering", "Conditions"],
+    },
   ];
 
   // Add 13 more MySQL challenges
   for (let i = 3; i <= 15; i++) {
     mysql.push({
-      id: `mysql-${String(i).padStart(2, '0')}`,
-      title: i === 15 ? "MySQL Review Project: E-commerce Database" : `MySQL Challenge ${i}`,
+      id: `mysql-${String(i).padStart(2, "0")}`,
+      title:
+        i === 15
+          ? "MySQL Review Project: E-commerce Database"
+          : `MySQL Challenge ${i}`,
       category: "MySQL",
       difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
       xp: i < 6 ? 15 : i < 11 ? 20 : 25,
-      description: i === 15 ? "Design and query a complete e-commerce database" : "Practice SQL queries, joins, and database design.",
-      instructions: "<p>Master SQL concepts like JOINs, GROUP BY, indexes, and transactions.</p>",
+      description:
+        i === 15
+          ? "Design and query a complete e-commerce database"
+          : "Practice SQL queries, joins, and database design.",
+      instructions:
+        "<p>Master SQL concepts like JOINs, GROUP BY, indexes, and transactions.</p>",
       starterCode: "-- Write your SQL query\n",
       solution: "SELECT * FROM table;",
       hints: ["Think about table relationships", "Use proper SQL syntax"],
       tests: ["SELECT"],
-      concepts: ["SQL", "Databases", "Queries"]
+      concepts: ["SQL", "Databases", "Queries"],
     });
   }
 
@@ -1327,28 +1346,35 @@ document.getElementById('out').textContent = name;
       hints: [
         "Use ORDER BY clause",
         "DESC means descending order",
-        "Column name is 'price'"
+        "Column name is 'price'",
       ],
       tests: ["SELECT", "FROM", "ORDER BY", "DESC"],
-      concepts: ["PostgreSQL", "Sorting", "Queries"]
-    }
+      concepts: ["PostgreSQL", "Sorting", "Queries"],
+    },
   ];
 
   // Add 14 more PostgreSQL challenges
   for (let i = 2; i <= 15; i++) {
     postgresql.push({
-      id: `postgres-${String(i).padStart(2, '0')}`,
-      title: i === 15 ? "PostgreSQL Review Project: Analytics Database" : `PostgreSQL Challenge ${i}`,
+      id: `postgres-${String(i).padStart(2, "0")}`,
+      title:
+        i === 15
+          ? "PostgreSQL Review Project: Analytics Database"
+          : `PostgreSQL Challenge ${i}`,
       category: "PostgreSQL",
       difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
       xp: i < 6 ? 15 : i < 11 ? 20 : 25,
-      description: i === 15 ? "Build an analytics database with advanced queries" : "Practice PostgreSQL features, JSON handling, and window functions.",
-      instructions: "<p>Master PostgreSQL-specific features like JSON, CTEs, and window functions.</p>",
+      description:
+        i === 15
+          ? "Build an analytics database with advanced queries"
+          : "Practice PostgreSQL features, JSON handling, and window functions.",
+      instructions:
+        "<p>Master PostgreSQL-specific features like JSON, CTEs, and window functions.</p>",
       starterCode: "-- Write your query\n",
       solution: "SELECT * FROM table;",
       hints: ["Use PostgreSQL syntax", "Leverage advanced features"],
       tests: ["SELECT"],
-      concepts: ["PostgreSQL", "Advanced SQL"]
+      concepts: ["PostgreSQL", "Advanced SQL"],
     });
   }
 
@@ -1387,30 +1413,49 @@ document.getElementById('out').textContent = name;
       hints: [
         "Use CREATE TABLE statement",
         "INTEGER PRIMARY KEY for id",
-        "TEXT for content column"
+        "TEXT for content column",
       ],
       tests: ["CREATE TABLE", "notes", "INTEGER", "TEXT"],
-      concepts: ["SQLite", "Tables", "Schema"]
-    }
+      concepts: ["SQLite", "Tables", "Schema"],
+    },
   ];
 
   // Add 14 more SQLite challenges
   for (let i = 2; i <= 15; i++) {
     sqlite.push({
-      id: `sqlite-${String(i).padStart(2, '0')}`,
-      title: i === 15 ? "SQLite Review Project: Mobile App Database" : `SQLite Challenge ${i}`,
+      id: `sqlite-${String(i).padStart(2, "0")}`,
+      title:
+        i === 15
+          ? "SQLite Review Project: Mobile App Database"
+          : `SQLite Challenge ${i}`,
       category: "SQLite",
       difficulty: i < 6 ? "beginner" : i < 11 ? "intermediate" : "advanced",
       xp: i < 6 ? 15 : i < 11 ? 20 : 25,
-      description: i === 15 ? "Design a complete mobile app database schema" : "Practice SQLite-specific features and optimization.",
-      instructions: "<p>Master SQLite for embedded and mobile applications.</p>",
+      description:
+        i === 15
+          ? "Design a complete mobile app database schema"
+          : "Practice SQLite-specific features and optimization.",
+      instructions:
+        "<p>Master SQLite for embedded and mobile applications.</p>",
       starterCode: "-- Write your SQLite command\n",
       solution: "SELECT * FROM table;",
       hints: ["Use SQLite syntax", "Think about mobile constraints"],
       tests: ["SELECT"],
-      concepts: ["SQLite", "Mobile", "Databases"]
+      concepts: ["SQLite", "Mobile", "Databases"],
     });
   }
 
-  return [...html, ...moreHTML, ...css, ...moreCSS, ...js, ...moreJS, ...react, ...nextjs, ...mysql, ...postgresql, ...sqlite];
+  return [
+    ...html,
+    ...moreHTML,
+    ...css,
+    ...moreCSS,
+    ...js,
+    ...moreJS,
+    ...react,
+    ...nextjs,
+    ...mysql,
+    ...postgresql,
+    ...sqlite,
+  ];
 }

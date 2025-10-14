@@ -89,19 +89,19 @@ function navigateToPath(path) {
 function checkAndNavigateToProjects() {
   const progress = getProgress();
   const quizzes = getQuizzes();
-  
+
   // Check if all path final exams are passed
-  const requiredExams = ['html-final-exam', 'css-final-exam', 'js-final-exam'];
-  const allPassed = requiredExams.every(examId => 
-    progress.quizResults?.[examId]?.passed
+  const requiredExams = ["html-final-exam", "css-final-exam", "js-final-exam"];
+  const allPassed = requiredExams.every(
+    (examId) => progress.quizResults?.[examId]?.passed
   );
-  
+
   if (allPassed) {
-    navigateToPath('projects');
+    navigateToPath("projects");
   } else {
     showNotification(
-      '🔒 Complete and pass all path final exams (HTML, CSS, JavaScript) to unlock Final Projects!',
-      'warning'
+      "🔒 Complete and pass all path final exams (HTML, CSS, JavaScript) to unlock Final Projects!",
+      "warning"
     );
   }
 }
@@ -109,27 +109,27 @@ function checkAndNavigateToProjects() {
 function checkAndTakeFinalExam() {
   const progress = getProgress();
   const quizzes = getQuizzes();
-  const finalExam = quizzes['final-exam'];
-  
+  const finalExam = quizzes["final-exam"];
+
   if (!finalExam || !finalExam.requiredQuizzes) {
     takeFinalExam();
     return;
   }
-  
+
   // Check if all required quizzes are passed
-  const allPassed = finalExam.requiredQuizzes.every(quizId => 
-    progress.quizResults?.[quizId]?.passed
+  const allPassed = finalExam.requiredQuizzes.every(
+    (quizId) => progress.quizResults?.[quizId]?.passed
   );
-  
+
   if (allPassed) {
-    navigateToQuiz('final-exam');
+    navigateToQuiz("final-exam");
   } else {
-    const remaining = finalExam.requiredQuizzes.filter(quizId => 
-      !progress.quizResults?.[quizId]?.passed
+    const remaining = finalExam.requiredQuizzes.filter(
+      (quizId) => !progress.quizResults?.[quizId]?.passed
     ).length;
     showNotification(
       `🔒 Pass all path final exams first! (${remaining} remaining)`,
-      'warning'
+      "warning"
     );
   }
 }
@@ -204,11 +204,11 @@ function loadDashboard() {
   updatePathProgress("html", progress);
   updatePathProgress("css", progress);
   updatePathProgress("js", progress);
-  
+
   // Update path progress - Framework paths
   updatePathProgress("react", progress);
   updatePathProgress("nextjs", progress);
-  
+
   // Update path progress - Database paths
   updatePathProgress("mysql", progress);
   updatePathProgress("postgresql", progress);
@@ -228,20 +228,20 @@ function updateAdvancedSectionStatus(progress) {
   // Update Final Projects status
   const projectsCard = document.getElementById("projects-card");
   const projectsLockMessage = document.getElementById("projects-lock-message");
-  
-  const pathFinalExams = ['html-final-exam', 'css-final-exam', 'js-final-exam'];
+
+  const pathFinalExams = ["html-final-exam", "css-final-exam", "js-final-exam"];
   const allPathExamsPassed = pathFinalExams.every(
-    examId => progress.quizResults?.[examId]?.passed
+    (examId) => progress.quizResults?.[examId]?.passed
   );
-  
+
   if (allPathExamsPassed) {
-    projectsCard?.classList.remove('locked');
-    projectsCard?.classList.add('available');
+    projectsCard?.classList.remove("locked");
+    projectsCard?.classList.add("available");
     if (projectsLockMessage) {
-      projectsLockMessage.style.display = 'none';
+      projectsLockMessage.style.display = "none";
     }
   }
-  
+
   // Update Grand Final Exam status
   const finalExamCard = document.getElementById("final-exam-card");
   const finalExamInfo = document.getElementById("final-exam-info");
@@ -250,13 +250,14 @@ function updateAdvancedSectionStatus(progress) {
   if (!finalExamCard) return;
 
   const quizzes = getQuizzes();
-  const finalExam = quizzes['final-exam'];
-  
+  const finalExam = quizzes["final-exam"];
+
   if (!finalExam) return;
 
-  const allRequiredQuizzesPassed = finalExam.requiredQuizzes?.every(
-    (quizId) => progress.quizResults?.[quizId]?.passed
-  ) || false;
+  const allRequiredQuizzesPassed =
+    finalExam.requiredQuizzes?.every(
+      (quizId) => progress.quizResults?.[quizId]?.passed
+    ) || false;
 
   const finalExamPassed = progress.quizResults?.["final-exam"]?.passed;
   const finalExamBestScore =
@@ -274,9 +275,10 @@ function updateAdvancedSectionStatus(progress) {
     finalExamDetails.style.display = "block";
   } else {
     finalExamCard.classList.add("locked");
-    const passedCount = finalExam.requiredQuizzes?.filter(
-      (quizId) => progress.quizResults?.[quizId]?.passed
-    ).length || 0;
+    const passedCount =
+      finalExam.requiredQuizzes?.filter(
+        (quizId) => progress.quizResults?.[quizId]?.passed
+      ).length || 0;
     const totalRequired = finalExam.requiredQuizzes?.length || 0;
     finalExamInfo.innerHTML = `<i class="fas fa-lock"></i> Pass all path final exams first (${passedCount}/${totalRequired})`;
     finalExamDetails.style.display = "none";
@@ -332,7 +334,7 @@ function updatePathProgress(path, progress) {
     nextjs: "Next.js",
     mysql: "MySQL",
     postgresql: "PostgreSQL",
-    sqlite: "SQLite"
+    sqlite: "SQLite",
   };
 
   const category = categoryMap[path] || path;
@@ -484,8 +486,10 @@ function loadChallengeList(path) {
     },
   };
 
-  document.getElementById("path-title").textContent = titles[path]?.title || "Challenges";
-  document.getElementById("path-subtitle").textContent = titles[path]?.subtitle || "Learn and practice";
+  document.getElementById("path-title").textContent =
+    titles[path]?.title || "Challenges";
+  document.getElementById("path-subtitle").textContent =
+    titles[path]?.subtitle || "Learn and practice";
 
   const completed = challenges.filter((c) =>
     progress.completedChallenges.includes(c.id)
@@ -510,7 +514,7 @@ function loadChallengeList(path) {
     nextjs: "Next.js",
     mysql: "MySQL",
     postgresql: "PostgreSQL",
-    sqlite: "SQLite"
+    sqlite: "SQLite",
   };
   const pathCategory = pathCategoryMap[path] || "";
   const quizzes = getQuizzes();

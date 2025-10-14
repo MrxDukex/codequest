@@ -555,6 +555,23 @@ body {
   color: var(--color-primary);
 }
 
+/* Subsection titles for organizing paths */
+.subsection-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 2rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subsection-title:first-of-type {
+  margin-top: 0;
+}
+
 /* ===== CONTINUE SECTION ===== */
 .continue-section {
   margin-bottom: 2rem;
