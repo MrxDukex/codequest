@@ -165,6 +165,60 @@ function loadDashboard() {
 
   // Load available quizzes
   loadDashboardQuizzes(progress);
+  
+  // Update final exam status
+  updateFinalExamStatus(progress);
+}
+
+function updateFinalExamStatus(progress) {
+  const finalExamCard = document.getElementById('final-exam-card');
+  const finalExamInfo = document.getElementById('final-exam-info');
+  const finalExamDetails = document.getElementById('final-exam-details');
+  
+  if (!finalExamCard) return;
+  
+  // Check if user has completed basics (HTML, CSS, JS quiz 1 for each)
+  const requiredQuizzes = ['html-quiz-1', 'html-quiz-2', 'css-quiz-1', 'css-quiz-2', 'js-quiz-1'];
+  const allQuizzesPassed = requiredQuizzes.every(quizId => 
+    progress.quizResults?.[quizId]?.passed
+  );
+  
+  const finalExamPassed = progress.quizResults?.['final-exam']?.passed;
+  const finalExamBestScore = progress.quizResults?.['final-exam']?.bestScore || 0;
+  
+  if (finalExamPassed) {
+    finalExamCard.classList.remove('locked');
+    finalExamCard.classList.add('passed');
+    finalExamInfo.innerHTML = `<i class="fas fa-trophy"></i> Passed with ${finalExamBestScore}%`;
+    finalExamDetails.style.display = 'block';
+  } else if (allQuizzesPassed) {
+    finalExamCard.classList.remove('locked');
+    finalExamCard.classList.add('available');
+    finalExamInfo.innerHTML = `<i class="fas fa-star"></i> Ready to take!`;
+    finalExamDetails.style.display = 'block';
+  } else {
+    finalExamCard.classList.add('locked');
+    const passedCount = requiredQuizzes.filter(quizId => 
+      progress.quizResults?.[quizId]?.passed
+    ).length;
+    finalExamInfo.innerHTML = `<i class="fas fa-lock"></i> Pass all section quizzes first (${passedCount}/${requiredQuizzes.length})`;
+    finalExamDetails.style.display = 'none';
+  }
+}
+
+function takeFinalExam() {
+  const progress = getProgress();
+  const requiredQuizzes = ['html-quiz-1', 'html-quiz-2', 'css-quiz-1', 'css-quiz-2', 'js-quiz-1'];
+  const allQuizzesPassed = requiredQuizzes.every(quizId => 
+    progress.quizResults?.[quizId]?.passed
+  );
+  
+  if (!allQuizzesPassed) {
+    showToast('Complete all section quizzes first!', 'warning');
+    return;
+  }
+  
+  navigateToQuiz('final-exam');
 }
 
 function loadDashboardQuizzes(progress) {
@@ -278,15 +332,15 @@ function updateLevelDisplay(progress) {
 function updatePathProgress(path, progress) {
   // Map short names to full category names
   const categoryMap = {
-    html: "html",
-    css: "css",
-    js: "javascript",
+    html: "HTML",
+    css: "CSS",
+    js: "JavaScript",
   };
 
   const category = categoryMap[path] || path;
 
   const challenges = getAllChallenges().filter(
-    (c) => c.category.toLowerCase() === category
+    (c) => c.category === category
   );
   const completed = challenges.filter((c) =>
     progress.completedChallenges.includes(c.id)
@@ -303,6 +357,56 @@ function updatePathProgress(path, progress) {
   if (btnText) {
     btnText.textContent = completed > 0 ? "Continue Path" : "Start Path";
   }
+  
+  // Load quiz checkpoints for this path
+  loadPathQuizCheckpoints(path, category, progress);
+}
+
+function loadPathQuizCheckpoints(path, category, progress) {
+  const quizzesContainer = document.getElementById(`${path}-quizzes`);
+  if (!quizzesContainer) return;
+  
+  const quizzes = getQuizzes();
+  const pathQuizzes = Object.values(quizzes).filter(q => q.category === category);
+  
+  if (pathQuizzes.length === 0) {
+    quizzesContainer.innerHTML = '';
+    return;
+  }
+  
+  quizzesContainer.innerHTML = `
+    <div class="quiz-checkpoints">
+      <div class="checkpoint-label">
+        <i class="fas fa-graduation-cap"></i> Quizzes:
+      </div>
+      ${pathQuizzes.map(quiz => {
+        const afterChallenge = quiz.requiredChallenges.length;
+        const isUnlocked = quiz.requiredChallenges.every(id => 
+          progress.completedChallenges.includes(id)
+        );
+        const isPassed = progress.quizResults?.[quiz.id]?.passed || false;
+        
+        let statusIcon = '🔒';
+        let statusClass = 'locked';
+        
+        if (isPassed) {
+          statusIcon = '✅';
+          statusClass = 'passed';
+        } else if (isUnlocked) {
+          statusIcon = '✨';
+          statusClass = 'available';
+        }
+        
+        return `
+          <div class="checkpoint-item ${statusClass}" 
+               onclick="event.stopPropagation(); ${isUnlocked || isPassed ? `navigateToQuiz('${quiz.id}')` : 'return false;'}">
+            <span class="checkpoint-icon">${statusIcon}</span>
+            <span class="checkpoint-text">After #${afterChallenge}</span>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
 }
 
 function updateContinueSection(progress) {

@@ -292,6 +292,9 @@
                       ></div>
                     </div>
                   </div>
+                  <div class="path-quizzes" id="html-quizzes">
+                    <!-- Quiz checkpoints will be loaded here -->
+                  </div>
                   <button class="btn btn-outline-html">
                     <span id="html-btn-text">Start Path</span>
                     <i class="fas fa-arrow-right"></i>
@@ -317,6 +320,9 @@
                         id="css-progress"
                       ></div>
                     </div>
+                  </div>
+                  <div class="path-quizzes" id="css-quizzes">
+                    <!-- Quiz checkpoints will be loaded here -->
                   </div>
                   <button class="btn btn-outline-css">
                     <span id="css-btn-text">Start Path</span>
@@ -347,6 +353,9 @@
                       ></div>
                     </div>
                   </div>
+                  <div class="path-quizzes" id="js-quizzes">
+                    <!-- Quiz checkpoints will be loaded here -->
+                  </div>
                   <button class="btn btn-outline-js">
                     <span id="js-btn-text">Start Path</span>
                     <i class="fas fa-arrow-right"></i>
@@ -372,6 +381,33 @@
                     <div class="lock-message">
                       <i class="fas fa-lock"></i>
                       <span>Complete basics to unlock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Final Exam -->
+              <div
+                class="path-card final-exam-card"
+                id="final-exam-card"
+                onclick="takeFinalExam()"
+              >
+                <div class="path-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="path-content">
+                  <h3>Final Exam</h3>
+                  <p>Test your complete knowledge</p>
+                  <div class="path-stats">
+                    <span class="exam-info" id="final-exam-info">
+                      <i class="fas fa-lock"></i> Complete all basics first
+                    </span>
+                  </div>
+                  <div class="exam-details" id="final-exam-details" style="display: none;">
+                    <div class="exam-meta">
+                      <span><i class="fas fa-question-circle"></i> 10 Questions</span>
+                      <span><i class="fas fa-trophy"></i> +200 XP</span>
+                      <span><i class="fas fa-chart-line"></i> 75% to Pass</span>
                     </div>
                   </div>
                 </div>
