@@ -1235,7 +1235,7 @@ body {
 .playground-container {
   display: flex;
   gap: 1rem;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 240px);
   min-height: 500px;
 }
 
