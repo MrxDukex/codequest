@@ -464,10 +464,11 @@ function loadChallengeList(path) {
     console.log(`Appended challenge item ${index + 1} to list`);
 
     // Check if we should add a quiz checkpoint after this challenge
-    const challengeNumber = index + 1;
-    const quiz = pathQuizzes.find(
-      (q) => q.requiredChallenges.length === challengeNumber
-    );
+    // A quiz appears after its LAST required challenge is completed
+    const quiz = pathQuizzes.find((q) => {
+      const lastRequiredChallenge = q.requiredChallenges[q.requiredChallenges.length - 1];
+      return lastRequiredChallenge === challenge.id;
+    });
 
     if (quiz) {
       const quizResult = progress.quizResults?.[quiz.id];

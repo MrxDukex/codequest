@@ -47,6 +47,7 @@ This ensures you actually review the material before trying again!
 ## HTML Path Quizzes (4 checkpoints + 1 final)
 
 ### HTML Quiz 1: Fundamentals
+
 - **Unlocks after:** html-01 through html-05
 - **Topics:** HTML basics, headings, paragraphs, lists, links, images
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -54,6 +55,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** html-01, html-02, html-03
 
 ### HTML Quiz 2: Structure & Forms
+
 - **Unlocks after:** html-06 through html-10
 - **Topics:** Buttons, forms, semantic HTML, divs, accessibility
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -61,6 +63,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** html-06, html-07, html-08
 
 ### HTML Quiz 3: Advanced Elements
+
 - **Unlocks after:** html-11 through html-15
 - **Topics:** Semantic elements, navigation, figures, advanced forms
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -68,6 +71,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** html-11, html-12, html-13
 
 ### HTML Quiz 4: Mastery
+
 - **Unlocks after:** html-16 through html-20
 - **Topics:** Advanced semantic HTML, iframes, tables, meta tags, best practices
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -75,6 +79,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** html-16, html-17, html-18
 
 ### HTML Path Final Exam
+
 - **Unlocks after:** Completing all 20 HTML challenges AND passing all 4 HTML quizzes
 - **Topics:** EVERYTHING from the HTML path
 - **Questions:** 8 comprehensive questions
@@ -84,6 +89,7 @@ This ensures you actually review the material before trying again!
 ## CSS Path Quizzes (4 checkpoints + 1 final)
 
 ### CSS Quiz 1: Basics
+
 - **Unlocks after:** css-01 through css-05
 - **Topics:** CSS syntax, selectors, colors, fonts, basic styling
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -91,6 +97,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** css-01, css-02, css-03
 
 ### CSS Quiz 2: Layout & Box Model
+
 - **Unlocks after:** css-06 through css-10
 - **Topics:** Box model, flexbox, positioning, responsive images
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -98,6 +105,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** css-06, css-07, css-08
 
 ### CSS Quiz 3: Advanced Styling
+
 - **Unlocks after:** css-11 through css-15
 - **Topics:** Positioning, animations, shadows, rounded corners, visibility
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -105,6 +113,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** css-11, css-12, css-13
 
 ### CSS Quiz 4: Mastery
+
 - **Unlocks after:** css-16 through css-20
 - **Topics:** Transforms, Grid, z-index, media queries, text transforms
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -112,6 +121,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** css-16, css-17, css-18
 
 ### CSS Path Final Exam
+
 - **Unlocks after:** Completing all 20 CSS challenges AND passing all 4 CSS quizzes
 - **Topics:** EVERYTHING from the CSS path
 - **Questions:** 8 comprehensive questions
@@ -121,6 +131,7 @@ This ensures you actually review the material before trying again!
 ## JavaScript Path Quizzes (5 checkpoints + 1 final)
 
 ### JavaScript Quiz 1: Fundamentals
+
 - **Unlocks after:** js-01 through js-05
 - **Topics:** Variables, functions, conditionals, data types
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -128,6 +139,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** js-01, js-02, js-03
 
 ### JavaScript Quiz 2: DOM & Events
+
 - **Unlocks after:** js-06 through js-10
 - **Topics:** DOM manipulation, event listeners, element selection
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -135,6 +147,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** js-06, js-07, js-08
 
 ### JavaScript Quiz 3: Arrays & Objects
+
 - **Unlocks after:** js-11 through js-15
 - **Topics:** Arrays, objects, array methods (map, filter), data manipulation
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -142,6 +155,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** js-11, js-12, js-13
 
 ### JavaScript Quiz 4: Advanced Concepts
+
 - **Unlocks after:** js-16 through js-20
 - **Topics:** Closures, spread operator, async/await, destructuring, equality
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -149,6 +163,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** js-16, js-17, js-18
 
 ### JavaScript Quiz 5: Mastery
+
 - **Unlocks after:** js-21 through js-25
 - **Topics:** Error handling, promises, reduce, template literals, localStorage
 - **Questions:** 5 (mix of multiple-choice and code)
@@ -156,6 +171,7 @@ This ensures you actually review the material before trying again!
 - **Remedial Challenges:** js-21, js-22, js-23
 
 ### JavaScript Path Final Exam
+
 - **Unlocks after:** Completing all 25 JavaScript challenges AND passing all 5 JS quizzes
 - **Topics:** EVERYTHING from the JavaScript path
 - **Questions:** 8 comprehensive questions
