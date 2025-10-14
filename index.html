@@ -984,7 +984,10 @@
                 <label for="playground-language">
                   <i class="fas fa-code"></i> Language:
                 </label>
-                <select id="playground-language" onchange="switchPlaygroundLanguage()">
+                <select
+                  id="playground-language"
+                  onchange="switchPlaygroundLanguage()"
+                >
                   <option value="web">Web (HTML/CSS/JS)</option>
                   <option value="javascript">JavaScript</option>
                   <option value="react">React (JSX)</option>
@@ -1009,7 +1012,9 @@
             <div id="playground-web-mode" class="playground-mode">
               <div class="playground-editors">
                 <div class="playground-editor">
-                  <div class="editor-tab"><i class="fab fa-html5"></i> HTML</div>
+                  <div class="editor-tab">
+                    <i class="fab fa-html5"></i> HTML
+                  </div>
                   <textarea id="playground-html" spellcheck="false"></textarea>
                 </div>
                 <div class="playground-editor">
@@ -1028,7 +1033,10 @@
               <div class="playground-preview">
                 <div class="preview-header">
                   <span><i class="fas fa-eye"></i> Live Preview</span>
-                  <button class="btn btn-sm" onclick="refreshPlaygroundPreview()">
+                  <button
+                    class="btn btn-sm"
+                    onclick="refreshPlaygroundPreview()"
+                  >
                     <i class="fas fa-sync"></i> Refresh
                   </button>
                 </div>
@@ -1041,16 +1049,26 @@
             </div>
 
             <!-- Single Language Mode -->
-            <div id="playground-single-mode" class="playground-mode" style="display: none;">
+            <div
+              id="playground-single-mode"
+              class="playground-mode"
+              style="display: none"
+            >
               <div class="playground-single-editor">
                 <div class="editor-header">
                   <div class="editor-tab">
                     <i class="fas fa-code" id="single-editor-icon"></i>
                     <span id="single-editor-label">Code</span>
                   </div>
-                  <span class="editor-info" id="editor-info-text">Write your code here</span>
+                  <span class="editor-info" id="editor-info-text"
+                    >Write your code here</span
+                  >
                 </div>
-                <textarea id="playground-single" spellcheck="false" placeholder="Start coding..."></textarea>
+                <textarea
+                  id="playground-single"
+                  spellcheck="false"
+                  placeholder="Start coding..."
+                ></textarea>
               </div>
               <div class="playground-output">
                 <div class="output-header">

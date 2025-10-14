@@ -1121,6 +1121,13 @@ body {
 }
 
 /* ===== PLAYGROUND ===== */
+.playground-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .playground-container {
   display: flex;
   gap: 1rem;
@@ -1242,6 +1249,7 @@ body {
   gap: 1rem;
 }
 
+.editor-info,
 .editor-info-text {
   color: var(--text-secondary);
   font-size: 0.8rem;

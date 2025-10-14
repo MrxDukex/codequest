@@ -506,8 +506,9 @@ let currentPlaygroundLanguage = "web";
 
 function loadPlayground() {
   const saved = localStorage.getItem("codequest_playground");
-  const savedLang = localStorage.getItem("codequest_playground_language") || "web";
-  
+  const savedLang =
+    localStorage.getItem("codequest_playground_language") || "web";
+
   currentPlaygroundLanguage = savedLang;
   document.getElementById("playground-language").value = savedLang;
 
@@ -653,7 +654,8 @@ function runPlaygroundCode() {
   const output = document.getElementById("playground-output-content");
 
   if (!code.trim()) {
-    output.innerHTML = '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Write some code first!</p></div>';
+    output.innerHTML =
+      '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Write some code first!</p></div>';
     return;
   }
 
@@ -665,20 +667,26 @@ function runPlaygroundCode() {
       const logs = [];
       const originalLog = console.log;
       console.log = (...args) => {
-        logs.push(args.map(arg => 
-          typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
-        ).join(" "));
+        logs.push(
+          args
+            .map((arg) =>
+              typeof arg === "object"
+                ? JSON.stringify(arg, null, 2)
+                : String(arg)
+            )
+            .join(" ")
+        );
       };
 
       // Execute code
       const result = eval(code);
-      
+
       // Restore console.log
       console.log = originalLog;
 
       // Display logs
       if (logs.length > 0) {
-        logs.forEach(log => {
+        logs.forEach((log) => {
           const line = document.createElement("div");
           line.className = "output-line";
           line.textContent = log;
@@ -690,12 +698,15 @@ function runPlaygroundCode() {
       if (result !== undefined) {
         const resultLine = document.createElement("div");
         resultLine.className = "output-line output-success";
-        resultLine.textContent = `=> ${typeof result === "object" ? JSON.stringify(result, null, 2) : result}`;
+        resultLine.textContent = `=> ${
+          typeof result === "object" ? JSON.stringify(result, null, 2) : result
+        }`;
         output.appendChild(resultLine);
       }
 
       if (logs.length === 0 && result === undefined) {
-        output.innerHTML = '<div class="output-info">Code executed successfully (no output)</div>';
+        output.innerHTML =
+          '<div class="output-info">Code executed successfully (no output)</div>';
       }
 
       showToast("Code executed successfully", "success");
@@ -707,22 +718,27 @@ function runPlaygroundCode() {
       showToast("Execution error", "error");
     }
   } else if (language === "sql") {
-    output.innerHTML = '<div class="output-info"><i class="fas fa-info-circle"></i> SQL execution is simulated. Try:\n\nSELECT * FROM users;\nINSERT INTO users VALUES (1, \'John\');\nUPDATE users SET name = \'Jane\' WHERE id = 1;</div>';
+    output.innerHTML =
+      "<div class=\"output-info\"><i class=\"fas fa-info-circle\"></i> SQL execution is simulated. Try:\n\nSELECT * FROM users;\nINSERT INTO users VALUES (1, 'John');\nUPDATE users SET name = 'Jane' WHERE id = 1;</div>";
   } else if (language === "react") {
-    output.innerHTML = '<div class="output-info"><i class="fas fa-info-circle"></i> React JSX preview coming soon!\n\nFor now, you can write and save your React components here.</div>';
+    output.innerHTML =
+      '<div class="output-info"><i class="fas fa-info-circle"></i> React JSX preview coming soon!\n\nFor now, you can write and save your React components here.</div>';
   } else {
-    output.innerHTML = `<div class="output-info"><i class="fas fa-info-circle"></i> ${language.charAt(0).toUpperCase() + language.slice(1)} execution coming soon!\n\nYou can still write and save your code here.</div>`;
+    output.innerHTML = `<div class="output-info"><i class="fas fa-info-circle"></i> ${
+      language.charAt(0).toUpperCase() + language.slice(1)
+    } execution coming soon!\n\nYou can still write and save your code here.</div>`;
   }
 }
 
 function clearPlaygroundOutput() {
   const output = document.getElementById("playground-output-content");
-  output.innerHTML = '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Click "Run" to see the output</p></div>';
+  output.innerHTML =
+    '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Click "Run" to see the output</p></div>';
 }
 
 function savePlayground() {
   const data = {};
-  
+
   if (currentPlaygroundLanguage === "web") {
     data.html = document.getElementById("playground-html").value;
     data.css = document.getElementById("playground-css").value;
