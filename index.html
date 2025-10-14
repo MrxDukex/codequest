@@ -349,10 +349,20 @@
                 </div>
               </div>
 
+            </div>
+          </section>
+
+          <!-- Advanced Section -->
+          <section class="paths-section">
+            <h2 class="section-title">
+              <i class="fas fa-trophy"></i> Advanced
+            </h2>
+            <div class="paths-grid">
               <!-- Projects Path -->
               <div
                 class="path-card projects-card locked"
-                onclick="navigateToPath('projects')"
+                id="projects-card"
+                onclick="checkAndNavigateToProjects()"
               >
                 <div class="path-icon">
                   <i class="fas fa-rocket"></i>
@@ -364,9 +374,9 @@
                     <span class="challenges-completed" id="projects-completed"
                       >0/5 Complete</span
                     >
-                    <div class="lock-message">
+                    <div class="lock-message" id="projects-lock-message">
                       <i class="fas fa-lock"></i>
-                      <span>Complete basics to unlock</span>
+                      <span>Pass all path final exams to unlock</span>
                     </div>
                   </div>
                 </div>
@@ -374,19 +384,19 @@
 
               <!-- Final Exam -->
               <div
-                class="path-card final-exam-card"
+                class="path-card final-exam-card locked"
                 id="final-exam-card"
-                onclick="takeFinalExam()"
+                onclick="checkAndTakeFinalExam()"
               >
                 <div class="path-icon">
                   <i class="fas fa-graduation-cap"></i>
                 </div>
                 <div class="path-content">
-                  <h3>Final Exam</h3>
+                  <h3>Grand Final Exam</h3>
                   <p>Test your complete knowledge</p>
                   <div class="path-stats">
                     <span class="exam-info" id="final-exam-info">
-                      <i class="fas fa-lock"></i> Complete all basics first
+                      <i class="fas fa-lock"></i> Pass all path final exams first
                     </span>
                   </div>
                   <div

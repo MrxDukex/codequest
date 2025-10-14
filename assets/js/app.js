@@ -86,6 +86,54 @@ function navigateToPath(path) {
   loadChallengeList(path);
 }
 
+function checkAndNavigateToProjects() {
+  const progress = getProgress();
+  const quizzes = getQuizzes();
+  
+  // Check if all path final exams are passed
+  const requiredExams = ['html-final-exam', 'css-final-exam', 'js-final-exam'];
+  const allPassed = requiredExams.every(examId => 
+    progress.quizResults?.[examId]?.passed
+  );
+  
+  if (allPassed) {
+    navigateToPath('projects');
+  } else {
+    showNotification(
+      '🔒 Complete and pass all path final exams (HTML, CSS, JavaScript) to unlock Final Projects!',
+      'warning'
+    );
+  }
+}
+
+function checkAndTakeFinalExam() {
+  const progress = getProgress();
+  const quizzes = getQuizzes();
+  const finalExam = quizzes['final-exam'];
+  
+  if (!finalExam || !finalExam.requiredQuizzes) {
+    takeFinalExam();
+    return;
+  }
+  
+  // Check if all required quizzes are passed
+  const allPassed = finalExam.requiredQuizzes.every(quizId => 
+    progress.quizResults?.[quizId]?.passed
+  );
+  
+  if (allPassed) {
+    navigateToQuiz('final-exam');
+  } else {
+    const remaining = finalExam.requiredQuizzes.filter(quizId => 
+      !progress.quizResults?.[quizId]?.passed
+    ).length;
+    showNotification(
+      `🔒 Pass all path final exams first! (${remaining} remaining)`,
+      'warning'
+    );
+  }
+}
+
 function navigateToPlayground() {
   switchView("playground");
   updateNavigation("playground");
@@ -163,27 +211,43 @@ function loadDashboard() {
   // Update daily quest
   updateDailyQuest(progress);
 
-  // Update final exam status
-  updateFinalExamStatus(progress);
+  // Update advanced section status
+  updateAdvancedSectionStatus(progress);
 }
-function updateFinalExamStatus(progress) {
+
+function updateAdvancedSectionStatus(progress) {
+  // Update Final Projects status
+  const projectsCard = document.getElementById("projects-card");
+  const projectsLockMessage = document.getElementById("projects-lock-message");
+  
+  const pathFinalExams = ['html-final-exam', 'css-final-exam', 'js-final-exam'];
+  const allPathExamsPassed = pathFinalExams.every(
+    examId => progress.quizResults?.[examId]?.passed
+  );
+  
+  if (allPathExamsPassed) {
+    projectsCard?.classList.remove('locked');
+    projectsCard?.classList.add('available');
+    if (projectsLockMessage) {
+      projectsLockMessage.style.display = 'none';
+    }
+  }
+  
+  // Update Grand Final Exam status
   const finalExamCard = document.getElementById("final-exam-card");
   const finalExamInfo = document.getElementById("final-exam-info");
   const finalExamDetails = document.getElementById("final-exam-details");
 
   if (!finalExamCard) return;
 
-  // Check if user has completed basics (HTML, CSS, JS quiz 1 for each)
-  const requiredQuizzes = [
-    "html-quiz-1",
-    "html-quiz-2",
-    "css-quiz-1",
-    "css-quiz-2",
-    "js-quiz-1",
-  ];
-  const allQuizzesPassed = requiredQuizzes.every(
+  const quizzes = getQuizzes();
+  const finalExam = quizzes['final-exam'];
+  
+  if (!finalExam) return;
+
+  const allRequiredQuizzesPassed = finalExam.requiredQuizzes?.every(
     (quizId) => progress.quizResults?.[quizId]?.passed
-  );
+  ) || false;
 
   const finalExamPassed = progress.quizResults?.["final-exam"]?.passed;
   const finalExamBestScore =
@@ -194,17 +258,18 @@ function updateFinalExamStatus(progress) {
     finalExamCard.classList.add("passed");
     finalExamInfo.innerHTML = `<i class="fas fa-trophy"></i> Passed with ${finalExamBestScore}%`;
     finalExamDetails.style.display = "block";
-  } else if (allQuizzesPassed) {
+  } else if (allRequiredQuizzesPassed) {
     finalExamCard.classList.remove("locked");
     finalExamCard.classList.add("available");
     finalExamInfo.innerHTML = `<i class="fas fa-star"></i> Ready to take!`;
     finalExamDetails.style.display = "block";
   } else {
     finalExamCard.classList.add("locked");
-    const passedCount = requiredQuizzes.filter(
+    const passedCount = finalExam.requiredQuizzes?.filter(
       (quizId) => progress.quizResults?.[quizId]?.passed
-    ).length;
-    finalExamInfo.innerHTML = `<i class="fas fa-lock"></i> Pass all section quizzes first (${passedCount}/${requiredQuizzes.length})`;
+    ).length || 0;
+    const totalRequired = finalExam.requiredQuizzes?.length || 0;
+    finalExamInfo.innerHTML = `<i class="fas fa-lock"></i> Pass all path final exams first (${passedCount}/${totalRequired})`;
     finalExamDetails.style.display = "none";
   }
 }
@@ -424,7 +489,7 @@ function loadChallengeList(path) {
     const state = progress.challengeStates[challenge.id] || {
       status: "not-started",
     };
-    
+
     // Lock challenges: only allow access to completed challenges, in-progress, or the next available one
     let isLocked = false;
     if (state.status === "not-started" && index > 0) {
@@ -455,7 +520,7 @@ function loadChallengeList(path) {
     item.innerHTML = `
             <div class="challenge-number">${index + 1}</div>
             <div class="challenge-info">
-                <h3>${challenge.title}${isLocked ? ' 🔒' : ''}</h3>
+                <h3>${challenge.title}${isLocked ? " 🔒" : ""}</h3>
                 <p>${challenge.description}</p>
                 <div class="challenge-badges">
                     <span class="badge difficulty-${challenge.difficulty}">${
