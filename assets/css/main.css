@@ -1175,8 +1175,9 @@ body {
   border-radius: var(--radius-lg);
   margin-bottom: 1rem;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .playground-header-top {
@@ -1187,13 +1188,15 @@ body {
 
 .playground-header-top h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .playground-header-bottom {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 0.75rem;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .language-select {
@@ -1201,11 +1204,10 @@ body {
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
   cursor: pointer;
-  width: 100%;
-  max-width: 300px;
+  min-width: 200px;
 }
 
 .language-select:hover {
