@@ -443,9 +443,16 @@ function getQuizzes() {
       id: "final-exam",
       title: "CodeQuest Final Exam",
       category: "All",
-      description: "Comprehensive test covering HTML, CSS, and JavaScript fundamentals",
+      description:
+        "Comprehensive test covering HTML, CSS, and JavaScript fundamentals",
       requiredChallenges: [], // Unlocked by passing all section quizzes
-      requiredQuizzes: ['html-quiz-1', 'html-quiz-2', 'css-quiz-1', 'css-quiz-2', 'js-quiz-1'],
+      requiredQuizzes: [
+        "html-quiz-1",
+        "html-quiz-2",
+        "css-quiz-1",
+        "css-quiz-2",
+        "js-quiz-1",
+      ],
       passingScore: 75,
       xpReward: 200,
       questions: [
@@ -457,24 +464,29 @@ function getQuizzes() {
             "<html><body><head></head></body></html>",
             "<html><head></head><body></body></html>",
             "<body><html><head></head></html></body>",
-            "<head><html><body></body></html></head>"
+            "<head><html><body></body></html></head>",
           ],
           correctAnswer: 1,
-          explanation: "The correct structure is <html> containing <head> then <body>."
+          explanation:
+            "The correct structure is <html> containing <head> then <body>.",
         },
         {
           id: "fe-2",
           type: "code",
           question: "Create a form with a text input and submit button",
           starterCode: "<!-- Write your HTML here -->\n",
-          correctAnswer: '<form>\n  <input type="text">\n  <button type="submit">Submit</button>\n</form>',
+          correctAnswer:
+            '<form>\n  <input type="text">\n  <button type="submit">Submit</button>\n</form>',
           testFunction: (code) => {
-            return code.includes("<form") && 
-                   code.includes("<input") && 
-                   code.includes('type="text"') &&
-                   code.includes("<button");
+            return (
+              code.includes("<form") &&
+              code.includes("<input") &&
+              code.includes('type="text"') &&
+              code.includes("<button")
+            );
           },
-          explanation: "Forms need <form> tags, input fields, and a submit button."
+          explanation:
+            "Forms need <form> tags, input fields, and a submit button.",
         },
         {
           id: "fe-3",
@@ -482,7 +494,7 @@ function getQuizzes() {
           question: "Which CSS property would you use to change text color?",
           options: ["text-color", "color", "font-color", "text-style"],
           correctAnswer: 1,
-          explanation: "The 'color' property controls text color in CSS."
+          explanation: "The 'color' property controls text color in CSS.",
         },
         {
           id: "fe-4",
@@ -491,12 +503,15 @@ function getQuizzes() {
           starterCode: "/* Write your CSS here */\n",
           correctAnswer: "text-align: center;\nfont-size: 20px;",
           testFunction: (code) => {
-            return code.includes("text-align") && 
-                   code.includes("center") &&
-                   code.includes("font-size") &&
-                   code.includes("20");
+            return (
+              code.includes("text-align") &&
+              code.includes("center") &&
+              code.includes("font-size") &&
+              code.includes("20")
+            );
           },
-          explanation: "Use 'text-align: center' for centering and 'font-size: 20px' for size."
+          explanation:
+            "Use 'text-align: center' for centering and 'font-size: 20px' for size.",
         },
         {
           id: "fe-5",
@@ -506,51 +521,64 @@ function getQuizzes() {
             "Adding colors to elements",
             "Creating flexible layouts",
             "Writing JavaScript",
-            "Creating HTML forms"
+            "Creating HTML forms",
           ],
           correctAnswer: 1,
-          explanation: "Flexbox is a CSS layout system for creating flexible, responsive layouts."
+          explanation:
+            "Flexbox is a CSS layout system for creating flexible, responsive layouts.",
         },
         {
           id: "fe-6",
           type: "code",
-          question: "Create a variable 'age' with value 25 and log it to console",
+          question:
+            "Create a variable 'age' with value 25 and log it to console",
           starterCode: "// Write your JavaScript here\n",
           correctAnswer: "let age = 25;\nconsole.log(age);",
           testFunction: (code) => {
-            return (code.includes("let") || code.includes("const") || code.includes("var")) &&
-                   code.includes("age") &&
-                   code.includes("25") &&
-                   code.includes("console.log");
+            return (
+              (code.includes("let") ||
+                code.includes("const") ||
+                code.includes("var")) &&
+              code.includes("age") &&
+              code.includes("25") &&
+              code.includes("console.log")
+            );
           },
-          explanation: "Declare the variable with let/const and use console.log() to display it."
+          explanation:
+            "Declare the variable with let/const and use console.log() to display it.",
         },
         {
           id: "fe-7",
           type: "multiple-choice",
-          question: "What is the purpose of semantic HTML tags like <article>, <nav>?",
+          question:
+            "What is the purpose of semantic HTML tags like <article>, <nav>?",
           options: [
             "To make pages colorful",
             "To give meaning to content structure",
             "To add JavaScript functionality",
-            "To create animations"
+            "To create animations",
           ],
           correctAnswer: 1,
-          explanation: "Semantic tags provide meaning to the structure, helping accessibility and SEO."
+          explanation:
+            "Semantic tags provide meaning to the structure, helping accessibility and SEO.",
         },
         {
           id: "fe-8",
           type: "code",
-          question: "Create a function 'add' that takes two parameters and returns their sum",
+          question:
+            "Create a function 'add' that takes two parameters and returns their sum",
           starterCode: "// Write your JavaScript here\n",
           correctAnswer: "function add(a, b) {\n  return a + b;\n}",
           testFunction: (code) => {
-            return code.includes("function") &&
-                   code.includes("add") &&
-                   code.includes("return") &&
-                   code.includes("+");
+            return (
+              code.includes("function") &&
+              code.includes("add") &&
+              code.includes("return") &&
+              code.includes("+")
+            );
           },
-          explanation: "Functions are declared with 'function name(params) { return value; }'."
+          explanation:
+            "Functions are declared with 'function name(params) { return value; }'.",
         },
         {
           id: "fe-9",
@@ -560,10 +588,11 @@ function getQuizzes() {
             "// This is a comment",
             "/* This is a comment */",
             "<!-- This is a comment -->",
-            "# This is a comment"
+            "# This is a comment",
           ],
           correctAnswer: 1,
-          explanation: "CSS uses /* */ for comments, just like in many programming languages."
+          explanation:
+            "CSS uses /* */ for comments, just like in many programming languages.",
         },
         {
           id: "fe-10",
@@ -572,16 +601,18 @@ function getQuizzes() {
           starterCode: "// Assume x is already defined\n",
           correctAnswer: "if (x > 10) {\n  // code here\n}",
           testFunction: (code) => {
-            return code.includes("if") &&
-                   code.includes("(") &&
-                   code.includes("x") &&
-                   code.includes(">") &&
-                   code.includes("10");
+            return (
+              code.includes("if") &&
+              code.includes("(") &&
+              code.includes("x") &&
+              code.includes(">") &&
+              code.includes("10")
+            );
           },
-          explanation: "If statements use the syntax: if (condition) { code }"
-        }
+          explanation: "If statements use the syntax: if (condition) { code }",
+        },
       ],
-      remedialChallenges: [] // Final exam doesn't have remedial - you should review your weak areas
+      remedialChallenges: [], // Final exam doesn't have remedial - you should review your weak areas
     },
   };
 }
@@ -590,19 +621,22 @@ function getQuizzes() {
 function getQuizCheckpoints(category) {
   const quizzes = getQuizzes();
   const checkpoints = [];
-  
+
   for (const quiz of Object.values(quizzes)) {
-    if (quiz.category === category || (category === "JavaScript" && quiz.category === "JavaScript")) {
+    if (
+      quiz.category === category ||
+      (category === "JavaScript" && quiz.category === "JavaScript")
+    ) {
       // Find the checkpoint position (after which challenge number)
       const challengeCount = quiz.requiredChallenges.length;
       checkpoints.push({
         quiz: quiz,
         afterChallenge: challengeCount,
-        requiredChallenges: quiz.requiredChallenges
+        requiredChallenges: quiz.requiredChallenges,
       });
     }
   }
-  
+
   return checkpoints;
 }
 
@@ -616,9 +650,9 @@ function checkForQuiz() {
     if (progress.quizResults && progress.quizResults[quizId]?.passed) {
       continue;
     }
-    
+
     // Skip final exam from auto-popup (it's on dashboard)
-    if (quizId === 'final-exam') {
+    if (quizId === "final-exam") {
       continue;
     }
 
@@ -626,12 +660,12 @@ function checkForQuiz() {
     const allCompleted = quiz.requiredChallenges.every((challengeId) =>
       progress.completedChallenges.includes(challengeId)
     );
-    
+
     // Check if required quizzes are passed (for final exam)
     let quizzesCompleted = true;
     if (quiz.requiredQuizzes) {
-      quizzesCompleted = quiz.requiredQuizzes.every(requiredQuizId =>
-        progress.quizResults?.[requiredQuizId]?.passed
+      quizzesCompleted = quiz.requiredQuizzes.every(
+        (requiredQuizId) => progress.quizResults?.[requiredQuizId]?.passed
       );
     }
 

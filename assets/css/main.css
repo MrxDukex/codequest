@@ -2114,7 +2114,7 @@ body {
 }
 
 .final-exam-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   right: -20%;
@@ -2180,7 +2180,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
   }
   50% {
@@ -2347,4 +2348,187 @@ body {
   .quizzes-list {
     grid-template-columns: 1fr;
   }
+  
+  .quiz-checkpoint-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .quiz-checkpoint-meta {
+    justify-content: center;
+  }
 }
+
+/* Quiz Checkpoint Items in Challenge List */
+.quiz-checkpoint-item {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-checkpoint-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--primary-color);
+}
+
+.quiz-checkpoint-item:hover {
+  transform: translateX(8px);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.quiz-checkpoint-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--border-color);
+  background: linear-gradient(135deg, rgba(149, 165, 166, 0.05), rgba(149, 165, 166, 0.1));
+}
+
+.quiz-checkpoint-item.locked::before {
+  background: var(--border-color);
+}
+
+.quiz-checkpoint-item.locked:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.quiz-checkpoint-item.passed {
+  border-color: var(--success-color);
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+}
+
+.quiz-checkpoint-item.passed::before {
+  background: var(--success-color);
+}
+
+.quiz-checkpoint-item.unlocked {
+  animation: quiz-pulse 2s ease-in-out infinite;
+}
+
+@keyframes quiz-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.quiz-checkpoint-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-checkpoint-item.passed .quiz-checkpoint-icon {
+  background: linear-gradient(135deg, var(--success-color), #27ae60);
+}
+
+.quiz-checkpoint-item.locked .quiz-checkpoint-icon {
+  background: linear-gradient(135deg, var(--border-color), #95a5a6);
+}
+
+.quiz-checkpoint-info {
+  flex: 1;
+}
+
+.quiz-checkpoint-info h3 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.quiz-checkpoint-info p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.quiz-checkpoint-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.quiz-badge {
+  background: var(--secondary-bg);
+  color: var(--text-secondary);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.quiz-badge i {
+  color: var(--primary-color);
+}
+
+.quiz-checkpoint-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background: var(--secondary-bg);
+  min-width: 100px;
+  text-align: center;
+}
+
+.quiz-checkpoint-status i {
+  font-size: 2rem;
+}
+
+.quiz-checkpoint-item.passed .quiz-checkpoint-status {
+  color: var(--success-color);
+  background: rgba(46, 204, 113, 0.15);
+}
+
+.quiz-checkpoint-item.passed .quiz-checkpoint-status i {
+  color: var(--success-color);
+}
+
+.quiz-checkpoint-item.unlocked .quiz-checkpoint-status {
+  color: var(--primary-color);
+  background: rgba(74, 144, 226, 0.15);
+}
+
+.quiz-checkpoint-item.unlocked .quiz-checkpoint-status i {
+  color: var(--accent-color);
+}
+
+.quiz-checkpoint-item.locked .quiz-checkpoint-status {
+  color: var(--text-secondary);
+}
+
+.quiz-checkpoint-item.locked .quiz-checkpoint-status i {
+  color: var(--text-secondary);
+}
+
