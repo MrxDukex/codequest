@@ -1169,6 +1169,45 @@ body {
 }
 
 /* ===== PLAYGROUND ===== */
+.playground-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.playground-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  flex: 1;
+  min-width: 150px;
+}
+
+.language-select {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-width: 180px;
+}
+
+.language-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.playground-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .playground-actions {
   display: flex;
   align-items: center;
@@ -1179,8 +1218,8 @@ body {
 .playground-container {
   display: flex;
   gap: 1rem;
-  height: calc(100vh - 200px);
-  min-height: 600px;
+  height: calc(100vh - 250px);
+  min-height: 500px;
 }
 
 .playground-mode {
