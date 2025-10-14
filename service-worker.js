@@ -1,15 +1,15 @@
-const CACHE_NAME = "codequest-v2";
+const CACHE_NAME = "codequest-v3";
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/assets/css/main.css",
-  "/assets/css/themes.css",
-  "/assets/js/app.js",
-  "/assets/js/challenges.js",
-  "/assets/js/progress.js",
-  "/assets/js/gamification.js",
-  "/assets/js/editor.js",
-  "/assets/js/obsidian.js",
+  "/codequest/",
+  "/codequest/index.html",
+  "/codequest/assets/css/main.css",
+  "/codequest/assets/css/themes.css",
+  "/codequest/assets/js/app.js",
+  "/codequest/assets/js/challenges.js",
+  "/codequest/assets/js/progress.js",
+  "/codequest/assets/js/gamification.js",
+  "/codequest/assets/js/editor.js",
+  "/codequest/assets/js/obsidian.js",
 ];
 
 // Install event - cache resources
