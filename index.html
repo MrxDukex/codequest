@@ -972,23 +972,37 @@
         <!-- Playground View -->
         <div id="playground-view" class="view">
           <div class="playground-header">
-            <button class="btn-back" onclick="navigateToDashboard()">
-              <i class="fas fa-arrow-left"></i> Back
-            </button>
-            <h2>🧪 Code Playground</h2>
-            <select id="playground-language" onchange="switchPlaygroundLanguage()" class="language-select">
-              <option value="web">Web (HTML/CSS/JS)</option>
-              <option value="javascript">JavaScript</option>
-              <option value="react">React JSX</option>
-              <option value="sql">SQL</option>
-            </select>
-            <div class="playground-buttons">
-              <button class="btn btn-sm btn-outline" onclick="clearPlayground()">
-                <i class="fas fa-trash"></i> Clear
+            <div class="playground-header-top">
+              <button class="btn-back" onclick="navigateToDashboard()">
+                <i class="fas fa-arrow-left"></i> Back
               </button>
-              <button class="btn btn-sm btn-primary" onclick="runPlaygroundCode()">
-                <i class="fas fa-play"></i> Run
-              </button>
+              <h2>🧪 Code Playground</h2>
+            </div>
+            <div class="playground-header-bottom">
+              <select
+                id="playground-language"
+                onchange="switchPlaygroundLanguage()"
+                class="language-select"
+              >
+                <option value="web">Web (HTML/CSS/JS)</option>
+                <option value="javascript">JavaScript</option>
+                <option value="react">React JSX</option>
+                <option value="sql">SQL</option>
+              </select>
+              <div class="playground-buttons">
+                <button
+                  class="btn btn-sm btn-outline"
+                  onclick="clearPlayground()"
+                >
+                  <i class="fas fa-trash"></i> Clear
+                </button>
+                <button
+                  class="btn btn-sm btn-primary"
+                  onclick="runPlaygroundCode()"
+                >
+                  <i class="fas fa-play"></i> Run
+                </button>
+              </div>
             </div>
           </div>
           <div class="playground-container">
