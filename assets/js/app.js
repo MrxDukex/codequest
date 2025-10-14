@@ -162,6 +162,99 @@ function loadDashboard() {
 
   // Update daily quest
   updateDailyQuest(progress);
+
+  // Load available quizzes
+  loadDashboardQuizzes(progress);
+}
+
+function loadDashboardQuizzes(progress) {
+  const quizzes = getQuizzes();
+  const quizzesSection = document.getElementById("quizzes-section");
+  const quizzesList = document.getElementById("quizzes-list");
+
+  // Get quizzes with their status
+  const quizData = Object.values(quizzes).map((quiz) => {
+    const allCompleted = quiz.requiredChallenges.every((challengeId) =>
+      progress.completedChallenges.includes(challengeId)
+    );
+
+    const quizResult = progress.quizResults?.[quiz.id];
+    const passed = quizResult?.passed || false;
+    const needsReview = quizResult?.needsRemedial || false;
+
+    return {
+      quiz,
+      available: allCompleted,
+      passed,
+      needsReview,
+      bestScore: quizResult?.bestScore || 0,
+    };
+  });
+
+  // Only show section if at least one quiz is available or passed
+  const hasRelevantQuizzes = quizData.some((q) => q.available || q.passed);
+
+  if (hasRelevantQuizzes) {
+    quizzesSection.style.display = "block";
+
+    quizzesList.innerHTML = quizData
+      .map(({ quiz, available, passed, needsReview, bestScore }) => {
+        let statusClass = "locked";
+        let statusText = `Complete ${quiz.requiredChallenges.length} challenges to unlock`;
+        let statusIcon = '<i class="fas fa-lock"></i>';
+
+        if (passed) {
+          statusClass = "passed";
+          statusText = `✅ Passed with ${bestScore}%`;
+          statusIcon = "";
+        } else if (needsReview) {
+          statusClass = "review";
+          statusText = `📚 Review challenges to retake`;
+          statusIcon = "";
+        } else if (available) {
+          statusClass = "available";
+          statusText = `✨ Ready to take!`;
+          statusIcon = "";
+        }
+
+        const clickable = available || passed;
+        const cardClass = clickable ? "" : "locked";
+        const onclick = clickable
+          ? `onclick="navigateToQuiz('${quiz.id}')"`
+          : "";
+
+        return `
+        <div class="quiz-dashboard-card ${cardClass}" ${onclick}>
+          <div class="quiz-dashboard-header">
+            <div class="quiz-dashboard-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="quiz-dashboard-info">
+              <h3>${quiz.title}</h3>
+              <span class="quiz-dashboard-category">${quiz.category}</span>
+            </div>
+          </div>
+          <p class="quiz-dashboard-description">${quiz.description}</p>
+          <div class="quiz-dashboard-meta">
+            <div class="quiz-meta-item">
+              <i class="fas fa-question-circle"></i>
+              <span>${quiz.questions.length} Questions</span>
+            </div>
+            <div class="quiz-meta-item">
+              <i class="fas fa-star"></i>
+              <span>+${quiz.xpReward} XP</span>
+            </div>
+          </div>
+          <div class="quiz-dashboard-status ${statusClass}">
+            ${statusIcon} ${statusText}
+          </div>
+        </div>
+      `;
+      })
+      .join("");
+  } else {
+    quizzesSection.style.display = "none";
+  }
 }
 
 function updateLevelDisplay(progress) {

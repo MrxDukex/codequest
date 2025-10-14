@@ -253,6 +253,20 @@
             </div>
           </section>
 
+          <!-- Available Quizzes Section -->
+          <section
+            class="quizzes-section"
+            id="quizzes-section"
+            style="display: none"
+          >
+            <div class="section-header">
+              <h2><i class="fas fa-graduation-cap"></i> Knowledge Quizzes</h2>
+            </div>
+            <div id="quizzes-list" class="quizzes-list">
+              <!-- Quizzes will be dynamically loaded here -->
+            </div>
+          </section>
+
           <!-- Learning Paths Section -->
           <section class="learning-paths">
             <div class="section-header">
@@ -567,6 +581,180 @@
                   sandbox="allow-scripts"
                   title="Code Preview"
                 ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="backFromQuiz()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1>
+                <i class="fas fa-graduation-cap"></i>
+                <span id="quiz-title">Quiz</span>
+              </h1>
+            </div>
+          </div>
+
+          <div class="quiz-container">
+            <!-- Quiz Intro -->
+            <div id="quiz-intro" class="quiz-intro">
+              <div class="quiz-intro-card">
+                <h2 id="quiz-intro-title">Ready for a Quiz?</h2>
+                <p id="quiz-intro-description">
+                  Test your knowledge of the concepts you've learned.
+                </p>
+
+                <div class="quiz-info">
+                  <div class="quiz-info-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span
+                      ><strong id="quiz-question-count">5</strong>
+                      Questions</span
+                    >
+                  </div>
+                  <div class="quiz-info-item">
+                    <i class="fas fa-trophy"></i>
+                    <span
+                      ><strong id="quiz-passing-score">70</strong>% to
+                      Pass</span
+                    >
+                  </div>
+                  <div class="quiz-info-item">
+                    <i class="fas fa-star"></i>
+                    <span
+                      ><strong>+<span id="quiz-xp-reward">50</span> XP</strong>
+                      Reward</span
+                    >
+                  </div>
+                </div>
+
+                <div id="quiz-status-message" class="quiz-status-message"></div>
+
+                <div
+                  class="quiz-previous-attempts"
+                  id="quiz-previous-attempts"
+                  style="display: none"
+                >
+                  <h4>Previous Attempts:</h4>
+                  <div id="quiz-attempts-list"></div>
+                </div>
+
+                <button
+                  class="btn btn-primary btn-large"
+                  id="start-quiz-btn"
+                  onclick="startQuiz()"
+                >
+                  <i class="fas fa-play"></i> Start Quiz
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Questions -->
+            <div
+              id="quiz-questions"
+              class="quiz-questions"
+              style="display: none"
+            >
+              <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                <span class="quiz-progress-text" id="quiz-progress-text"
+                  >Question 1 of 5</span
+                >
+              </div>
+
+              <div id="quiz-question-container" class="quiz-question-container">
+                <!-- Questions will be loaded here -->
+              </div>
+
+              <div class="quiz-navigation">
+                <button
+                  class="btn btn-secondary"
+                  id="quiz-prev-btn"
+                  onclick="previousQuizQuestion()"
+                  disabled
+                >
+                  <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="quiz-next-btn"
+                  onclick="nextQuizQuestion()"
+                >
+                  Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button
+                  class="btn btn-success"
+                  id="quiz-submit-btn"
+                  onclick="submitQuiz()"
+                  style="display: none"
+                >
+                  <i class="fas fa-check"></i> Submit Quiz
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quiz-results" class="quiz-results" style="display: none">
+              <div class="quiz-results-card">
+                <div class="quiz-results-icon" id="quiz-results-icon">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="quiz-results-title">Quiz Complete!</h2>
+                <div class="quiz-score">
+                  <span id="quiz-score-text">85%</span>
+                  <p id="quiz-score-message">Great job! You passed!</p>
+                </div>
+
+                <div class="quiz-breakdown">
+                  <div class="quiz-breakdown-item">
+                    <span>Correct Answers:</span>
+                    <strong id="quiz-correct-count">4/5</strong>
+                  </div>
+                  <div class="quiz-breakdown-item">
+                    <span>XP Earned:</span>
+                    <strong id="quiz-xp-earned">+50 XP</strong>
+                  </div>
+                </div>
+
+                <div
+                  id="quiz-remedial-message"
+                  class="quiz-remedial-message"
+                  style="display: none"
+                >
+                  <i class="fas fa-book"></i>
+                  <p>
+                    To retake this quiz, please review and complete the
+                    following challenges:
+                  </p>
+                  <ul id="quiz-remedial-list"></ul>
+                </div>
+
+                <div class="quiz-review-section">
+                  <h4>Review Your Answers:</h4>
+                  <div id="quiz-review-list"></div>
+                </div>
+
+                <div class="quiz-results-actions">
+                  <button
+                    class="btn btn-primary"
+                    onclick="backFromQuizResults()"
+                  >
+                    <i class="fas fa-arrow-left"></i> Continue Learning
+                  </button>
+                  <button
+                    class="btn btn-secondary"
+                    id="retake-quiz-btn"
+                    onclick="retakeQuiz()"
+                    style="display: none"
+                  >
+                    <i class="fas fa-redo"></i> Retake Quiz
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1210,6 +1398,8 @@
     <!-- Scripts -->
     <script src="assets/js/app.js"></script>
     <script src="assets/js/challenges.js"></script>
+    <script src="assets/js/quizzes.js"></script>
+    <script src="assets/js/quiz-ui.js"></script>
     <script src="assets/js/progress.js"></script>
     <script src="assets/js/gamification.js"></script>
     <script src="assets/js/editor.js"></script>

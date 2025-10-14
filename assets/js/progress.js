@@ -24,6 +24,7 @@ function getDefaultProgress() {
       dailyQuestCount: 1,
       codeButtonsEnabled: true,
     },
+    quizResults: {}, // { quizId: { attempts: [], passed: bool, bestScore: num, needsRemedial: bool } }
   };
 }
 
@@ -168,6 +169,11 @@ function markChallengeComplete(
 
   // Show completion modal
   showChallengeComplete(challenge, xpGained, hintsUsed);
+
+  // Check if quiz is now available
+  if (typeof checkAndShowQuizNotification === "function") {
+    setTimeout(checkAndShowQuizNotification, 2000);
+  }
 }
 
 // Update daily streak
