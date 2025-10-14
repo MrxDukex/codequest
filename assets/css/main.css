@@ -674,6 +674,40 @@ body {
 }
 
 /* ===== LEARNING PATHS ===== */
+.paths-scroll-container {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.paths-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.paths-scroll-container::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-radius: 4px;
+}
+
+.paths-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.paths-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+.paths-scroll-container .path-card {
+  flex: 0 0 320px;
+  min-width: 320px;
+}
+
 .paths-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
