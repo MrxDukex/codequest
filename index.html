@@ -259,7 +259,11 @@
               <h2><i class="fas fa-map"></i> Choose Your Path</h2>
             </div>
 
-            <div class="paths-scroll-container">
+            <div class="paths-scroll-wrapper">
+              <button class="scroll-arrow scroll-arrow-left" onclick="scrollPaths('left')" aria-label="Scroll left">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div class="paths-scroll-container" id="paths-scroll-container">
               <!-- HTML Path -->
               <div class="path-card html-card" onclick="navigateToPath('html')">
                 <div class="path-icon">
@@ -497,6 +501,10 @@
                   </button>
                 </div>
               </div>
+              </div>
+              <button class="scroll-arrow scroll-arrow-right" onclick="scrollPaths('right')" aria-label="Scroll right">
+                <i class="fas fa-chevron-right"></i>
+              </button>
             </div>
           </section>
 

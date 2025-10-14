@@ -86,6 +86,26 @@ function navigateToPath(path) {
   loadChallengeList(path);
 }
 
+function scrollPaths(direction) {
+  const container = document.getElementById("paths-scroll-container");
+  if (!container) return;
+  
+  const scrollAmount = 340; // Card width (320px) + gap (20px)
+  const currentScroll = container.scrollLeft;
+  
+  if (direction === "left") {
+    container.scrollTo({
+      left: currentScroll - scrollAmount,
+      behavior: "smooth"
+    });
+  } else {
+    container.scrollTo({
+      left: currentScroll + scrollAmount,
+      behavior: "smooth"
+    });
+  }
+}
+
 function checkAndNavigateToProjects() {
   const progress = getProgress();
   const quizzes = getQuizzes();
