@@ -424,8 +424,15 @@ function loadChallengeList(path) {
     const state = progress.challengeStates[challenge.id] || {
       status: "not-started",
     };
-    // Temporarily disable locking to avoid any rendering issues
-    const isLocked = false;
+    
+    // Lock challenges: only allow access to completed challenges, in-progress, or the next available one
+    let isLocked = false;
+    if (state.status === "not-started" && index > 0) {
+      // Check if previous challenge is completed
+      const prevChallenge = challenges[index - 1];
+      const prevState = progress.challengeStates[prevChallenge.id];
+      isLocked = !prevState || prevState.status !== "completed";
+    }
 
     const item = document.createElement("div");
     item.className = `challenge-item ${state.status} ${
@@ -433,12 +440,22 @@ function loadChallengeList(path) {
     }`;
     if (!isLocked) {
       item.onclick = () => loadChallenge(challenge.id);
+    } else {
+      item.style.cursor = "not-allowed";
+      item.style.opacity = "0.6";
+      item.title = `Complete challenge ${index} first to unlock this`;
+      item.onclick = () => {
+        showNotification(
+          `🔒 Complete the previous challenge first!`,
+          "warning"
+        );
+      };
     }
 
     item.innerHTML = `
             <div class="challenge-number">${index + 1}</div>
             <div class="challenge-info">
-                <h3>${challenge.title}</h3>
+                <h3>${challenge.title}${isLocked ? ' 🔒' : ''}</h3>
                 <p>${challenge.description}</p>
                 <div class="challenge-badges">
                     <span class="badge difficulty-${challenge.difficulty}">${
@@ -466,7 +483,8 @@ function loadChallengeList(path) {
     // Check if we should add a quiz checkpoint after this challenge
     // A quiz appears after its LAST required challenge is completed
     const quiz = pathQuizzes.find((q) => {
-      const lastRequiredChallenge = q.requiredChallenges[q.requiredChallenges.length - 1];
+      const lastRequiredChallenge =
+        q.requiredChallenges[q.requiredChallenges.length - 1];
       return lastRequiredChallenge === challenge.id;
     });
 
