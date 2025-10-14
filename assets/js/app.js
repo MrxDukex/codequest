@@ -89,19 +89,19 @@ function navigateToPath(path) {
 function scrollPaths(direction) {
   const container = document.getElementById("paths-scroll-container");
   if (!container) return;
-  
+
   const scrollAmount = 340; // Card width (320px) + gap (20px)
   const currentScroll = container.scrollLeft;
-  
+
   if (direction === "left") {
     container.scrollTo({
       left: currentScroll - scrollAmount,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   } else {
     container.scrollTo({
       left: currentScroll + scrollAmount,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 }
@@ -465,7 +465,7 @@ function startFirstChallenge() {
 // ===== CHALLENGE LIST =====
 function loadChallengeList(path) {
   const challenges = getAllChallenges().filter(
-    (c) => c.category.toLowerCase().replace(/\./g, '') === path
+    (c) => c.category.toLowerCase().replace(/\./g, "") === path
   );
   const progress = getProgress();
 

@@ -502,33 +502,54 @@ function switchTab(tabName) {
 }
 
 // ===== PLAYGROUND =====
+let currentPlaygroundLanguage = "web";
+
 function loadPlayground() {
   const saved = localStorage.getItem("codequest_playground");
+  const savedLang = localStorage.getItem("codequest_playground_language") || "web";
+  
+  currentPlaygroundLanguage = savedLang;
+  document.getElementById("playground-language").value = savedLang;
 
   if (saved) {
     try {
       const data = JSON.parse(saved);
-      document.getElementById("playground-html").value = data.html || "";
-      document.getElementById("playground-css").value = data.css || "";
-      document.getElementById("playground-js").value = data.js || "";
+      if (currentPlaygroundLanguage === "web") {
+        document.getElementById("playground-html").value = data.html || "";
+        document.getElementById("playground-css").value = data.css || "";
+        document.getElementById("playground-js").value = data.js || "";
+      } else {
+        document.getElementById("playground-single").value = data.code || "";
+      }
     } catch (e) {
       console.error("Error loading playground:", e);
     }
   }
 
-  // Setup auto-update
+  // Setup auto-update for web mode
   ["playground-html", "playground-css", "playground-js"].forEach((id) => {
     const textarea = document.getElementById(id);
-    textarea.addEventListener("input", () => {
-      clearTimeout(autoSaveTimer);
-      autoSaveTimer = setTimeout(() => {
-        updatePlaygroundPreview();
-        savePlayground();
-      }, 1000);
-    });
+    if (textarea) {
+      textarea.addEventListener("input", () => {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(() => {
+          updatePlaygroundPreview();
+          savePlayground();
+        }, 1000);
+      });
+    }
   });
 
-  updatePlaygroundPreview();
+  // Setup auto-save for single mode
+  const singleTextarea = document.getElementById("playground-single");
+  if (singleTextarea) {
+    singleTextarea.addEventListener("input", () => {
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(savePlayground, 1000);
+    });
+  }
+
+  switchPlaygroundLanguage();
 
   // Check achievement
   const progress = getProgress();
@@ -565,22 +586,165 @@ function refreshPlaygroundPreview() {
   showToast("Preview refreshed", "info");
 }
 
+function switchPlaygroundLanguage() {
+  const language = document.getElementById("playground-language").value;
+  currentPlaygroundLanguage = language;
+  localStorage.setItem("codequest_playground_language", language);
+
+  const webMode = document.getElementById("playground-web-mode");
+  const singleMode = document.getElementById("playground-single-mode");
+  const icon = document.getElementById("single-editor-icon");
+  const label = document.getElementById("single-editor-label");
+  const infoText = document.getElementById("editor-info-text");
+
+  if (language === "web") {
+    webMode.style.display = "flex";
+    singleMode.style.display = "none";
+    updatePlaygroundPreview();
+  } else {
+    webMode.style.display = "none";
+    singleMode.style.display = "flex";
+
+    const languageConfig = {
+      javascript: {
+        icon: "fab fa-js",
+        label: "JavaScript",
+        info: "Write JavaScript code and click Run to see the output",
+      },
+      react: {
+        icon: "fab fa-react",
+        label: "React (JSX)",
+        info: "Write React components using JSX syntax",
+      },
+      sql: {
+        icon: "fas fa-database",
+        label: "SQL",
+        info: "Write SQL queries (simulated environment)",
+      },
+      python: {
+        icon: "fab fa-python",
+        label: "Python",
+        info: "Python syntax highlighting (execution coming soon)",
+      },
+      typescript: {
+        icon: "fas fa-code",
+        label: "TypeScript",
+        info: "TypeScript syntax highlighting (execution coming soon)",
+      },
+    };
+
+    const config = languageConfig[language];
+    icon.className = config.icon;
+    label.textContent = config.label;
+    infoText.textContent = config.info;
+  }
+}
+
+function runPlaygroundCode() {
+  const language = currentPlaygroundLanguage;
+
+  if (language === "web") {
+    updatePlaygroundPreview();
+    showToast("Preview updated", "success");
+    return;
+  }
+
+  const code = document.getElementById("playground-single").value;
+  const output = document.getElementById("playground-output-content");
+
+  if (!code.trim()) {
+    output.innerHTML = '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Write some code first!</p></div>';
+    return;
+  }
+
+  output.innerHTML = "";
+
+  if (language === "javascript") {
+    try {
+      // Capture console.log
+      const logs = [];
+      const originalLog = console.log;
+      console.log = (...args) => {
+        logs.push(args.map(arg => 
+          typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
+        ).join(" "));
+      };
+
+      // Execute code
+      const result = eval(code);
+      
+      // Restore console.log
+      console.log = originalLog;
+
+      // Display logs
+      if (logs.length > 0) {
+        logs.forEach(log => {
+          const line = document.createElement("div");
+          line.className = "output-line";
+          line.textContent = log;
+          output.appendChild(line);
+        });
+      }
+
+      // Display result if any
+      if (result !== undefined) {
+        const resultLine = document.createElement("div");
+        resultLine.className = "output-line output-success";
+        resultLine.textContent = `=> ${typeof result === "object" ? JSON.stringify(result, null, 2) : result}`;
+        output.appendChild(resultLine);
+      }
+
+      if (logs.length === 0 && result === undefined) {
+        output.innerHTML = '<div class="output-info">Code executed successfully (no output)</div>';
+      }
+
+      showToast("Code executed successfully", "success");
+    } catch (error) {
+      const errorLine = document.createElement("div");
+      errorLine.className = "output-line output-error";
+      errorLine.textContent = `Error: ${error.message}`;
+      output.appendChild(errorLine);
+      showToast("Execution error", "error");
+    }
+  } else if (language === "sql") {
+    output.innerHTML = '<div class="output-info"><i class="fas fa-info-circle"></i> SQL execution is simulated. Try:\n\nSELECT * FROM users;\nINSERT INTO users VALUES (1, \'John\');\nUPDATE users SET name = \'Jane\' WHERE id = 1;</div>';
+  } else if (language === "react") {
+    output.innerHTML = '<div class="output-info"><i class="fas fa-info-circle"></i> React JSX preview coming soon!\n\nFor now, you can write and save your React components here.</div>';
+  } else {
+    output.innerHTML = `<div class="output-info"><i class="fas fa-info-circle"></i> ${language.charAt(0).toUpperCase() + language.slice(1)} execution coming soon!\n\nYou can still write and save your code here.</div>`;
+  }
+}
+
+function clearPlaygroundOutput() {
+  const output = document.getElementById("playground-output-content");
+  output.innerHTML = '<div class="output-placeholder"><i class="fas fa-info-circle"></i><p>Click "Run" to see the output</p></div>';
+}
+
 function savePlayground() {
-  const data = {
-    html: document.getElementById("playground-html").value,
-    css: document.getElementById("playground-css").value,
-    js: document.getElementById("playground-js").value,
-  };
+  const data = {};
+  
+  if (currentPlaygroundLanguage === "web") {
+    data.html = document.getElementById("playground-html").value;
+    data.css = document.getElementById("playground-css").value;
+    data.js = document.getElementById("playground-js").value;
+  } else {
+    data.code = document.getElementById("playground-single").value;
+  }
 
   localStorage.setItem("codequest_playground", JSON.stringify(data));
 }
 
 function clearPlayground() {
   if (confirm("Clear all code in the playground?")) {
-    document.getElementById("playground-html").value = "";
-    document.getElementById("playground-css").value = "";
-    document.getElementById("playground-js").value = "";
-    updatePlaygroundPreview();
+    if (currentPlaygroundLanguage === "web") {
+      document.getElementById("playground-html").value = "";
+      document.getElementById("playground-css").value = "";
+      document.getElementById("playground-js").value = "";
+      updatePlaygroundPreview();
+    } else {
+      document.getElementById("playground-single").value = "";
+      clearPlaygroundOutput();
+    }
     localStorage.removeItem("codequest_playground");
     showToast("Playground cleared", "info");
   }
