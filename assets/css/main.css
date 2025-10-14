@@ -1169,6 +1169,11 @@ body {
 }
 
 /* ===== PLAYGROUND ===== */
+#playground-view .main-content {
+  max-width: 100%;
+  padding: 1.5rem;
+}
+
 .playground-header {
   padding: 1rem;
   background: var(--bg-secondary);
