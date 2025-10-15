@@ -204,17 +204,7 @@ function loadQuizQuestion() {
         <div class="quiz-options">
           ${question.options
             .map(
-              (option, i) => `
-            <label class="quiz-option ${
-              quizAnswers[currentQuestionIndex] === i ? "selected" : ""
-            }">
-              <input type="radio" name="quiz-answer" value="${i}" 
-                     ${quizAnswers[currentQuestionIndex] === i ? "checked" : ""}
-                     onchange="selectQuizAnswer(${i})">
-              <span class="option-letter">${String.fromCharCode(65 + i)}</span>
-              <span class="option-text">${option}</span>
-            </label>
-          `
+              (option, i) => `<label class="quiz-option ${quizAnswers[currentQuestionIndex] === i ? "selected" : ""}"><input type="radio" name="quiz-answer" value="${i}" ${quizAnswers[currentQuestionIndex] === i ? "checked" : ""} onchange="selectQuizAnswer(${i})"><span class="option-letter">${String.fromCharCode(65 + i)}</span><span class="option-text">${option}</span></label>`
             )
             .join("")}
         </div>
