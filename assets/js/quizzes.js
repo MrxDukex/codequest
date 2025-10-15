@@ -1921,7 +1921,10 @@ function markQuizShown(quizId) {
     progress.quizResults = {};
   }
   if (!progress.quizResults[quizId]) {
-    progress.quizResults[quizId] = {};
+    progress.quizResults[quizId] = { attempts: [] };
+  }
+  if (!progress.quizResults[quizId].attempts) {
+    progress.quizResults[quizId].attempts = [];
   }
   progress.quizResults[quizId].shown = true;
   saveProgress(progress);
@@ -1937,6 +1940,11 @@ function saveQuizResult(quizId, score, answers, passed) {
 
   if (!progress.quizResults[quizId]) {
     progress.quizResults[quizId] = { attempts: [] };
+  }
+
+  // Ensure attempts array exists (in case quiz was marked as shown but not initialized properly)
+  if (!progress.quizResults[quizId].attempts) {
+    progress.quizResults[quizId].attempts = [];
   }
 
   const attempt = {
