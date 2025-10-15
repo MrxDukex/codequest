@@ -445,6 +445,9 @@
 .code-editor {
   flex: 1;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 #code-input {
@@ -453,12 +456,18 @@
   background: var(--bg-tertiary);
   color: var(--text-primary);
   border: none;
-  padding: 1.5rem;
+  padding: 2rem;
   font-family: var(--font-code);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.7;
   resize: none;
   outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 #code-input:focus {
