@@ -257,22 +257,25 @@ function runTests(code) {
 
 // Evaluate a test
 function evaluateTest(code, test, challenge) {
-  // Simple pattern matching tests
-  const lowerCode = code.toLowerCase();
+  // Normalize code - trim and clean up whitespace
+  const cleanCode = code.trim().replace(/\s+/g, ' ');
+  const lowerCode = cleanCode.toLowerCase();
   const lowerTest = test.toLowerCase();
 
   // Check for specific HTML tags (e.g., "Check if <h1> exists" or "<h1> tag")
   const tagMatch = test.match(/<(\w+)>/);
   if (tagMatch) {
     const tag = tagMatch[1].toLowerCase();
-    return lowerCode.includes(`<${tag}>`);
+    return lowerCode.includes(`<${tag}`);
   }
 
   // Check for specific text content (e.g., 'Contain "Hello, World!"')
   if (lowerTest.includes("contain") || lowerTest.includes("include")) {
     const contentMatch = test.match(/"([^"]+)"/);
     if (contentMatch) {
-      return code.includes(contentMatch[1]);
+      const searchText = contentMatch[1];
+      // Check both case-sensitive and case-insensitive
+      return code.includes(searchText) || lowerCode.includes(searchText.toLowerCase());
     }
   }
 
@@ -286,11 +289,11 @@ function evaluateTest(code, test, challenge) {
 
   // Check for attribute existence (e.g., 'for="email"')
   if (test.includes("=")) {
-    return code.includes(test);
+    return cleanCode.includes(test) || lowerCode.includes(test.toLowerCase());
   }
 
-  // Default: just check if test string appears in code
-  return lowerCode.includes(lowerTest.toLowerCase());
+  // Default: just check if test string appears in code (case-insensitive)
+  return lowerCode.includes(lowerTest);
 }
 
 // Refresh preview
