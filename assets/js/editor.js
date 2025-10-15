@@ -257,8 +257,8 @@ function runTests(code) {
 
 // Evaluate a test
 function evaluateTest(code, test, challenge) {
-  // Normalize code - trim and clean up whitespace
-  const cleanCode = code.trim().replace(/\s+/g, ' ');
+  // Normalize code - trim but preserve structure
+  const cleanCode = code.trim();
   const lowerCode = cleanCode.toLowerCase();
   const lowerTest = test.toLowerCase();
 
@@ -266,7 +266,9 @@ function evaluateTest(code, test, challenge) {
   const tagMatch = test.match(/<(\w+)>/);
   if (tagMatch) {
     const tag = tagMatch[1].toLowerCase();
-    return lowerCode.includes(`<${tag}`);
+    // Must have proper opening tag with < and > or space after tag name
+    const tagRegex = new RegExp(`<${tag}[\\s>]`, "i");
+    return tagRegex.test(cleanCode);
   }
 
   // Check for specific text content (e.g., 'Contain "Hello, World!"')
@@ -274,8 +276,8 @@ function evaluateTest(code, test, challenge) {
     const contentMatch = test.match(/"([^"]+)"/);
     if (contentMatch) {
       const searchText = contentMatch[1];
-      // Check both case-sensitive and case-insensitive
-      return code.includes(searchText) || lowerCode.includes(searchText.toLowerCase());
+      // Check case-insensitive for text content
+      return lowerCode.includes(searchText.toLowerCase());
     }
   }
 
@@ -292,7 +294,7 @@ function evaluateTest(code, test, challenge) {
     return cleanCode.includes(test) || lowerCode.includes(test.toLowerCase());
   }
 
-  // Default: just check if test string appears in code (case-insensitive)
+  // Default: check if test string appears in code (case-insensitive)
   return lowerCode.includes(lowerTest);
 }
 
