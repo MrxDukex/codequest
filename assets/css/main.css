@@ -2266,6 +2266,11 @@ body {
   min-height: 400px;
 }
 
+.quiz-question {
+  display: block;
+  width: 100%;
+}
+
 .quiz-question h3 {
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
@@ -2283,10 +2288,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 
 .quiz-option {
-  display: flex;
+  display: flex !important;
   align-items: center;
   padding: 1.25rem;
   background: var(--secondary-bg);
@@ -2294,6 +2300,7 @@ body {
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 .quiz-option:hover {
@@ -2316,7 +2323,7 @@ body {
   border-radius: 50%;
   background: var(--primary-color);
   color: white;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   font-weight: 600;
@@ -2328,6 +2335,7 @@ body {
   font-size: 1rem;
   color: var(--text-primary);
   flex: 1;
+  display: block;
 }
 
 .quiz-code-editor {
