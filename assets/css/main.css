@@ -2291,9 +2291,11 @@ body {
   width: 100%;
 }
 
-.quiz-option {
+.quiz-option,
+label.quiz-option {
   display: flex !important;
-  align-items: center;
+  flex-direction: row !important;
+  align-items: center !important;
   padding: 1.25rem;
   background: var(--secondary-bg);
   border: 2px solid transparent;
@@ -2301,6 +2303,7 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .quiz-option:hover {
@@ -2317,25 +2320,28 @@ body {
   display: none;
 }
 
-.option-letter {
+.option-letter,
+span.option-letter {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background: var(--primary-color);
   color: white;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   font-weight: 600;
   margin-right: 1rem;
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
 }
 
-.option-text {
+.option-text,
+span.option-text {
   font-size: 1rem;
   color: var(--text-primary);
-  flex: 1;
-  display: block;
+  flex: 1 !important;
+  display: inline-block !important;
+  line-height: 1.5;
 }
 
 .quiz-code-editor {

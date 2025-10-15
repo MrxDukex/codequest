@@ -1,4 +1,4 @@
-const CACHE_NAME = "codequest-v4";
+const CACHE_NAME = "codequest-v5";
 const urlsToCache = [
   "/codequest/",
   "/codequest/index.html",
