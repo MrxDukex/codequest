@@ -322,6 +322,8 @@ function nextQuizQuestion() {
 
 // Submit quiz
 function submitQuiz() {
+  console.log("Submit quiz called");
+
   // Save current answer if it's a code question
   if (currentQuiz.questions[currentQuestionIndex].type === "code") {
     const codeInput = document.getElementById("quiz-code-input");
@@ -330,10 +332,15 @@ function submitQuiz() {
     }
   }
 
+  console.log("Quiz answers:", quizAnswers);
+
   // Check if all questions answered
   const unanswered = quizAnswers.filter(
     (a) => a === null || a === undefined
   ).length;
+
+  console.log("Unanswered questions:", unanswered);
+
   if (unanswered > 0) {
     if (
       !confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`)
@@ -343,11 +350,13 @@ function submitQuiz() {
   }
 
   // Grade quiz
+  console.log("Starting grading...");
   gradeQuiz();
 }
 
 // Grade the quiz
 function gradeQuiz() {
+  console.log("gradeQuiz function called");
   let correctCount = 0;
   const results = [];
 
@@ -355,11 +364,19 @@ function gradeQuiz() {
     const userAnswer = quizAnswers[i];
     let isCorrect = false;
 
+    console.log(`Grading question ${i}:`, {
+      question: question.question,
+      userAnswer,
+      type: question.type,
+    });
+
     try {
       if (question.type === "multiple-choice") {
         isCorrect = userAnswer === question.correctAnswer;
       } else if (question.type === "code") {
+        console.log(`Running test function for question ${i}...`);
         isCorrect = question.testFunction(userAnswer || "");
+        console.log(`Test result for question ${i}:`, isCorrect);
       }
     } catch (error) {
       console.error(`Error grading question ${i}:`, error);
