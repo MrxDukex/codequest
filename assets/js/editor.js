@@ -262,16 +262,44 @@ function evaluateTest(code, test, challenge) {
   const lowerCode = cleanCode.toLowerCase();
   const lowerTest = test.toLowerCase();
 
-  // Check for specific HTML tags (e.g., "Check if <h1> exists" or "<h1> tag")
-  const tagMatch = test.match(/<(\w+)>/);
-  if (tagMatch) {
-    const tag = tagMatch[1].toLowerCase();
-    // Must have proper opening tag with < and > or space after tag name
+  // Check for occurrence count (e.g., 'include "</p>" twice')
+  const countMatch = test.match(
+    /"([^"]+)"\s+(twice|three times|(\d+)\s+times)/i
+  );
+  if (countMatch) {
+    const searchText = countMatch[1];
+    const requiredCount =
+      countMatch[2] === "twice"
+        ? 2
+        : countMatch[2] === "three times"
+        ? 3
+        : parseInt(countMatch[3]) || 2;
+    const occurrences = (
+      cleanCode.match(
+        new RegExp(searchText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi")
+      ) || []
+    ).length;
+    return occurrences >= requiredCount;
+  }
+
+  // Check for complete HTML tags (e.g., "<h1>", "<p>", etc.)
+  const completeTagMatch = test.match(/<(\w+)>/);
+  if (completeTagMatch) {
+    const tag = completeTagMatch[1].toLowerCase();
+    // Must have proper opening tag structure: <tag> or <tag attributes>
+    const tagRegex = new RegExp(`<${tag}(\\s+[^>]*)?>`, "i");
+    return tagRegex.test(cleanCode);
+  }
+
+  // Check for incomplete tags like "<img" or "<input" (self-closing tags)
+  const incompleteTagMatch = test.match(/^<(\w+)$/);
+  if (incompleteTagMatch) {
+    const tag = incompleteTagMatch[1].toLowerCase();
     const tagRegex = new RegExp(`<${tag}[\\s>]`, "i");
     return tagRegex.test(cleanCode);
   }
 
-  // Check for specific text content (e.g., 'Contain "Hello, World!"')
+  // Check for specific text content (e.g., 'Contain "Hello, World!"' or 'Include "text"')
   if (lowerTest.includes("contain") || lowerTest.includes("include")) {
     const contentMatch = test.match(/"([^"]+)"/);
     if (contentMatch) {
@@ -281,17 +309,42 @@ function evaluateTest(code, test, challenge) {
     }
   }
 
-  // Check for CSS properties (for inline styles)
-  if (lowerTest.includes("style") || lowerTest.includes("css")) {
-    const propMatch = lowerTest.match(/(\w+):/);
+  // Check for CSS properties (for inline styles or CSS code)
+  if (
+    test.includes(":") &&
+    (lowerTest.includes("color") ||
+      lowerTest.includes("font") ||
+      lowerTest.includes("padding") ||
+      lowerTest.includes("margin") ||
+      lowerTest.includes("display") ||
+      lowerTest.includes("background") ||
+      lowerTest.includes("width") ||
+      lowerTest.includes("height") ||
+      lowerTest.includes("border") ||
+      lowerTest.includes("flex") ||
+      lowerTest.includes("grid") ||
+      lowerTest.includes("justify") ||
+      lowerTest.includes("align"))
+  ) {
+    const propMatch = test.match(/([a-z-]+):/i);
     if (propMatch) {
-      return lowerCode.includes(propMatch[1] + ":");
+      return lowerCode.includes(propMatch[1].toLowerCase() + ":");
     }
   }
 
-  // Check for attribute existence (e.g., 'for="email"')
-  if (test.includes("=")) {
-    return cleanCode.includes(test) || lowerCode.includes(test.toLowerCase());
+  // Check for attribute existence with specific values (e.g., 'for="email"', 'id="name"')
+  if (test.includes("=") && test.includes('"')) {
+    const attrMatch = test.match(/([a-z-]+)="([^"]+)"/i);
+    if (attrMatch) {
+      // Check for exact attribute match (case-insensitive for attribute name)
+      const attrName = attrMatch[1].toLowerCase();
+      const attrValue = attrMatch[2];
+      const attrRegex = new RegExp(
+        `${attrName}\\s*=\\s*["']${attrValue}["']`,
+        "i"
+      );
+      return attrRegex.test(cleanCode);
+    }
   }
 
   // Default: check if test string appears in code (case-insensitive)
