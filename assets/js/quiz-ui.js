@@ -197,19 +197,59 @@ function loadQuizQuestion() {
 
   // Render question based on type
   if (question.type === "multiple-choice") {
-    container.innerHTML = `
-      <div class="quiz-question">
-        <h3>Question ${currentQuestionIndex + 1}</h3>
-        <p class="quiz-question-text">${question.question}</p>
-        <div class="quiz-options">
-          ${question.options
-            .map(
-              (option, i) => `<label class="quiz-option ${quizAnswers[currentQuestionIndex] === i ? "selected" : ""}"><input type="radio" name="quiz-answer" value="${i}" ${quizAnswers[currentQuestionIndex] === i ? "checked" : ""} onchange="selectQuizAnswer(${i})"><span class="option-letter">${String.fromCharCode(65 + i)}</span><span class="option-text">${option}</span></label>`
-            )
-            .join("")}
-        </div>
-      </div>
-    `;
+    // Clear container
+    container.innerHTML = '';
+    
+    // Create question wrapper
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'quiz-question';
+    
+    // Add question title
+    const title = document.createElement('h3');
+    title.textContent = `Question ${currentQuestionIndex + 1}`;
+    questionDiv.appendChild(title);
+    
+    // Add question text
+    const questionText = document.createElement('p');
+    questionText.className = 'quiz-question-text';
+    questionText.textContent = question.question;
+    questionDiv.appendChild(questionText);
+    
+    // Create options container
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'quiz-options';
+    
+    // Add each option
+    question.options.forEach((option, i) => {
+      const label = document.createElement('label');
+      label.className = 'quiz-option';
+      if (quizAnswers[currentQuestionIndex] === i) {
+        label.classList.add('selected');
+      }
+      
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'quiz-answer';
+      radio.value = i;
+      radio.checked = quizAnswers[currentQuestionIndex] === i;
+      radio.onchange = () => selectQuizAnswer(i);
+      
+      const letterSpan = document.createElement('span');
+      letterSpan.className = 'option-letter';
+      letterSpan.textContent = String.fromCharCode(65 + i);
+      
+      const textSpan = document.createElement('span');
+      textSpan.className = 'option-text';
+      textSpan.textContent = option;
+      
+      label.appendChild(radio);
+      label.appendChild(letterSpan);
+      label.appendChild(textSpan);
+      optionsDiv.appendChild(label);
+    });
+    
+    questionDiv.appendChild(optionsDiv);
+    container.appendChild(questionDiv);
   } else if (question.type === "code") {
     const savedAnswer =
       quizAnswers[currentQuestionIndex] || question.starterCode;
