@@ -81,11 +81,13 @@ function getQuizzes() {
           starterCode: "<!-- Write your code here -->\n",
           correctAnswer: "<ul>\n  <li>Apple</li>\n  <li>Banana</li>\n</ul>",
           testFunction: (code) => {
+            const liMatches = code.match(/<li>/gi);
             return (
               code.includes("<ul>") &&
               code.includes("</ul>") &&
               code.includes("<li>") &&
-              code.match(/<li>/g).length >= 2 &&
+              liMatches &&
+              liMatches.length >= 2 &&
               (code.toLowerCase().includes("apple") ||
                 code.toLowerCase().includes("banana"))
             );

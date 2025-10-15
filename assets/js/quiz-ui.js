@@ -198,56 +198,56 @@ function loadQuizQuestion() {
   // Render question based on type
   if (question.type === "multiple-choice") {
     // Clear container
-    container.innerHTML = '';
-    
+    container.innerHTML = "";
+
     // Create question wrapper
-    const questionDiv = document.createElement('div');
-    questionDiv.className = 'quiz-question';
-    
+    const questionDiv = document.createElement("div");
+    questionDiv.className = "quiz-question";
+
     // Add question title
-    const title = document.createElement('h3');
+    const title = document.createElement("h3");
     title.textContent = `Question ${currentQuestionIndex + 1}`;
     questionDiv.appendChild(title);
-    
+
     // Add question text
-    const questionText = document.createElement('p');
-    questionText.className = 'quiz-question-text';
+    const questionText = document.createElement("p");
+    questionText.className = "quiz-question-text";
     questionText.textContent = question.question;
     questionDiv.appendChild(questionText);
-    
+
     // Create options container
-    const optionsDiv = document.createElement('div');
-    optionsDiv.className = 'quiz-options';
-    
+    const optionsDiv = document.createElement("div");
+    optionsDiv.className = "quiz-options";
+
     // Add each option
     question.options.forEach((option, i) => {
-      const label = document.createElement('label');
-      label.className = 'quiz-option';
+      const label = document.createElement("label");
+      label.className = "quiz-option";
       if (quizAnswers[currentQuestionIndex] === i) {
-        label.classList.add('selected');
+        label.classList.add("selected");
       }
-      
-      const radio = document.createElement('input');
-      radio.type = 'radio';
-      radio.name = 'quiz-answer';
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "quiz-answer";
       radio.value = i;
       radio.checked = quizAnswers[currentQuestionIndex] === i;
       radio.onchange = () => selectQuizAnswer(i);
-      
-      const letterSpan = document.createElement('span');
-      letterSpan.className = 'option-letter';
+
+      const letterSpan = document.createElement("span");
+      letterSpan.className = "option-letter";
       letterSpan.textContent = String.fromCharCode(65 + i);
-      
-      const textSpan = document.createElement('span');
-      textSpan.className = 'option-text';
+
+      const textSpan = document.createElement("span");
+      textSpan.className = "option-text";
       textSpan.textContent = option;
-      
+
       label.appendChild(radio);
       label.appendChild(letterSpan);
       label.appendChild(textSpan);
       optionsDiv.appendChild(label);
     });
-    
+
     questionDiv.appendChild(optionsDiv);
     container.appendChild(questionDiv);
   } else if (question.type === "code") {
@@ -355,10 +355,15 @@ function gradeQuiz() {
     const userAnswer = quizAnswers[i];
     let isCorrect = false;
 
-    if (question.type === "multiple-choice") {
-      isCorrect = userAnswer === question.correctAnswer;
-    } else if (question.type === "code") {
-      isCorrect = question.testFunction(userAnswer || "");
+    try {
+      if (question.type === "multiple-choice") {
+        isCorrect = userAnswer === question.correctAnswer;
+      } else if (question.type === "code") {
+        isCorrect = question.testFunction(userAnswer || "");
+      }
+    } catch (error) {
+      console.error(`Error grading question ${i}:`, error);
+      isCorrect = false;
     }
 
     if (isCorrect) correctCount++;
