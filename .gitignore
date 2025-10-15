@@ -1,5 +1,6 @@
 # Personal sync information - DO NOT COMMIT
 SYNC_INFO.md
+.copilot-instructions.md
 
 # Local environment files
 .env
