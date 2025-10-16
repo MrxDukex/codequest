@@ -2552,7 +2552,8 @@ body::before {
 }
 
 @keyframes errorLinePulse {
-  0%, 100% {
+  0%,
+  100% {
     background: rgba(245, 101, 101, 0.15);
   }
   50% {
