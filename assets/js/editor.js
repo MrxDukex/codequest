@@ -234,19 +234,38 @@ function runTests(code) {
 
   let allPassed = true;
 
-  challenge.tests.forEach((test, index) => {
-    const passed = evaluateTest(code, test, challenge);
-    const testItem = document.getElementById(`test-${index}`);
+  // Use custom validator if available
+  if (challenge.customValidator) {
+    const results = challenge.customValidator(code);
+    challenge.tests.forEach((test, index) => {
+      const passed = results[index];
+      const testItem = document.getElementById(`test-${index}`);
 
-    if (testItem) {
-      testItem.className = `test-item ${passed ? "passed" : "failed"}`;
-      testItem.querySelector(".test-icon").innerHTML = `<i class="fas fa-${
-        passed ? "check-circle" : "times-circle"
-      }"></i>`;
-    }
+      if (testItem) {
+        testItem.className = `test-item ${passed ? "passed" : "failed"}`;
+        testItem.querySelector(".test-icon").innerHTML = `<i class="fas fa-${
+          passed ? "check-circle" : "times-circle"
+        }"></i>`;
+      }
 
-    if (!passed) allPassed = false;
-  });
+      if (!passed) allPassed = false;
+    });
+  } else {
+    // Use default test evaluation
+    challenge.tests.forEach((test, index) => {
+      const passed = evaluateTest(code, test, challenge);
+      const testItem = document.getElementById(`test-${index}`);
+
+      if (testItem) {
+        testItem.className = `test-item ${passed ? "passed" : "failed"}`;
+        testItem.querySelector(".test-icon").innerHTML = `<i class="fas fa-${
+          passed ? "check-circle" : "times-circle"
+        }"></i>`;
+      }
+
+      if (!passed) allPassed = false;
+    });
+  }
 
   // Enable Next button if all tests pass
   const nextBtn = document.getElementById("next-challenge-btn");
@@ -264,12 +283,50 @@ function runTests(code) {
   return allPassed;
 }
 
+// Enhanced HTML validation using DOM parser
+function validateHTML(code) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(code, "text/html");
+    return doc;
+  } catch (e) {
+    return null;
+  }
+}
+
 // Evaluate a test
 function evaluateTest(code, test, challenge) {
   // Normalize code - trim but preserve structure
   const cleanCode = code.trim();
   const lowerCode = cleanCode.toLowerCase();
   const lowerTest = test.toLowerCase();
+
+  // Parse HTML for structural validation
+  const doc = validateHTML(code);
+
+  // Check if [tag] exists - validate proper HTML structure
+  const checkIfMatch = test.match(/check if <(\w+)> exists/i);
+  if (checkIfMatch) {
+    const tag = checkIfMatch[1].toLowerCase();
+    if (doc) {
+      const elements = doc.querySelectorAll(tag);
+      if (elements.length === 0) return false;
+
+      // Verify tags are properly closed
+      const openCount = (
+        cleanCode.match(new RegExp(`<${tag}[\\s>]`, "gi")) || []
+      ).length;
+      const closeCount = (cleanCode.match(new RegExp(`</${tag}>`, "gi")) || [])
+        .length;
+
+      const selfClosing = ["img", "input", "br", "hr", "meta", "link"];
+      if (!selfClosing.includes(tag)) {
+        return openCount === closeCount && openCount > 0;
+      }
+      return openCount > 0;
+    }
+    return false;
+  }
 
   // Check for occurrence count (e.g., 'include "</p>" twice')
   const countMatch = test.match(
@@ -283,6 +340,16 @@ function evaluateTest(code, test, challenge) {
         : countMatch[2] === "three times"
         ? 3
         : parseInt(countMatch[3]) || 2;
+
+    // For closing tags, validate actual HTML structure
+    if (searchText.startsWith("</")) {
+      const tagName = searchText.match(/<\/(\w+)>/)?.[1];
+      if (tagName && doc) {
+        const elements = doc.querySelectorAll(tagName);
+        return elements.length >= requiredCount;
+      }
+    }
+
     const occurrences = (
       cleanCode.match(
         new RegExp(searchText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi")
@@ -291,11 +358,32 @@ function evaluateTest(code, test, challenge) {
     return occurrences >= requiredCount;
   }
 
-  // Check for complete HTML tags (e.g., "<h1>", "<p>", etc.)
+  // Check for complete HTML tags with proper validation
   const completeTagMatch = test.match(/<(\w+)>/);
   if (completeTagMatch) {
     const tag = completeTagMatch[1].toLowerCase();
-    // Must have proper opening tag structure: <tag> or <tag attributes>
+
+    // Validate tag actually exists in parsed DOM
+    if (doc) {
+      const elements = doc.querySelectorAll(tag);
+      if (elements.length === 0) return false;
+
+      // Verify tags are properly closed
+      const openCount = (
+        cleanCode.match(new RegExp(`<${tag}[\\s>]`, "gi")) || []
+      ).length;
+      const closeCount = (cleanCode.match(new RegExp(`</${tag}>`, "gi")) || [])
+        .length;
+
+      // Self-closing tags don't need closing tags
+      const selfClosing = ["img", "input", "br", "hr", "meta", "link"];
+      if (!selfClosing.includes(tag)) {
+        return openCount === closeCount && openCount > 0;
+      }
+      return openCount > 0;
+    }
+
+    // Fallback to regex
     const tagRegex = new RegExp(`<${tag}(\\s+[^>]*)?>`, "i");
     return tagRegex.test(cleanCode);
   }
@@ -304,16 +392,39 @@ function evaluateTest(code, test, challenge) {
   const incompleteTagMatch = test.match(/^<(\w+)$/);
   if (incompleteTagMatch) {
     const tag = incompleteTagMatch[1].toLowerCase();
+    if (doc) {
+      const elements = doc.querySelectorAll(tag);
+      return elements.length > 0;
+    }
     const tagRegex = new RegExp(`<${tag}[\\s>]`, "i");
     return tagRegex.test(cleanCode);
   }
 
-  // Check for specific text content (e.g., 'Contain "Hello, World!"' or 'Include "text"')
+  // Check for attributes (e.g., 'Must have src attribute' or 'Include href')
+  const attrMatch = test.match(
+    /\b(href|src|alt|class|id|type|name|value|placeholder|action|method)\b/i
+  );
+  if (attrMatch && doc) {
+    const attrName = attrMatch[1].toLowerCase();
+    const elements = doc.querySelectorAll(`[${attrName}]`);
+    return elements.length > 0;
+  }
+
+  // Check for specific text content with DOM validation
   if (lowerTest.includes("contain") || lowerTest.includes("include")) {
     const contentMatch = test.match(/"([^"]+)"/);
     if (contentMatch) {
       const searchText = contentMatch[1];
-      // Check case-insensitive for text content
+
+      // First check if text exists in actual rendered content
+      if (doc && doc.body) {
+        const bodyText = doc.body.textContent || "";
+        if (bodyText.toLowerCase().includes(searchText.toLowerCase())) {
+          return true;
+        }
+      }
+
+      // Fallback to source code check
       return lowerCode.includes(searchText.toLowerCase());
     }
   }

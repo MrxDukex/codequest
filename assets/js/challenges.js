@@ -359,7 +359,35 @@ function getAllChallenges() {
         "You need 2 rows, each with 2 cells",
         "The letters A, B, C, D go inside the <td> tags",
       ],
-      tests: ["<table>", "<tr>", "<td>"],
+      tests: [
+        "Must have a <table> tag",
+        "Must have exactly 2 <tr> tags",
+        "Must have exactly 4 <td> tags",
+        "Must contain the letters A, B, C, and D",
+      ],
+      customValidator: function (code) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(code, "text/html");
+        const table = doc.querySelector("table");
+
+        if (!table) return [false, false, false, false];
+
+        const rows = table.querySelectorAll("tr");
+        const cells = table.querySelectorAll("td");
+
+        const hasTable = !!table;
+        const hasTwoRows = rows.length === 2;
+        const hasFourCells = cells.length === 4;
+
+        const text = code.toUpperCase();
+        const hasAllLetters =
+          text.includes("A") &&
+          text.includes("B") &&
+          text.includes("C") &&
+          text.includes("D");
+
+        return [hasTable, hasTwoRows, hasFourCells, hasAllLetters];
+      },
       concepts: ["Tables", "Rows", "Cells", "Data Organization"],
     },
     {
