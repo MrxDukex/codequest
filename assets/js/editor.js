@@ -427,25 +427,24 @@ function displayErrorMarkers(markers, lines) {
 
   errorOverlay.innerHTML = "";
 
+  // Calculate line height dynamically
+  const computedStyle = window.getComputedStyle(codeInput);
+  const lineHeight = parseInt(computedStyle.lineHeight) || 24;
+  const paddingTop = parseInt(computedStyle.paddingTop) || 8;
+
   markers.forEach((marker) => {
     const errorDiv = document.createElement("div");
     errorDiv.className = "error-marker";
-    errorDiv.textContent = "⚠️";
-    errorDiv.title = marker.message;
+    errorDiv.textContent = "●";
     errorDiv.style.cssText = `
       position: absolute;
       left: 5px;
-      top: ${marker.line * 24 + 8}px;
+      top: ${marker.line * lineHeight + paddingTop}px;
       color: #f56565;
-      cursor: help;
-      font-size: 16px;
+      cursor: pointer;
+      font-size: 12px;
       z-index: 10;
     `;
-
-    // Add click handler to show error tooltip
-    errorDiv.onclick = () => {
-      showToast(marker.message, "error");
-    };
 
     errorOverlay.appendChild(errorDiv);
   });
