@@ -531,7 +531,7 @@ p {
         "Use curly braces { } to contain your styles",
         "Don't forget the semicolon after red;",
       ],
-      tests: ["color:", "p {"],
+      tests: ["Must have color property", "Must target p element with { }"],
       concepts: ["CSS Basics", "Selectors", "Color Property"],
     },
     {
@@ -572,7 +572,7 @@ h1 {
         "Use font-size property",
         "Don't forget 'px' after 32",
       ],
-      tests: ["font-size:", "h1"],
+      tests: ["Must have font-size property", "Must target h1 element"],
       concepts: ["Typography", "Font Size", "CSS Units"],
     },
     {
@@ -806,7 +806,10 @@ document.getElementById('out').textContent = name;
         "Use document.getElementById('out') to find the paragraph",
         "Set .textContent = name; to display it",
       ],
-      tests: ["document.", "const"],
+      tests: [
+        "Must use document method",
+        "Must declare variable with const or let",
+      ],
       concepts: ["Variables", "DOM", "JavaScript Basics"],
     },
     {

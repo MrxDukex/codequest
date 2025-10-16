@@ -429,26 +429,36 @@ function evaluateTest(code, test, challenge) {
     }
   }
 
-  // Check for CSS properties (for inline styles or CSS code)
-  if (
-    test.includes(":") &&
-    (lowerTest.includes("color") ||
-      lowerTest.includes("font") ||
-      lowerTest.includes("padding") ||
-      lowerTest.includes("margin") ||
-      lowerTest.includes("display") ||
-      lowerTest.includes("background") ||
-      lowerTest.includes("width") ||
-      lowerTest.includes("height") ||
-      lowerTest.includes("border") ||
-      lowerTest.includes("flex") ||
-      lowerTest.includes("grid") ||
-      lowerTest.includes("justify") ||
-      lowerTest.includes("align"))
-  ) {
-    const propMatch = test.match(/([a-z-]+):/i);
+  // Check for CSS properties with proper validation
+  if (test.includes(":")) {
+    const propMatch = test.match(/([a-z-]+):\s*([^;]+)?/i);
     if (propMatch) {
-      return lowerCode.includes(propMatch[1].toLowerCase() + ":");
+      const property = propMatch[1].toLowerCase();
+      const value = propMatch[2] ? propMatch[2].trim().toLowerCase() : null;
+
+      // Extract CSS from <style> tags or inline styles
+      const styleMatch = code.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+      const inlineStyleMatch = code.match(/style="([^"]*)"/gi);
+
+      let cssContent = "";
+      if (styleMatch) cssContent += styleMatch[1];
+      if (inlineStyleMatch) {
+        inlineStyleMatch.forEach((match) => {
+          const styleValue = match.match(/style="([^"]*)"/i);
+          if (styleValue) cssContent += styleValue[1];
+        });
+      }
+
+      // Check if property exists in CSS
+      const hasProp = cssContent.toLowerCase().includes(property + ":");
+      if (!value) return hasProp;
+
+      // Check if property has the correct value
+      const propRegex = new RegExp(
+        property + "\\s*:\\s*" + value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "i"
+      );
+      return propRegex.test(cssContent);
     }
   }
 
@@ -465,6 +475,35 @@ function evaluateTest(code, test, challenge) {
       );
       return attrRegex.test(cleanCode);
     }
+  }
+
+  // JavaScript validation
+  // Check for variable declarations
+  if (lowerTest.match(/\b(const|let|var)\b/)) {
+    const varMatch = test.match(/\b(const|let|var)\b/i);
+    if (varMatch) {
+      const keyword = varMatch[1].toLowerCase();
+      // Extract JavaScript from <script> tags
+      const scriptMatch = code.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+      const jsContent = scriptMatch ? scriptMatch[1] : code;
+
+      // Validate keyword is properly used
+      const varRegex = new RegExp(
+        "\\b" + keyword + "\\s+[a-zA-Z_$][a-zA-Z0-9_$]*\\s*=",
+        "i"
+      );
+      return varRegex.test(jsContent);
+    }
+  }
+
+  // Check for JavaScript methods/functions
+  const jsMethodMatch = test.match(
+    /\b(document\.|console\.|addEventListener|querySelector|getElementById|textContent|innerHTML|function)\b/i
+  );
+  if (jsMethodMatch) {
+    const scriptMatch = code.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+    const jsContent = scriptMatch ? scriptMatch[1] : code;
+    return jsContent.toLowerCase().includes(jsMethodMatch[1].toLowerCase());
   }
 
   // Default: check if test string appears in code (case-insensitive)
