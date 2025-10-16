@@ -2525,6 +2525,85 @@ body::before {
   border-color: #2d2d44;
 }
 
+/* Error highlighting in code editor */
+.code-editor {
+  position: relative;
+}
+
+.error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.error-marker {
+  pointer-events: all !important;
+  animation: errorPulse 2s ease-in-out infinite;
+}
+
+@keyframes errorPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+#code-input.has-errors {
+  border-left: 3px solid var(--color-danger);
+  padding-left: 40px;
+}
+
+.error-underline {
+  position: absolute;
+  height: 2px;
+  background: var(--color-danger);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.error-tooltip {
+  position: absolute;
+  background: var(--color-danger);
+  color: white;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: var(--font-primary);
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  animation: slideInError 0.3s ease;
+}
+
+@keyframes slideInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-tooltip::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  border: 6px solid transparent;
+  border-top-color: var(--color-danger);
+}
+
 /* Hide Line Numbers - Future enhancement */
 /* Line numbers would be handled by a code editor library */
 

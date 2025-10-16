@@ -233,6 +233,7 @@ function runTests(code) {
   if (!challenge || !challenge.tests) return;
 
   let allPassed = true;
+  const errors = [];
 
   // Use custom validator if available
   if (challenge.customValidator) {
@@ -248,12 +249,16 @@ function runTests(code) {
         }"></i>`;
       }
 
-      if (!passed) allPassed = false;
+      if (!passed) {
+        allPassed = false;
+        errors.push({ test, index, description: test });
+      }
     });
   } else {
     // Use default test evaluation
     challenge.tests.forEach((test, index) => {
-      const passed = evaluateTest(code, test, challenge);
+      const result = evaluateTestWithDetails(code, test, challenge);
+      const passed = result.passed;
       const testItem = document.getElementById(`test-${index}`);
 
       if (testItem) {
@@ -263,8 +268,18 @@ function runTests(code) {
         }"></i>`;
       }
 
-      if (!passed) allPassed = false;
+      if (!passed) {
+        allPassed = false;
+        errors.push({ test, index, description: test, details: result.error });
+      }
     });
+  }
+
+  // Highlight errors in code
+  if (!allPassed) {
+    highlightCodeErrors(code, errors);
+  } else {
+    clearCodeHighlights();
   }
 
   // Enable Next button if all tests pass
@@ -283,6 +298,176 @@ function runTests(code) {
   return allPassed;
 }
 
+// Highlight code errors in the editor
+function highlightCodeErrors(code, errors) {
+  clearCodeHighlights();
+
+  const codeInput = document.getElementById("code-input");
+  const editorContainer = document.getElementById("code-editor");
+
+  // Create error overlay if it doesn't exist
+  let errorOverlay = document.getElementById("error-overlay");
+  if (!errorOverlay) {
+    errorOverlay = document.createElement("div");
+    errorOverlay.id = "error-overlay";
+    errorOverlay.className = "error-overlay";
+    editorContainer.appendChild(errorOverlay);
+  }
+
+  const lines = code.split("\n");
+  const errorMarkers = [];
+
+  errors.forEach((error) => {
+    const issues = detectErrorLocation(code, error);
+    issues.forEach((issue) => {
+      errorMarkers.push({
+        line: issue.line,
+        column: issue.column,
+        length: issue.length,
+        message: issue.message,
+      });
+    });
+  });
+
+  // Display error markers
+  displayErrorMarkers(errorMarkers, lines);
+}
+
+// Detect where in the code the error is
+function detectErrorLocation(code, error) {
+  const issues = [];
+  const lines = code.split("\n");
+
+  // Check for common HTML errors
+  if (error.test.includes("<") && error.test.includes(">")) {
+    const tagMatch = error.test.match(/<(\w+)>/);
+    if (tagMatch) {
+      const tag = tagMatch[1];
+
+      // Find mismatched or missing tags
+      lines.forEach((line, lineIndex) => {
+        // Check for typos like <tb> instead of <td>
+        const typoMatch = line.match(/<(t[a-z])>/gi);
+        if (typoMatch && tag === "td") {
+          typoMatch.forEach((typo) => {
+            if (
+              typo.toLowerCase() !== "<td>" &&
+              typo.toLowerCase() !== "<tr>" &&
+              typo.toLowerCase() !== "<th>"
+            ) {
+              const col = line.indexOf(typo);
+              issues.push({
+                line: lineIndex,
+                column: col,
+                length: typo.length,
+                message: `Invalid tag "${typo}" - did you mean "<${tag}>"?`,
+              });
+            }
+          });
+        }
+
+        // Check for unclosed tags
+        const openTags = (line.match(new RegExp(`<${tag}[\\s>]`, "gi")) || [])
+          .length;
+        const closeTags = (line.match(new RegExp(`</${tag}>`, "gi")) || [])
+          .length;
+
+        if (openTags > closeTags && line.includes(`<${tag}`)) {
+          const col = line.lastIndexOf(`<${tag}`);
+          issues.push({
+            line: lineIndex,
+            column: col,
+            length: tag.length + 2,
+            message: `Missing closing tag </${tag}>`,
+          });
+        }
+      });
+    }
+  }
+
+  // CSS errors
+  if (
+    error.test.includes(":") &&
+    (error.test.includes("color") ||
+      error.test.includes("font") ||
+      error.test.includes("padding"))
+  ) {
+    lines.forEach((line, lineIndex) => {
+      if (line.includes("{") && !line.includes(":")) {
+        const col = line.indexOf("{");
+        issues.push({
+          line: lineIndex,
+          column: col,
+          length: 1,
+          message: "CSS selector needs properties inside { }",
+        });
+      }
+    });
+  }
+
+  // If no specific location found, highlight the general issue
+  if (issues.length === 0 && error.details) {
+    issues.push({
+      line: 0,
+      column: 0,
+      length: 0,
+      message: error.details || error.description,
+    });
+  }
+
+  return issues;
+}
+
+// Display error markers in the editor
+function displayErrorMarkers(markers, lines) {
+  const codeInput = document.getElementById("code-input");
+  const errorOverlay = document.getElementById("error-overlay");
+
+  if (!errorOverlay) return;
+
+  errorOverlay.innerHTML = "";
+
+  markers.forEach((marker) => {
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-marker";
+    errorDiv.textContent = "⚠️";
+    errorDiv.title = marker.message;
+    errorDiv.style.cssText = `
+      position: absolute;
+      left: 5px;
+      top: ${marker.line * 24 + 8}px;
+      color: #f56565;
+      cursor: help;
+      font-size: 16px;
+      z-index: 10;
+    `;
+
+    // Add click handler to show error tooltip
+    errorDiv.onclick = () => {
+      showToast(marker.message, "error");
+    };
+
+    errorOverlay.appendChild(errorDiv);
+  });
+
+  // Highlight the problematic lines in the textarea
+  codeInput.classList.add("has-errors");
+}
+
+// Clear code highlights
+function clearCodeHighlights() {
+  const codeInput = document.getElementById("code-input");
+  const errorOverlay = document.getElementById("error-overlay");
+
+  if (codeInput) {
+    codeInput.classList.remove("has-errors");
+  }
+
+  if (errorOverlay) {
+    errorOverlay.innerHTML = "";
+  }
+}
+
 // Enhanced HTML validation using DOM parser
 function validateHTML(code) {
   try {
@@ -292,6 +477,18 @@ function validateHTML(code) {
   } catch (e) {
     return null;
   }
+}
+
+// Evaluate test with detailed error information
+function evaluateTestWithDetails(code, test, challenge) {
+  const passed = evaluateTest(code, test, challenge);
+  let error = null;
+
+  if (!passed) {
+    error = `Failed: ${test}`;
+  }
+
+  return { passed, error };
 }
 
 // Evaluate a test
