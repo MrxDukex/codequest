@@ -2547,6 +2547,19 @@ body::before {
   text-shadow: 0 0 4px rgba(245, 101, 101, 0.5);
 }
 
+.error-line-highlight {
+  animation: errorLinePulse 2s ease-in-out infinite;
+}
+
+@keyframes errorLinePulse {
+  0%, 100% {
+    background: rgba(245, 101, 101, 0.15);
+  }
+  50% {
+    background: rgba(245, 101, 101, 0.25);
+  }
+}
+
 @keyframes errorPulse {
   0%,
   100% {

@@ -441,22 +441,148 @@ function detectErrorLocation(code, error) {
     }
   }
 
-  // CSS errors
-  if (
-    error.test.includes(":") &&
-    (error.test.includes("color") ||
-      error.test.includes("font") ||
-      error.test.includes("padding"))
-  ) {
+  // CSS errors - check for property/value issues
+  if (error.test.includes(":")) {
+    const propMatch = error.test.match(/([a-z-]+):\s*([^;]+)?/i);
+    if (propMatch) {
+      const property = propMatch[1].toLowerCase();
+      const value = propMatch[2] ? propMatch[2].trim().toLowerCase() : null;
+
+      lines.forEach((line, lineIndex) => {
+        const lowerLine = line.toLowerCase();
+
+        // Check if line has property but missing/wrong value
+        if (lowerLine.includes(property)) {
+          if (value && !lowerLine.includes(value)) {
+            const col = line.toLowerCase().indexOf(property);
+            issues.push({
+              line: lineIndex,
+              column: col,
+              length: line.trim().length,
+              message: `CSS property issue`,
+            });
+          }
+          // Check for missing semicolon
+          if (
+            lowerLine.includes(property + ":") &&
+            !line.trim().endsWith(";") &&
+            !line.trim().endsWith("}")
+          ) {
+            const col = line.length - 1;
+            issues.push({
+              line: lineIndex,
+              column: col,
+              length: 1,
+              message: `Missing semicolon`,
+            });
+          }
+        }
+
+        // Check for empty CSS blocks
+        if (
+          line.includes("{") &&
+          !lowerLine.includes(":") &&
+          !lowerLine.includes("}")
+        ) {
+          const col = line.indexOf("{");
+          issues.push({
+            line: lineIndex,
+            column: col,
+            length: 1,
+            message: "Empty CSS block",
+          });
+        }
+      });
+    }
+  }
+
+  // JavaScript errors - variable declarations and methods
+  const jsKeywordMatch = error.test.match(/\b(const|let|var|function)\b/i);
+  if (jsKeywordMatch) {
+    const keyword = jsKeywordMatch[1].toLowerCase();
     lines.forEach((line, lineIndex) => {
-      if (line.includes("{") && !line.includes(":")) {
-        const col = line.indexOf("{");
-        issues.push({
-          line: lineIndex,
-          column: col,
-          length: 1,
-          message: "CSS selector needs properties inside { }",
+      const lowerLine = line.toLowerCase();
+
+      // Check for incorrect variable syntax
+      if (lowerLine.includes(keyword)) {
+        // Check for missing assignment operator
+        if (
+          lowerLine.includes(keyword + " ") &&
+          !line.includes("=") &&
+          !line.includes("(")
+        ) {
+          const col = line.toLowerCase().indexOf(keyword);
+          issues.push({
+            line: lineIndex,
+            column: col,
+            length: keyword.length,
+            message: `Incomplete ${keyword} declaration`,
+          });
+        }
+      }
+    });
+  }
+
+  // Check for JavaScript method errors
+  const jsMethodMatch = error.test.match(
+    /\b(document\.|console\.|querySelector|getElementById|addEventListener)\b/i
+  );
+  if (jsMethodMatch) {
+    const method = jsMethodMatch[1].toLowerCase();
+    lines.forEach((line, lineIndex) => {
+      const lowerLine = line.toLowerCase();
+
+      // Look for typos in common methods
+      const commonTypos = {
+        "document.": ["documet", "docment", "ducument"],
+        queryselector: ["queryseletor", "querselector", "querselect"],
+        getelementbyid: ["getelmentbyid", "getelemetbyid", "getelmntbyid"],
+        addeventlistener: [
+          "addeventlistner",
+          "addventlistener",
+          "addevenlistener",
+        ],
+      };
+
+      Object.keys(commonTypos).forEach((correct) => {
+        commonTypos[correct].forEach((typo) => {
+          if (lowerLine.includes(typo)) {
+            const col = lowerLine.indexOf(typo);
+            issues.push({
+              line: lineIndex,
+              column: col,
+              length: typo.length,
+              message: `Possible typo`,
+            });
+          }
         });
+      });
+    });
+  }
+
+  // Check for attribute errors (for="", id="", etc.)
+  const attrMatch = error.test.match(/([a-z-]+)="([^"]+)"/i);
+  if (attrMatch) {
+    const attrName = attrMatch[1].toLowerCase();
+    const attrValue = attrMatch[2];
+
+    lines.forEach((line, lineIndex) => {
+      const lowerLine = line.toLowerCase();
+
+      // Check if attribute exists but with wrong value
+      if (lowerLine.includes(attrName + "=")) {
+        const currentValueMatch = line.match(
+          new RegExp(attrName + "\\s*=\\s*[\"']([^\"']+)[\"']", "i")
+        );
+        if (currentValueMatch && currentValueMatch[1] !== attrValue) {
+          const col = line.toLowerCase().indexOf(attrName);
+          issues.push({
+            line: lineIndex,
+            column: col,
+            length: currentValueMatch[0].length,
+            message: `Wrong ${attrName} value`,
+          });
+        }
       }
     });
   }
@@ -489,6 +615,23 @@ function displayErrorMarkers(markers, lines) {
   const paddingTop = parseInt(computedStyle.paddingTop) || 8;
 
   markers.forEach((marker) => {
+    // Create line highlight background
+    const lineHighlight = document.createElement("div");
+    lineHighlight.className = "error-line-highlight";
+    lineHighlight.style.cssText = `
+      position: absolute;
+      left: 0;
+      top: ${marker.line * lineHeight + paddingTop}px;
+      width: 100%;
+      height: ${lineHeight}px;
+      background: rgba(245, 101, 101, 0.15);
+      border-left: 3px solid #f56565;
+      pointer-events: none;
+      z-index: 1;
+    `;
+    errorOverlay.appendChild(lineHighlight);
+
+    // Create error dot marker
     const errorDiv = document.createElement("div");
     errorDiv.className = "error-marker";
     errorDiv.textContent = "●";
@@ -501,7 +644,6 @@ function displayErrorMarkers(markers, lines) {
       font-size: 12px;
       z-index: 10;
     `;
-
     errorOverlay.appendChild(errorDiv);
   });
 
