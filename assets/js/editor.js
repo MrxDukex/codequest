@@ -347,20 +347,76 @@ function detectErrorLocation(code, error) {
       // Find mismatched or missing tags
       lines.forEach((line, lineIndex) => {
         // Check for typos like <tb> instead of <td>
-        const typoMatch = line.match(/<(t[a-z])>/gi);
-        if (typoMatch && tag === "td") {
+        const typoMatch = line.match(/<([a-z]+)>/gi);
+        if (typoMatch) {
           typoMatch.forEach((typo) => {
-            if (
-              typo.toLowerCase() !== "<td>" &&
-              typo.toLowerCase() !== "<tr>" &&
-              typo.toLowerCase() !== "<th>"
-            ) {
+            const cleanTypo = typo.toLowerCase().replace(/[<>]/g, "");
+            const validTags = [
+              "html",
+              "head",
+              "body",
+              "title",
+              "meta",
+              "link",
+              "script",
+              "style",
+              "div",
+              "span",
+              "p",
+              "a",
+              "img",
+              "br",
+              "hr",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6",
+              "ul",
+              "ol",
+              "li",
+              "dl",
+              "dt",
+              "dd",
+              "table",
+              "tr",
+              "td",
+              "th",
+              "thead",
+              "tbody",
+              "tfoot",
+              "form",
+              "input",
+              "textarea",
+              "button",
+              "select",
+              "option",
+              "label",
+              "strong",
+              "em",
+              "b",
+              "i",
+              "u",
+              "s",
+              "code",
+              "pre",
+              "section",
+              "article",
+              "header",
+              "footer",
+              "nav",
+              "aside",
+              "main",
+            ];
+
+            if (!validTags.includes(cleanTypo)) {
               const col = line.indexOf(typo);
               issues.push({
                 line: lineIndex,
                 column: col,
                 length: typo.length,
-                message: `Invalid tag "${typo}" - did you mean "<${tag}>"?`,
+                message: `Invalid tag "${typo}"`,
               });
             }
           });
