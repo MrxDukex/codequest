@@ -841,6 +841,39 @@ body {
   transition: transform var(--transition-base),
     box-shadow var(--transition-base);
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(102, 126, 234, 0.1) 0%,
+    transparent 70%
+  );
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.path-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .path-card:hover {
@@ -898,43 +931,109 @@ body {
   justify-content: center;
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.path-icon > i {
+  position: relative;
+  z-index: 2;
 }
 
 .html-card .path-icon {
   background: linear-gradient(
     135deg,
-    rgba(227, 76, 38, 0.25) 0%,
-    rgba(240, 101, 41, 0.25) 100%
+    rgba(227, 76, 38, 0.15) 0%,
+    rgba(240, 101, 41, 0.2) 100%
   );
+}
+
+.html-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(227, 76, 38, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .css-card .path-icon {
   background: linear-gradient(
     135deg,
-    rgba(38, 77, 228, 0.25) 0%,
-    rgba(65, 105, 225, 0.25) 100%
+    rgba(38, 77, 228, 0.15) 0%,
+    rgba(65, 105, 225, 0.2) 100%
   );
+}
+
+.css-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(38, 77, 228, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .js-card .path-icon {
   background: linear-gradient(
     135deg,
-    rgba(240, 219, 79, 0.25) 0%,
-    rgba(247, 223, 30, 0.25) 100%
+    rgba(240, 219, 79, 0.15) 0%,
+    rgba(247, 223, 30, 0.2) 100%
   );
+}
+
+.js-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(240, 219, 79, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .react-card .path-icon {
   background: linear-gradient(
     135deg,
-    rgba(97, 218, 251, 0.25) 0%,
-    rgba(33, 161, 196, 0.25) 100%
+    rgba(97, 218, 251, 0.15) 0%,
+    rgba(33, 161, 196, 0.2) 100%
   );
+}
+
+.react-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(97, 218, 251, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .nextjs-card .path-icon {
@@ -945,12 +1044,36 @@ body {
   );
 }
 
+.nextjs-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
 .mysql-card .path-icon {
   background: linear-gradient(
     135deg,
     rgba(0, 117, 143, 0.25) 0%,
     rgba(0, 77, 97, 0.25) 100%
   );
+}
+
+.mysql-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(0, 117, 143, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .postgres-card .path-icon {
@@ -961,12 +1084,36 @@ body {
   );
 }
 
+.postgres-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(51, 103, 145, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
 .sqlite-card .path-icon {
   background: linear-gradient(
     135deg,
     rgba(0, 59, 87, 0.25) 0%,
     rgba(0, 40, 56, 0.25) 100%
   );
+}
+
+.sqlite-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(0, 59, 87, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .projects-card .path-icon {
@@ -977,12 +1124,25 @@ body {
   );
 }
 
+.projects-card .path-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(155, 89, 182, 0.4) 0%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
 /* Glassmorphism hover effects for path icons */
 .path-card:hover .path-icon {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transform: scale(1.05);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .html-card:hover .path-icon {
