@@ -329,26 +329,28 @@ function getAllChallenges() {
         </ol>
         
         <h4>🎯 Your Task</h4>
-        <p>Create a <strong>2x2 table</strong> (2 rows, 2 columns):</p>
-        <table border="1" style="background: white; color: black;">
+        <p>Create a <strong>2x2 table</strong> (2 rows, 2 columns) that looks like this:</p>
+        <table border="1" style="background: white; color: black; margin: 10px 0;">
           <tr><td>A</td><td>B</td></tr>
           <tr><td>C</td><td>D</td></tr>
         </table>
         
         <h4>Example Structure:</h4>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect x='10' y='10' width='50' height='30' fill='%23e8e8f0' stroke='%23667eea' stroke-width='2'/%3E%3Crect x='60' y='10' width='50' height='30' fill='%23e8e8f0' stroke='%23667eea' stroke-width='2'/%3E%3Crect x='10' y='40' width='50' height='30' fill='%23e8e8f0' stroke='%23667eea' stroke-width='2'/%3E%3Crect x='60' y='40' width='50' height='30' fill='%23e8e8f0' stroke='%23667eea' stroke-width='2'/%3E%3Ctext x='35' y='30' text-anchor='middle' fill='%231a1a2e' font-size='16' font-weight='bold'%3EA%3C/text%3E%3Ctext x='85' y='30' text-anchor='middle' fill='%231a1a2e' font-size='16' font-weight='bold'%3EB%3C/text%3E%3Ctext x='35' y='60' text-anchor='middle' fill='%231a1a2e' font-size='16' font-weight='bold'%3EC%3C/text%3E%3Ctext x='85' y='60' text-anchor='middle' fill='%231a1a2e' font-size='16' font-weight='bold'%3ED%3C/text%3E%3C/svg%3E" alt="2x2 table grid" style="display: block; margin: 10px 0;">
         <pre><code>&lt;table&gt;
   &lt;tr&gt;
-    &lt;td&gt;Cell 1&lt;/td&gt;
-    &lt;td&gt;Cell 2&lt;/td&gt;
+    &lt;td&gt;A&lt;/td&gt;
+    &lt;td&gt;B&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td&gt;Cell 3&lt;/td&gt;
-    &lt;td&gt;Cell 4&lt;/td&gt;
+    &lt;td&gt;C&lt;/td&gt;
+    &lt;td&gt;D&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
         
         <h4>💡 Think of it Like This</h4>
         <p>table = the box, tr = shelf, td = item on shelf</p>
+        <p><strong>Use the exact letters A, B, C, D in your cells!</strong></p>
       `,
       starterCode: ``,
       solution: `<table>\n  <tr><td>A</td><td>B</td></tr>\n  <tr><td>C</td><td>D</td></tr>\n</table>`,
