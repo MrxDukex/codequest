@@ -468,55 +468,62 @@ function showQuizResults(score, correctCount, passed, results) {
   // Show review
   const reviewList = document.getElementById("quiz-review-list");
   reviewList.innerHTML = results
-    .map(
-      (result, i) => `
-    <div class="quiz-review-item ${result.isCorrect ? "correct" : "incorrect"}">
-      <div class="quiz-review-header">
-        <span class="quiz-review-number">Q${i + 1}</span>
-        <span class="quiz-review-status">
-          ${
-            result.isCorrect
-              ? '<i class="fas fa-check-circle"></i> Correct'
-              : '<i class="fas fa-times-circle"></i> Incorrect'
-          }
-        </span>
-      </div>
-      <p class="quiz-review-question">${result.question}</p>
-      ${
-        result.type === "multiple-choice"
-          ? `
-        <p class="quiz-review-answer">
-          <strong>Your answer:</strong> ${
-            result.userAnswer !== null && result.userAnswer !== undefined
-              ? result.options[result.userAnswer]
-              : "No answer"
-          }
-        </p>
-        ${
-          !result.isCorrect
-            ? `
+    .map((result, i) => {
+      const statusIcon = result.isCorrect
+        ? '<i class="fas fa-check-circle"></i> Correct'
+        : '<i class="fas fa-times-circle"></i> Incorrect';
+
+      let answerSection = "";
+      if (result.type === "multiple-choice") {
+        const userAnswerText =
+          result.userAnswer !== null && result.userAnswer !== undefined
+            ? result.options[result.userAnswer]
+            : "No answer";
+
+        answerSection = `
+          <p class="quiz-review-answer">
+            <strong>Your answer:</strong> ${userAnswerText}
+          </p>`;
+
+        if (!result.isCorrect) {
+          answerSection += `
           <p class="quiz-review-correct">
             <strong>Correct answer:</strong> ${
               result.options[result.correctAnswer]
             }
-          </p>
-        `
-            : ""
+          </p>`;
         }
-      `
-          : `
-        <p class="quiz-review-answer code-answer">
-          <strong>Your code:</strong><br>
-          <code>${result.userAnswer || "No answer"}</code>
-        </p>
-      `
+      } else {
+        // Code question - escape HTML entities
+        const userCode = result.userAnswer || "No answer";
+        const escapedCode = userCode
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+
+        answerSection = `
+          <p class="quiz-review-answer code-answer">
+            <strong>Your code:</strong><br>
+            <code>${escapedCode}</code>
+          </p>`;
       }
-      <p class="quiz-review-explanation">
-        <i class="fas fa-info-circle"></i> ${result.explanation}
-      </p>
-    </div>
-  `
-    )
+
+      return `
+        <div class="quiz-review-item ${
+          result.isCorrect ? "correct" : "incorrect"
+        }">
+          <div class="quiz-review-header">
+            <span class="quiz-review-number">Q${i + 1}</span>
+            <span class="quiz-review-status">${statusIcon}</span>
+          </div>
+          <p class="quiz-review-question">${result.question}</p>
+          ${answerSection}
+          <p class="quiz-review-explanation">
+            <i class="fas fa-info-circle"></i> ${result.explanation}
+          </p>
+        </div>
+      `;
+    })
     .join("");
 
   // Show/hide retake button

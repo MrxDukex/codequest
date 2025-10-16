@@ -129,6 +129,18 @@ body {
   color: var(--color-primary);
   margin-bottom: 1rem;
   animation: pulse 2s ease-in-out infinite;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(102, 126, 234, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  margin: 0 auto 1rem;
 }
 
 .loading-bar {
@@ -886,42 +898,172 @@ body {
   justify-content: center;
   font-size: 3rem;
   margin-bottom: 1.5rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all var(--transition-base);
 }
 
 .html-card .path-icon {
-  background: var(--gradient-html);
+  background: linear-gradient(
+    135deg,
+    rgba(227, 76, 38, 0.25) 0%,
+    rgba(240, 101, 41, 0.25) 100%
+  );
 }
 
 .css-card .path-icon {
-  background: var(--gradient-css);
+  background: linear-gradient(
+    135deg,
+    rgba(38, 77, 228, 0.25) 0%,
+    rgba(65, 105, 225, 0.25) 100%
+  );
 }
 
 .js-card .path-icon {
-  background: var(--gradient-js);
+  background: linear-gradient(
+    135deg,
+    rgba(240, 219, 79, 0.25) 0%,
+    rgba(247, 223, 30, 0.25) 100%
+  );
 }
 
 .react-card .path-icon {
-  background: linear-gradient(135deg, #61dafb 0%, #21a1c4 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(97, 218, 251, 0.25) 0%,
+    rgba(33, 161, 196, 0.25) 100%
+  );
 }
 
 .nextjs-card .path-icon {
-  background: linear-gradient(135deg, #000000 0%, #333333 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(51, 51, 51, 0.3) 100%
+  );
 }
 
 .mysql-card .path-icon {
-  background: linear-gradient(135deg, #00758f 0%, #004d61 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 117, 143, 0.25) 0%,
+    rgba(0, 77, 97, 0.25) 100%
+  );
 }
 
 .postgres-card .path-icon {
-  background: linear-gradient(135deg, #336791 0%, #235a7a 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(51, 103, 145, 0.25) 0%,
+    rgba(35, 90, 122, 0.25) 100%
+  );
 }
 
 .sqlite-card .path-icon {
-  background: linear-gradient(135deg, #003b57 0%, #002838 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 59, 87, 0.25) 0%,
+    rgba(0, 40, 56, 0.25) 100%
+  );
 }
 
 .projects-card .path-icon {
-  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(155, 89, 182, 0.25) 0%,
+    rgba(142, 68, 173, 0.25) 100%
+  );
+}
+
+/* Glassmorphism hover effects for path icons */
+.path-card:hover .path-icon {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.html-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(227, 76, 38, 0.35) 0%,
+    rgba(240, 101, 41, 0.35) 100%
+  );
+  border-color: rgba(227, 76, 38, 0.3);
+}
+
+.css-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(38, 77, 228, 0.35) 0%,
+    rgba(65, 105, 225, 0.35) 100%
+  );
+  border-color: rgba(38, 77, 228, 0.3);
+}
+
+.js-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(240, 219, 79, 0.35) 0%,
+    rgba(247, 223, 30, 0.35) 100%
+  );
+  border-color: rgba(240, 219, 79, 0.3);
+}
+
+.react-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(97, 218, 251, 0.35) 0%,
+    rgba(33, 161, 196, 0.35) 100%
+  );
+  border-color: rgba(97, 218, 251, 0.3);
+}
+
+.nextjs-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(51, 51, 51, 0.4) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mysql-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 117, 143, 0.35) 0%,
+    rgba(0, 77, 97, 0.35) 100%
+  );
+  border-color: rgba(0, 117, 143, 0.3);
+}
+
+.postgres-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(51, 103, 145, 0.35) 0%,
+    rgba(35, 90, 122, 0.35) 100%
+  );
+  border-color: rgba(51, 103, 145, 0.3);
+}
+
+.sqlite-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 59, 87, 0.35) 0%,
+    rgba(0, 40, 56, 0.35) 100%
+  );
+  border-color: rgba(0, 59, 87, 0.3);
+}
+
+.projects-card:hover .path-icon {
+  background: linear-gradient(
+    135deg,
+    rgba(155, 89, 182, 0.35) 0%,
+    rgba(142, 68, 173, 0.35) 100%
+  );
+  border-color: rgba(155, 89, 182, 0.3);
 }
 
 .path-content h3 {
