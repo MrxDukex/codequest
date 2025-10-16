@@ -196,6 +196,15 @@ function updatePreview() {
                     margin: 16px; 
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
                 }
+                table {
+                    border-collapse: collapse;
+                    border: 2px solid #333;
+                }
+                td, th {
+                    border: 1px solid #666;
+                    padding: 8px 12px;
+                    text-align: left;
+                }
             </style>
         </head>
         <body>
@@ -628,7 +637,21 @@ function updatePlaygroundPreview() {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>${css}</style>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                }
+                table {
+                    border-collapse: collapse;
+                    border: 2px solid #333;
+                }
+                td, th {
+                    border: 1px solid #666;
+                    padding: 8px 12px;
+                    text-align: left;
+                }
+                ${css}
+            </style>
         </head>
         <body>
             ${html}
