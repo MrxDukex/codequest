@@ -37,7 +37,10 @@ function getAllChallenges() {
         "The text goes between the tags: <h1>Your Text Here</h1>",
         "Type exactly: <h1>Hello, World!</h1>",
       ],
-      tests: ["Check if <h1> exists", 'Contain "Hello, World!"'],
+      tests: [
+        "Must contain an <h1> tag",
+        "Must contain the text 'Hello, World!' inside the h1",
+      ],
       concepts: ["Headings", "HTML basics", "Tags"],
     },
     {
@@ -74,7 +77,10 @@ function getAllChallenges() {
         "You need to create TWO separate paragraphs",
         "Put any text you want between the tags!",
       ],
-      tests: ["Check if <p> exists", 'include "</p>" twice'],
+      tests: [
+        "Must contain at least one <p> tag",
+        "Must have two closing </p> tags (two paragraphs)",
+      ],
       concepts: ["Paragraphs", "Text content"],
     },
     {
@@ -124,10 +130,10 @@ function getAllChallenges() {
         "Don't forget to close the list with </ul>",
       ],
       tests: [
-        "Check if <ul> exists",
-        'Contain "Apple"',
-        'Contain "Banana"',
-        'Contain "Orange"',
+        "Must contain a <ul> tag for unordered list",
+        "Must contain 'Apple' as a list item",
+        "Must contain 'Banana' as a list item",
+        "Must contain 'Orange' as a list item",
       ],
       concepts: ["Lists", "Unordered Lists", "List Items"],
     },
@@ -170,7 +176,11 @@ function getAllChallenges() {
         "The href attribute holds the URL (inside quotes)",
         "The text between <a> and </a> is what users click",
       ],
-      tests: ["<a> tag", 'Contain "href"', 'Contain "MDN"'],
+      tests: [
+        "Must contain an <a> anchor tag",
+        "Must have an href attribute",
+        "Must contain the text 'MDN'",
+      ],
       concepts: ["Links", "Anchors", "Attributes", "href"],
     },
     {
@@ -212,7 +222,10 @@ function getAllChallenges() {
         "Both src and alt go inside the opening tag",
         "Use quotes around the attribute values",
       ],
-      tests: ["<img", 'Contain "alt"'],
+      tests: [
+        "Must contain an <img> tag",
+        "Must have an alt attribute for accessibility",
+      ],
       concepts: ["Images", "Accessibility", "Self-closing tags", "Attributes"],
     },
     {
@@ -260,7 +273,11 @@ function getAllChallenges() {
         "Put text content between the tags",
         "You need all three: header, main, and footer",
       ],
-      tests: ["<header>", "<main>", "<footer>"],
+      tests: [
+        "Must contain a <header> semantic tag",
+        "Must contain a <main> semantic tag",
+        "Must contain a <footer> semantic tag",
+      ],
       concepts: ["Semantic HTML", "Page Structure", "Accessibility"],
     },
     {
@@ -306,7 +323,11 @@ function getAllChallenges() {
         "Input is self-closing: <input type='text'>",
         "Button text goes between <button> and </button>",
       ],
-      tests: ["<form>", "<input", "<button>"],
+      tests: [
+        "Must contain a <form> tag",
+        "Must contain an <input> element",
+        "Must contain a <button> element",
+      ],
       concepts: ["Forms", "User Input", "Buttons"],
     },
     {
@@ -430,7 +451,10 @@ function getAllChallenges() {
         "span goes around just one word inside the sentence",
         "The span should be INSIDE the div",
       ],
-      tests: ["<div>", "<span>"],
+      tests: [
+        "Must contain a <div> block element",
+        "Must contain a <span> inline element",
+      ],
       concepts: ["Block elements", "Inline elements", "Display types"],
     },
     {
@@ -477,7 +501,11 @@ function getAllChallenges() {
         "Use 'email' as the matching value",
         "Don't forget type='email' on the input",
       ],
-      tests: ["<label", 'for="email"', 'id="email"'],
+      tests: [
+        "Must contain a <label> tag",
+        "Label must have for='email' attribute",
+        "Input must have id='email' attribute",
+      ],
       concepts: ["Accessibility", "Form labels", "Attributes"],
     },
     // Add more HTML challenges up to 20
@@ -625,7 +653,11 @@ h1 {
         "All three properties go inside the { } braces",
         "Border helps you see the padding and margin!",
       ],
-      tests: ["padding:", "margin:", ".box"],
+      tests: [
+        "Must use padding property",
+        "Must use margin property",
+        "Must target the .box class selector",
+      ],
       concepts: ["Box Model", "Padding", "Margin", "Class Selectors"],
     },
     {
@@ -669,7 +701,12 @@ h1 {
         "justify-content controls horizontal",
         "align-items controls vertical",
       ],
-      tests: ["display", "flex", "justify-content:", "align-items:"],
+      tests: [
+        "Must use display property",
+        "Must set display to flex",
+        "Must use justify-content property",
+        "Must use align-items property",
+      ],
       concepts: ["Flexbox", "Centering", "Layout"],
     },
     {
@@ -712,7 +749,11 @@ h1 {
         "grid-template-columns: 1fr 1fr; creates 2 equal columns",
         "Add gap: 10px; for spacing",
       ],
-      tests: ["display", "grid", "grid-template-columns:"],
+      tests: [
+        "Must use display property",
+        "Must set display to grid",
+        "Must use grid-template-columns property",
+      ],
       concepts: ["CSS Grid", "Layout", "fr units"],
     },
     {
@@ -756,7 +797,12 @@ img {
         "max-width prevents overflow",
         "height: auto maintains aspect ratio",
       ],
-      tests: ["max-width", "100%", "height", "auto"],
+      tests: [
+        "Must use max-width property",
+        "Must set max-width to 100%",
+        "Must use height property",
+        "Must set height to auto",
+      ],
       concepts: ["Responsive Design", "Images", "Mobile-First"],
     },
     // Add more CSS challenges up to 20
@@ -856,7 +902,10 @@ document.getElementById('btn').addEventListener('click', () => {
         "addEventListener('click', function)",
         "Increment the counter inside: count++",
       ],
-      tests: ["addEventListener", "textContent"],
+      tests: [
+        "Must use addEventListener method",
+        "Must update textContent property",
+      ],
       concepts: ["Events", "Event Listeners", "State"],
     },
     {
@@ -910,7 +959,10 @@ document.getElementById('out').textContent = status;
         "Use if (age >= 18) to check",
         "Set textContent to 'Adult' or 'Minor'",
       ],
-      tests: ["age", ">="],
+      tests: [
+        "Must create an 'age' variable",
+        "Must use >= comparison operator",
+      ],
       concepts: ["Conditionals", "If/Else", "Comparison Operators"],
     },
     {
@@ -957,7 +1009,11 @@ document.getElementById('list').innerHTML = html;
         "Use .map() to wrap each in <li> tags",
         "Use .join('') to combine, then set innerHTML",
       ],
-      tests: ["[", "map", "<li>"],
+      tests: [
+        "Must create an array with square brackets",
+        "Must use the .map() method",
+        "Must generate <li> tags",
+      ],
       concepts: ["Arrays", "Array Methods", "Loops", "DOM"],
     },
     {
@@ -1011,7 +1067,11 @@ document.getElementById('out').textContent = name;
         "Then localStorage.getItem('name') to retrieve it",
         "Set the textContent to display the retrieved value",
       ],
-      tests: ["localStorage", "setItem", "getItem"],
+      tests: [
+        "Must use localStorage object",
+        "Must call setItem() method",
+        "Must call getItem() method",
+      ],
       concepts: ["LocalStorage", "Browser Storage", "Persistence"],
     },
     // Add more JS challenges up to 25
@@ -1036,7 +1096,11 @@ document.getElementById('out').textContent = name;
       starterCode: "",
       solution: "<div><h2>Title</h2><p>Text</p><ul><li>One</li></ul></div>",
       hints: ["Use headings, lists, and semantic tags."],
-      tests: ["<h", "<p", "<ul"],
+      tests: [
+        "Must contain a heading tag",
+        "Must contain a paragraph tag",
+        "Must contain a list element",
+      ],
       concepts: ["HTML structure"],
     });
   }
@@ -1059,7 +1123,11 @@ document.getElementById('out').textContent = name;
       solution:
         '<style>.hero{padding:32px;background:#222;color:#fff}.hero button{background:#667eea;color:#fff;padding:10px 16px;border:none;border-radius:6px}</style>\n<div class="hero"><h1>Title</h1><p>Subtitle</p><button>Get Started</button></div>',
       hints: ["Use padding, colors, and border-radius."],
-      tests: ["padding:", "background:", "button{"],
+      tests: [
+        "Must use padding property",
+        "Must use background property",
+        "Must style button element",
+      ],
       concepts: ["Styling", "Layout"],
     });
   }
@@ -1084,7 +1152,11 @@ document.getElementById('out').textContent = name;
         "Use document.createElement and appendChild.",
         "Use addEventListener.",
       ],
-      tests: ["document.", "addEventListener", "<ul"],
+      tests: [
+        "Must use document methods",
+        "Must use addEventListener",
+        "Must create or manipulate elements",
+      ],
       concepts: ["DOM", "Events"],
     });
   }
@@ -1128,7 +1200,11 @@ document.getElementById('out').textContent = name;
         "Use return <h1>Welcome to React!</h1>;",
         "Don't forget the semicolon",
       ],
-      tests: ["function Welcome", "return", "<h1>"],
+      tests: [
+        "Must declare a function named Welcome",
+        "Must return JSX",
+        "Must contain an <h1> tag",
+      ],
       concepts: ["Components", "JSX", "Functions"],
     },
     {
@@ -1160,7 +1236,12 @@ document.getElementById('out').textContent = name;
         "Include an <h2> and <p> tag",
         "JSX needs proper closing tags",
       ],
-      tests: ["return", "<div>", "<h2>", "<p>"],
+      tests: [
+        "Must return JSX",
+        "Must contain a <div> wrapper",
+        "Must contain an <h2> heading",
+        "Must contain a <p> paragraph",
+      ],
       concepts: ["JSX", "Syntax", "Components"],
     },
   ];
@@ -1183,7 +1264,11 @@ document.getElementById('out').textContent = name;
       starterCode: "function App() {\n  // Your code\n}\n",
       solution: "function App() { return <div>Solution</div>; }",
       hints: ["Use React hooks", "Think about component structure"],
-      tests: ["function", "return"],
+      tests: [
+        "Must declare a component function",
+        "Must return JSX",
+        "Must use React patterns",
+      ],
       concepts: ["React", "Components", "State"],
     });
   }
@@ -1248,7 +1333,11 @@ document.getElementById('out').textContent = name;
       solution:
         "export default function Page() { return <div>Solution</div>; }",
       hints: ["Use Next.js conventions", "Think about routing"],
-      tests: ["export", "function"],
+      tests: [
+        "Must export default a page component",
+        "Must declare a function",
+        "Must return JSX",
+      ],
       concepts: ["Next.js", "SSR", "Routing"],
     });
   }
@@ -1290,7 +1379,12 @@ document.getElementById('out').textContent = name;
         "Specify FROM users",
         "Don't forget the semicolon",
       ],
-      tests: ["SELECT", "*", "FROM", "users"],
+      tests: [
+        "Must use SELECT keyword",
+        "Must select all columns with *",
+        "Must use FROM clause",
+        "Must query the users table",
+      ],
       concepts: ["SQL", "SELECT", "Queries"],
     },
     {
@@ -1317,7 +1411,13 @@ document.getElementById('out').textContent = name;
         "Use > for greater than",
         "Column name is 'age'",
       ],
-      tests: ["SELECT", "FROM", "WHERE", "age", ">"],
+      tests: [
+        "Must use SELECT keyword",
+        "Must use FROM clause",
+        "Must use WHERE clause",
+        "Must filter by age column",
+        "Must use > comparison operator",
+      ],
       concepts: ["WHERE", "Filtering", "Conditions"],
     },
   ];
@@ -1342,7 +1442,11 @@ document.getElementById('out').textContent = name;
       starterCode: "-- Write your SQL query\n",
       solution: "SELECT * FROM table;",
       hints: ["Think about table relationships", "Use proper SQL syntax"],
-      tests: ["SELECT"],
+      tests: [
+        "Must write a valid SQL query",
+        "Must use appropriate SQL keywords",
+        "Query should match the requirements",
+      ],
       concepts: ["SQL", "Databases", "Queries"],
     });
   }
@@ -1381,7 +1485,12 @@ document.getElementById('out').textContent = name;
         "DESC means descending order",
         "Column name is 'price'",
       ],
-      tests: ["SELECT", "FROM", "ORDER BY", "DESC"],
+      tests: [
+        "Must use SELECT keyword",
+        "Must use FROM clause",
+        "Must use ORDER BY clause",
+        "Must sort in DESC (descending) order",
+      ],
       concepts: ["PostgreSQL", "Sorting", "Queries"],
     },
   ];
@@ -1406,7 +1515,11 @@ document.getElementById('out').textContent = name;
       starterCode: "-- Write your query\n",
       solution: "SELECT * FROM table;",
       hints: ["Use PostgreSQL syntax", "Leverage advanced features"],
-      tests: ["SELECT"],
+      tests: [
+        "Must write a valid PostgreSQL query",
+        "Must use appropriate SQL syntax",
+        "Query should match the requirements",
+      ],
       concepts: ["PostgreSQL", "Advanced SQL"],
     });
   }
@@ -1448,7 +1561,12 @@ document.getElementById('out').textContent = name;
         "INTEGER PRIMARY KEY for id",
         "TEXT for content column",
       ],
-      tests: ["CREATE TABLE", "notes", "INTEGER", "TEXT"],
+      tests: [
+        "Must use CREATE TABLE statement",
+        "Must name the table 'notes'",
+        "Must use INTEGER data type",
+        "Must use TEXT data type",
+      ],
       concepts: ["SQLite", "Tables", "Schema"],
     },
   ];
@@ -1473,7 +1591,11 @@ document.getElementById('out').textContent = name;
       starterCode: "-- Write your SQLite command\n",
       solution: "SELECT * FROM table;",
       hints: ["Use SQLite syntax", "Think about mobile constraints"],
-      tests: ["SELECT"],
+      tests: [
+        "Must write a valid SQLite query",
+        "Must use appropriate SQL syntax",
+        "Query should match the requirements",
+      ],
       concepts: ["SQLite", "Mobile", "Databases"],
     });
   }
