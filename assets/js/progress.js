@@ -219,6 +219,15 @@ function getCompletionStats() {
   const htmlChallenges = allChallenges.filter((c) => c.category === "HTML");
   const cssChallenges = allChallenges.filter((c) => c.category === "CSS");
   const jsChallenges = allChallenges.filter((c) => c.category === "JavaScript");
+  const reactChallenges = allChallenges.filter((c) => c.category === "React");
+  const nextjsChallenges = allChallenges.filter(
+    (c) => c.category === "Next.js"
+  );
+  const mysqlChallenges = allChallenges.filter((c) => c.category === "MySQL");
+  const postgresChallenges = allChallenges.filter(
+    (c) => c.category === "PostgreSQL"
+  );
+  const sqliteChallenges = allChallenges.filter((c) => c.category === "SQLite");
 
   const htmlCompleted = htmlChallenges.filter((c) =>
     progress.completedChallenges.includes(c.id)
@@ -229,6 +238,21 @@ function getCompletionStats() {
   const jsCompleted = jsChallenges.filter((c) =>
     progress.completedChallenges.includes(c.id)
   ).length;
+  const reactCompleted = reactChallenges.filter((c) =>
+    progress.completedChallenges.includes(c.id)
+  ).length;
+  const nextjsCompleted = nextjsChallenges.filter((c) =>
+    progress.completedChallenges.includes(c.id)
+  ).length;
+  const mysqlCompleted = mysqlChallenges.filter((c) =>
+    progress.completedChallenges.includes(c.id)
+  ).length;
+  const postgresCompleted = postgresChallenges.filter((c) =>
+    progress.completedChallenges.includes(c.id)
+  ).length;
+  const sqliteCompleted = sqliteChallenges.filter((c) =>
+    progress.completedChallenges.includes(c.id)
+  ).length;
 
   return {
     total: allChallenges.length,
@@ -236,6 +260,14 @@ function getCompletionStats() {
     html: { total: htmlChallenges.length, completed: htmlCompleted },
     css: { total: cssChallenges.length, completed: cssCompleted },
     js: { total: jsChallenges.length, completed: jsCompleted },
+    react: { total: reactChallenges.length, completed: reactCompleted },
+    nextjs: { total: nextjsChallenges.length, completed: nextjsCompleted },
+    mysql: { total: mysqlChallenges.length, completed: mysqlCompleted },
+    postgres: {
+      total: postgresChallenges.length,
+      completed: postgresCompleted,
+    },
+    sqlite: { total: sqliteChallenges.length, completed: sqliteCompleted },
     percentage: Math.round(
       (progress.completedChallenges.length / allChallenges.length) * 100
     ),

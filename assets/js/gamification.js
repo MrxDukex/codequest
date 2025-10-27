@@ -36,6 +36,46 @@ function initializeAchievements() {
       xp: 10,
       unlocked: false,
     },
+    {
+      id: "first_react",
+      name: "React Rookie",
+      description: "Complete your first React challenge",
+      icon: "⚛️",
+      xp: 15,
+      unlocked: false,
+    },
+    {
+      id: "first_nextjs",
+      name: "Next.js Novice",
+      description: "Complete your first Next.js challenge",
+      icon: "▲",
+      xp: 15,
+      unlocked: false,
+    },
+    {
+      id: "first_mysql",
+      name: "MySQL Beginner",
+      description: "Complete your first MySQL challenge",
+      icon: "🐬",
+      xp: 15,
+      unlocked: false,
+    },
+    {
+      id: "first_postgres",
+      name: "PostgreSQL Starter",
+      description: "Complete your first PostgreSQL challenge",
+      icon: "🐘",
+      xp: 15,
+      unlocked: false,
+    },
+    {
+      id: "first_sqlite",
+      name: "SQLite Learner",
+      description: "Complete your first SQLite challenge",
+      icon: "🗄️",
+      xp: 15,
+      unlocked: false,
+    },
 
     // Completion Milestones
     {
@@ -113,6 +153,131 @@ function initializeAchievements() {
       unlocked: false,
     },
 
+    {
+      id: "react_5",
+      name: "React Apprentice",
+      description: "Complete 5 React challenges",
+      icon: "⚛️",
+      xp: 30,
+      unlocked: false,
+    },
+    {
+      id: "react_10",
+      name: "React Developer",
+      description: "Complete 10 React challenges",
+      icon: "🔷",
+      xp: 60,
+      unlocked: false,
+    },
+    {
+      id: "react_complete",
+      name: "React Master",
+      description: "Complete all React challenges",
+      icon: "👨‍💻",
+      xp: 150,
+      unlocked: false,
+    },
+
+    {
+      id: "nextjs_5",
+      name: "Next.js Apprentice",
+      description: "Complete 5 Next.js challenges",
+      icon: "▲",
+      xp: 30,
+      unlocked: false,
+    },
+    {
+      id: "nextjs_10",
+      name: "Next.js Developer",
+      description: "Complete 10 Next.js challenges",
+      icon: "🔺",
+      xp: 60,
+      unlocked: false,
+    },
+    {
+      id: "nextjs_complete",
+      name: "Next.js Expert",
+      description: "Complete all Next.js challenges",
+      icon: "🚀",
+      xp: 150,
+      unlocked: false,
+    },
+
+    {
+      id: "mysql_5",
+      name: "MySQL Apprentice",
+      description: "Complete 5 MySQL challenges",
+      icon: "🐬",
+      xp: 30,
+      unlocked: false,
+    },
+    {
+      id: "mysql_10",
+      name: "MySQL Developer",
+      description: "Complete 10 MySQL challenges",
+      icon: "🗃️",
+      xp: 60,
+      unlocked: false,
+    },
+    {
+      id: "mysql_complete",
+      name: "MySQL Master",
+      description: "Complete all MySQL challenges",
+      icon: "🎯",
+      xp: 150,
+      unlocked: false,
+    },
+
+    {
+      id: "postgres_5",
+      name: "PostgreSQL Apprentice",
+      description: "Complete 5 PostgreSQL challenges",
+      icon: "🐘",
+      xp: 30,
+      unlocked: false,
+    },
+    {
+      id: "postgres_10",
+      name: "PostgreSQL Developer",
+      description: "Complete 10 PostgreSQL challenges",
+      icon: "📊",
+      xp: 60,
+      unlocked: false,
+    },
+    {
+      id: "postgres_complete",
+      name: "PostgreSQL Expert",
+      description: "Complete all PostgreSQL challenges",
+      icon: "💎",
+      xp: 150,
+      unlocked: false,
+    },
+
+    {
+      id: "sqlite_5",
+      name: "SQLite Apprentice",
+      description: "Complete 5 SQLite challenges",
+      icon: "🗄️",
+      xp: 30,
+      unlocked: false,
+    },
+    {
+      id: "sqlite_10",
+      name: "SQLite Developer",
+      description: "Complete 10 SQLite challenges",
+      icon: "📱",
+      xp: 60,
+      unlocked: false,
+    },
+    {
+      id: "sqlite_complete",
+      name: "SQLite Master",
+      description: "Complete all SQLite challenges",
+      icon: "🏅",
+      xp: 150,
+      unlocked: false,
+    },
+
     // Special Achievements
     {
       id: "perfect_completion",
@@ -180,6 +345,30 @@ function initializeAchievements() {
       xp: 500,
       unlocked: false,
     },
+    {
+      id: "weekend_warrior",
+      name: "Weekend Warrior",
+      description: "Complete challenges on 10 different weekends",
+      icon: "🏋️",
+      xp: 75,
+      unlocked: false,
+    },
+    {
+      id: "early_bird",
+      name: "Early Bird",
+      description: "Complete 10 challenges before 9 AM",
+      icon: "🌅",
+      xp: 50,
+      unlocked: false,
+    },
+    {
+      id: "night_owl",
+      name: "Night Owl",
+      description: "Complete 10 challenges after 10 PM",
+      icon: "🦉",
+      xp: 50,
+      unlocked: false,
+    },
 
     // Level Achievements
     {
@@ -212,6 +401,30 @@ function initializeAchievements() {
       description: "Reach Level 50",
       icon: "👑",
       xp: 500,
+      unlocked: false,
+    },
+    {
+      id: "xp_1000",
+      name: "XP Collector",
+      description: "Earn 1,000 total XP",
+      icon: "💰",
+      xp: 50,
+      unlocked: false,
+    },
+    {
+      id: "xp_5000",
+      name: "XP Hoarder",
+      description: "Earn 5,000 total XP",
+      icon: "💸",
+      xp: 150,
+      unlocked: false,
+    },
+    {
+      id: "xp_10000",
+      name: "XP Master",
+      description: "Earn 10,000 total XP",
+      icon: "💎",
+      xp: 300,
       unlocked: false,
     },
 
@@ -266,14 +479,70 @@ function initializeAchievements() {
       xp: 100,
       unlocked: false,
     },
+    {
+      id: "marathon_session",
+      name: "Marathon Session",
+      description: "Complete 20 challenges in one day",
+      icon: "🏃",
+      xp: 200,
+      unlocked: false,
+    },
+    {
+      id: "first_try_hero",
+      name: "First Try Hero",
+      description: "Complete 5 challenges on the first attempt",
+      icon: "🎯",
+      xp: 75,
+      unlocked: false,
+    },
+    {
+      id: "persistent",
+      name: "Persistent",
+      description: "Retry a challenge 5 times before succeeding",
+      icon: "💪",
+      xp: 40,
+      unlocked: false,
+    },
 
     // Exploration
     {
-      id: "try_all",
+      id: "try_all_basic",
       name: "Explorer",
-      description: "Try challenges from all three categories",
+      description: "Try challenges from HTML, CSS, and JavaScript",
       icon: "🗺️",
       xp: 50,
+      unlocked: false,
+    },
+    {
+      id: "try_all_advanced",
+      name: "Full Stack Explorer",
+      description: "Try challenges from all 8 categories",
+      icon: "🌐",
+      xp: 100,
+      unlocked: false,
+    },
+    {
+      id: "frontend_specialist",
+      name: "Frontend Specialist",
+      description: "Complete all HTML, CSS, and JavaScript challenges",
+      icon: "🎨",
+      xp: 250,
+      unlocked: false,
+    },
+    {
+      id: "react_ecosystem",
+      name: "React Ecosystem Master",
+      description: "Complete all React and Next.js challenges",
+      icon: "⚛️",
+      xp: 300,
+      unlocked: false,
+    },
+    {
+      id: "database_master",
+      name: "Database Master",
+      description: "Complete all MySQL, PostgreSQL, and SQLite challenges",
+      icon: "�",
+      xp: 300,
       unlocked: false,
     },
     {
@@ -331,6 +600,9 @@ function checkMultipleAchievements(progress) {
   // Level achievements
   checkLevelAchievements(progress);
 
+  // XP milestone achievements
+  checkXPAchievements(progress);
+
   // Time achievements
   checkTimeAchievements(progress);
 
@@ -373,7 +645,7 @@ function checkCategoryAchievements(progress) {
   if (stats.html.completed === 10) {
     unlockAchievement("html_10", progress);
   }
-  if (stats.html.completed === stats.html.total) {
+  if (stats.html.completed === stats.html.total && stats.html.total > 0) {
     unlockAchievement("html_complete", progress);
   }
 
@@ -387,7 +659,7 @@ function checkCategoryAchievements(progress) {
   if (stats.css.completed === 10) {
     unlockAchievement("css_10", progress);
   }
-  if (stats.css.completed === stats.css.total) {
+  if (stats.css.completed === stats.css.total && stats.css.total > 0) {
     unlockAchievement("css_complete", progress);
   }
 
@@ -401,9 +673,85 @@ function checkCategoryAchievements(progress) {
   if (stats.js.completed === 10) {
     unlockAchievement("js_10", progress);
   }
-  if (stats.js.completed === stats.js.total) {
+  if (stats.js.completed === stats.js.total && stats.js.total > 0) {
     unlockAchievement("js_complete", progress);
   }
+
+  // React achievements
+  if (stats.react.completed === 1) {
+    unlockAchievement("first_react", progress);
+  }
+  if (stats.react.completed === 5) {
+    unlockAchievement("react_5", progress);
+  }
+  if (stats.react.completed === 10) {
+    unlockAchievement("react_10", progress);
+  }
+  if (stats.react.completed === stats.react.total && stats.react.total > 0) {
+    unlockAchievement("react_complete", progress);
+  }
+
+  // Next.js achievements
+  if (stats.nextjs.completed === 1) {
+    unlockAchievement("first_nextjs", progress);
+  }
+  if (stats.nextjs.completed === 5) {
+    unlockAchievement("nextjs_5", progress);
+  }
+  if (stats.nextjs.completed === 10) {
+    unlockAchievement("nextjs_10", progress);
+  }
+  if (stats.nextjs.completed === stats.nextjs.total && stats.nextjs.total > 0) {
+    unlockAchievement("nextjs_complete", progress);
+  }
+
+  // MySQL achievements
+  if (stats.mysql.completed === 1) {
+    unlockAchievement("first_mysql", progress);
+  }
+  if (stats.mysql.completed === 5) {
+    unlockAchievement("mysql_5", progress);
+  }
+  if (stats.mysql.completed === 10) {
+    unlockAchievement("mysql_10", progress);
+  }
+  if (stats.mysql.completed === stats.mysql.total && stats.mysql.total > 0) {
+    unlockAchievement("mysql_complete", progress);
+  }
+
+  // PostgreSQL achievements
+  if (stats.postgres.completed === 1) {
+    unlockAchievement("first_postgres", progress);
+  }
+  if (stats.postgres.completed === 5) {
+    unlockAchievement("postgres_5", progress);
+  }
+  if (stats.postgres.completed === 10) {
+    unlockAchievement("postgres_10", progress);
+  }
+  if (
+    stats.postgres.completed === stats.postgres.total &&
+    stats.postgres.total > 0
+  ) {
+    unlockAchievement("postgres_complete", progress);
+  }
+
+  // SQLite achievements
+  if (stats.sqlite.completed === 1) {
+    unlockAchievement("first_sqlite", progress);
+  }
+  if (stats.sqlite.completed === 5) {
+    unlockAchievement("sqlite_5", progress);
+  }
+  if (stats.sqlite.completed === 10) {
+    unlockAchievement("sqlite_10", progress);
+  }
+  if (stats.sqlite.completed === stats.sqlite.total && stats.sqlite.total > 0) {
+    unlockAchievement("sqlite_complete", progress);
+  }
+
+  // Cross-category achievements
+  checkCrossCategoryAchievements(stats, progress);
 }
 
 // Check perfect completion achievements
@@ -498,7 +846,71 @@ function checkExplorerAchievement(progress) {
     stats.css.completed > 0 &&
     stats.js.completed > 0
   ) {
-    unlockAchievement("try_all", progress);
+    unlockAchievement("try_all_basic", progress);
+  }
+
+  // Check if tried all 8 categories
+  if (
+    stats.html.completed > 0 &&
+    stats.css.completed > 0 &&
+    stats.js.completed > 0 &&
+    stats.react.completed > 0 &&
+    stats.nextjs.completed > 0 &&
+    stats.mysql.completed > 0 &&
+    stats.postgres.completed > 0 &&
+    stats.sqlite.completed > 0
+  ) {
+    unlockAchievement("try_all_advanced", progress);
+  }
+}
+
+// Check cross-category achievements
+function checkCrossCategoryAchievements(stats, progress) {
+  // Frontend specialist
+  if (
+    stats.html.completed === stats.html.total &&
+    stats.css.completed === stats.css.total &&
+    stats.js.completed === stats.js.total &&
+    stats.html.total > 0 &&
+    stats.css.total > 0 &&
+    stats.js.total > 0
+  ) {
+    unlockAchievement("frontend_specialist", progress);
+  }
+
+  // React ecosystem master
+  if (
+    stats.react.completed === stats.react.total &&
+    stats.nextjs.completed === stats.nextjs.total &&
+    stats.react.total > 0 &&
+    stats.nextjs.total > 0
+  ) {
+    unlockAchievement("react_ecosystem", progress);
+  }
+
+  // Database master
+  if (
+    stats.mysql.completed === stats.mysql.total &&
+    stats.postgres.completed === stats.postgres.total &&
+    stats.sqlite.completed === stats.sqlite.total &&
+    stats.mysql.total > 0 &&
+    stats.postgres.total > 0 &&
+    stats.sqlite.total > 0
+  ) {
+    unlockAchievement("database_master", progress);
+  }
+}
+
+// Check XP milestone achievements
+function checkXPAchievements(progress) {
+  if (progress.xp >= 1000) {
+    unlockAchievement("xp_1000", progress);
+  }
+  if (progress.xp >= 5000) {
+    unlockAchievement("xp_5000", progress);
+  }
+  if (progress.xp >= 10000) {
+    unlockAchievement("xp_10000", progress);
   }
 }
 
@@ -652,7 +1064,7 @@ function getNextAchievements(progress) {
   const next = [];
 
   // Next category achievements
-  if (stats.html.completed < 5) {
+  if (stats.html.completed < 5 && stats.html.completed > 0) {
     next.push({
       name: "HTML Apprentice",
       progress: `${stats.html.completed}/5`,
@@ -664,12 +1076,64 @@ function getNextAchievements(progress) {
     });
   }
 
-  if (stats.css.completed < 5) {
+  if (stats.css.completed < 5 && stats.css.completed > 0) {
     next.push({ name: "CSS Apprentice", progress: `${stats.css.completed}/5` });
+  } else if (stats.css.completed < 10) {
+    next.push({
+      name: "CSS Journeyman",
+      progress: `${stats.css.completed}/10`,
+    });
   }
 
-  if (stats.js.completed < 5) {
+  if (stats.js.completed < 5 && stats.js.completed > 0) {
     next.push({ name: "JS Apprentice", progress: `${stats.js.completed}/5` });
+  } else if (stats.js.completed < 10) {
+    next.push({ name: "JS Journeyman", progress: `${stats.js.completed}/10` });
+  }
+
+  if (stats.react.completed < 5 && stats.react.completed > 0) {
+    next.push({
+      name: "React Apprentice",
+      progress: `${stats.react.completed}/5`,
+    });
+  } else if (stats.react.completed < 10) {
+    next.push({
+      name: "React Developer",
+      progress: `${stats.react.completed}/10`,
+    });
+  }
+
+  if (stats.nextjs.completed < 5 && stats.nextjs.completed > 0) {
+    next.push({
+      name: "Next.js Apprentice",
+      progress: `${stats.nextjs.completed}/5`,
+    });
+  } else if (stats.nextjs.completed < 10) {
+    next.push({
+      name: "Next.js Developer",
+      progress: `${stats.nextjs.completed}/10`,
+    });
+  }
+
+  if (stats.mysql.completed < 5 && stats.mysql.completed > 0) {
+    next.push({
+      name: "MySQL Apprentice",
+      progress: `${stats.mysql.completed}/5`,
+    });
+  }
+
+  if (stats.postgres.completed < 5 && stats.postgres.completed > 0) {
+    next.push({
+      name: "PostgreSQL Apprentice",
+      progress: `${stats.postgres.completed}/5`,
+    });
+  }
+
+  if (stats.sqlite.completed < 5 && stats.sqlite.completed > 0) {
+    next.push({
+      name: "SQLite Apprentice",
+      progress: `${stats.sqlite.completed}/5`,
+    });
   }
 
   // Next streak achievement
@@ -680,7 +1144,38 @@ function getNextAchievements(progress) {
     });
   } else if (progress.streak < 7) {
     next.push({ name: "Week Warrior", progress: `${progress.streak}/7 days` });
+  } else if (progress.streak < 14) {
+    next.push({
+      name: "Two Weeks Strong",
+      progress: `${progress.streak}/14 days`,
+    });
   }
 
-  return next.slice(0, 3); // Return top 3
+  // Next level achievement
+  if (progress.level < 5) {
+    next.push({
+      name: "Rising Star",
+      progress: `Level ${progress.level}/5`,
+    });
+  } else if (progress.level < 10) {
+    next.push({
+      name: "Skilled Coder",
+      progress: `Level ${progress.level}/10`,
+    });
+  }
+
+  // Next XP achievement
+  if (progress.xp < 1000) {
+    next.push({
+      name: "XP Collector",
+      progress: `${progress.xp}/1000 XP`,
+    });
+  } else if (progress.xp < 5000) {
+    next.push({
+      name: "XP Hoarder",
+      progress: `${progress.xp}/5000 XP`,
+    });
+  }
+
+  return next.slice(0, 5); // Return top 5
 }
