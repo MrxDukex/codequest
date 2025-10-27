@@ -14,6 +14,18 @@ function initializeApp() {
   // Check if first time user
   const isFirstTime = !localStorage.getItem("codequest_initialized");
 
+  // Check for achievement migration (run once after update)
+  const achievementsMigrated = localStorage.getItem(
+    "codequest_achievements_migrated_v2"
+  );
+  if (!achievementsMigrated) {
+    console.log("Running achievement migration...");
+    if (typeof recheckAllAchievements === "function") {
+      recheckAllAchievements();
+    }
+    localStorage.setItem("codequest_achievements_migrated_v2", "true");
+  }
+
   if (isFirstTime) {
     // Show tutorial
     setTimeout(() => {

@@ -1179,3 +1179,28 @@ function getNextAchievements(progress) {
 
   return next.slice(0, 5); // Return top 5
 }
+
+// Re-check all achievements for existing progress (migration helper)
+function recheckAllAchievements() {
+  const progress = getProgress();
+
+  console.log("Rechecking all achievements for existing progress...");
+
+  // Check all achievement types
+  checkMultipleAchievements(progress);
+  checkStreakAchievements(progress);
+  checkPerfectAchievements(progress);
+  checkExplorerAchievement(progress);
+
+  // Save updated progress
+  saveProgress(progress);
+
+  console.log("Achievement recheck complete!");
+
+  // Reload achievements display if on that page
+  if (typeof loadAchievements === "function") {
+    loadAchievements();
+  }
+
+  return progress;
+}

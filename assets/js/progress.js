@@ -34,8 +34,27 @@ function getProgress() {
   if (saved) {
     try {
       const progress = JSON.parse(saved);
+
+      // Merge achievements - add any new achievements that don't exist
+      const currentAchievements = initializeAchievements();
+      const savedAchievementIds = new Set(
+        progress.achievements.map((a) => a.id)
+      );
+
+      // Add new achievements that don't exist in saved progress
+      currentAchievements.forEach((newAchievement) => {
+        if (!savedAchievementIds.has(newAchievement.id)) {
+          progress.achievements.push(newAchievement);
+        }
+      });
+
       // Merge with defaults in case of new fields
-      return { ...getDefaultProgress(), ...progress };
+      const mergedProgress = { ...getDefaultProgress(), ...progress };
+
+      // Save the updated progress to persist new achievements
+      saveProgress(mergedProgress);
+
+      return mergedProgress;
     } catch (e) {
       console.error("Error parsing progress:", e);
       return getDefaultProgress();
