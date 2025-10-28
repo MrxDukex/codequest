@@ -201,6 +201,9 @@ function switchView(viewName) {
   }
 
   currentView = viewName;
+
+  // Scroll to top when switching views
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function updateNavigation(active) {
