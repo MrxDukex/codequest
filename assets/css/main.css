@@ -2697,12 +2697,11 @@ body::before {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-left: -2rem;
-  margin-right: -2rem;
+  align-items: center;
 }
 
 #quiz-view .view-header {
-  width: 100%;
+  width: calc(100% - 4rem);
   max-width: 1800px;
   margin: 0 auto 1.5rem;
   padding: 1.5rem 2rem;
@@ -2732,6 +2731,10 @@ body::before {
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-width: 600px;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .quiz-intro-card h2 {
@@ -2975,7 +2978,9 @@ span.option-text {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 100%;
-  margin: 0 auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .quiz-results-icon {
