@@ -543,7 +543,29 @@ function retakeQuiz() {
 
 // Back from quiz
 function backFromQuiz() {
-  navigateToDashboard();
+  // Navigate back to the challenge list for the current quiz's category
+  if (currentQuiz && currentQuiz.category) {
+    const categoryToPathMap = {
+      HTML: "html",
+      CSS: "css",
+      JavaScript: "javascript",
+      React: "react",
+      "Next.js": "nextjs",
+      MySQL: "mysql",
+      PostgreSQL: "postgresql",
+      SQLite: "sqlite",
+    };
+
+    const path = categoryToPathMap[currentQuiz.category];
+    if (path) {
+      loadChallengeList(path);
+      switchView("challenge-list");
+    } else {
+      navigateToDashboard();
+    }
+  } else {
+    navigateToDashboard();
+  }
 }
 
 // Back from quiz results
