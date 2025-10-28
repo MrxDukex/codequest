@@ -5,6 +5,8 @@ let syncEnabled = false;
 let userId = null;
 let syncStatusIndicator = null;
 let deviceSyncCode = null;
+let lastSyncTime = 0;
+let syncInProgress = false;
 
 // Get or create a shared sync code for all devices
 function getDeviceSyncCode() {
@@ -188,7 +190,16 @@ async function loadFromCloud() {
 async function saveToCloud() {
   if (!syncEnabled || !userId) return;
 
+  // Prevent sync loops - don't sync if we just synced recently
+  const now = Date.now();
+  if (syncInProgress || now - lastSyncTime < 2000) {
+    console.log("⏸️ Skipping sync - too soon after last sync");
+    return;
+  }
+
   try {
+    syncInProgress = true;
+    lastSyncTime = now;
     updateSyncStatus("syncing");
     const db = window.firebaseDb;
     const { doc, setDoc } = window.firebaseModules;
@@ -215,11 +226,16 @@ async function saveToCloud() {
     const docRef = doc(db, "users", userId);
     await setDoc(docRef, progressData, { merge: true });
 
+    // Update local timestamp
+    localStorage.setItem("lastUpdated", progressData.lastUpdated);
+
     console.log("📤 Progress saved to cloud");
     updateSyncStatus("synced");
   } catch (error) {
     console.error("❌ Error saving to cloud:", error);
     updateSyncStatus("error");
+  } finally {
+    syncInProgress = false;
   }
 }
 
@@ -285,9 +301,19 @@ function mergeProgressData(cloudData) {
       loadDashboard();
       console.log("🔄 Dashboard refreshed with synced data");
     }
-  } else {
+  } else if (
+    localUpdated &&
+    (!cloudUpdated || new Date(localUpdated) > new Date(cloudUpdated))
+  ) {
     console.log("💾 Local data is newer, syncing to cloud");
-    saveToCloud();
+    // Only sync if local is significantly newer (prevent sync loops)
+    const timeDiff = cloudUpdated
+      ? new Date(localUpdated) - new Date(cloudUpdated)
+      : Infinity;
+    if (timeDiff > 1000) {
+      // Only sync if difference is more than 1 second
+      saveToCloud();
+    }
   }
 }
 
@@ -308,10 +334,70 @@ function setupRealtimeSync() {
         const cloudData = doc.data();
         const localUpdated = localStorage.getItem("lastUpdated");
 
-        // Only update if cloud data is from a different device
-        if (cloudData.lastUpdated !== localUpdated) {
-          console.log("🔄 Real-time update received from another device");
-          mergeProgressData(cloudData);
+        // Only update if cloud data is from a different device AND is more recent
+        if (cloudData.lastUpdated && cloudData.lastUpdated !== localUpdated) {
+          const cloudTime = new Date(cloudData.lastUpdated);
+          const localTime = localUpdated ? new Date(localUpdated) : new Date(0);
+
+          // Only merge if cloud data is actually newer (with a small buffer to prevent loops)
+          if (cloudTime > localTime) {
+            console.log("🔄 Real-time update received from another device");
+
+            // Get current codequest_progress
+            const localProgress = JSON.parse(
+              localStorage.getItem("codequest_progress") || "{}"
+            );
+
+            // Update with cloud data
+            const updatedProgress = {
+              ...localProgress,
+              completedChallenges:
+                cloudData.completedChallenges ||
+                localProgress.completedChallenges ||
+                [],
+              xp:
+                cloudData.userXP !== undefined
+                  ? cloudData.userXP
+                  : localProgress.xp || 0,
+              level:
+                cloudData.userLevel !== undefined
+                  ? cloudData.userLevel
+                  : localProgress.level || 1,
+              streak:
+                cloudData.currentStreak !== undefined
+                  ? cloudData.currentStreak
+                  : localProgress.streak || 0,
+              longestStreak:
+                cloudData.longestStreak !== undefined
+                  ? cloudData.longestStreak
+                  : localProgress.longestStreak || 0,
+              lastActiveDate:
+                cloudData.lastActiveDate || localProgress.lastActiveDate,
+              achievements:
+                cloudData.achievements || localProgress.achievements || [],
+              challengeStates:
+                cloudData.challengeStates ||
+                localProgress.challengeStates ||
+                {},
+              stats: cloudData.stats || localProgress.stats || {},
+              settings: cloudData.settings || localProgress.settings || {},
+            };
+
+            // Save back to localStorage WITHOUT triggering another sync
+            localStorage.setItem(
+              "codequest_progress",
+              JSON.stringify(updatedProgress)
+            );
+            localStorage.setItem("lastUpdated", cloudData.lastUpdated);
+
+            console.log("✅ Local storage updated with cloud data");
+
+            // Force refresh the UI
+            if (typeof loadDashboard === "function") {
+              loadDashboard();
+              console.log("🔄 Dashboard refreshed with synced data");
+            }
+          }
         }
       }
     },
