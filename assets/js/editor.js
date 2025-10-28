@@ -983,8 +983,21 @@ function previousChallenge() {
     return;
   }
 
+  // Convert currentPath to match the category format in challenges
+  const categoryMap = {
+    html: "HTML",
+    css: "CSS",
+    javascript: "JavaScript",
+    react: "React",
+    nextjs: "Next.js",
+    mysql: "MySQL",
+    postgresql: "PostgreSQL",
+    sqlite: "SQLite",
+  };
+  const categoryName = categoryMap[currentPath] || currentPath;
+
   const allChallenges = getAllChallenges().filter(
-    (c) => c.category === currentPath.toUpperCase()
+    (c) => c.category === categoryName
   );
   const currentIndex = allChallenges.findIndex(
     (c) => c.id === currentChallengeId
@@ -996,7 +1009,7 @@ function previousChallenge() {
     // Check if there's a quiz between the previous challenge and current one
     const quizzes = getQuizzes();
     const pathQuizzes = Object.values(quizzes).filter(
-      (q) => q.category === currentPath.toUpperCase()
+      (q) => q.category === categoryName
     );
 
     const quizAfterPrevious = pathQuizzes.find((quiz) => {
@@ -1025,8 +1038,21 @@ function nextChallenge() {
     return;
   }
 
+  // Convert currentPath to match the category format in challenges
+  const categoryMap = {
+    html: "HTML",
+    css: "CSS",
+    javascript: "JavaScript",
+    react: "React",
+    nextjs: "Next.js",
+    mysql: "MySQL",
+    postgresql: "PostgreSQL",
+    sqlite: "SQLite",
+  };
+  const categoryName = categoryMap[currentPath] || currentPath;
+
   const allChallenges = getAllChallenges().filter(
-    (c) => c.category === currentPath.toUpperCase()
+    (c) => c.category === categoryName
   );
   const currentIndex = allChallenges.findIndex(
     (c) => c.id === currentChallengeId
@@ -1035,7 +1061,7 @@ function nextChallenge() {
   // Check if there's a quiz that should appear after this challenge
   const quizzes = getQuizzes();
   const pathQuizzes = Object.values(quizzes).filter(
-    (q) => q.category === currentPath.toUpperCase()
+    (q) => q.category === categoryName
   );
 
   const currentChallenge = allChallenges[currentIndex];
