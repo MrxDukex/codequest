@@ -548,7 +548,27 @@ function backFromQuiz() {
 
 // Back from quiz results
 function backFromQuizResults() {
-  navigateToDashboard();
+  // Find the next challenge after this quiz
+  const allChallenges = getAllChallenges().filter(
+    (c) => c.category === currentQuiz.category
+  );
+
+  // Find the challenge that comes after the last required challenge
+  const lastRequiredId =
+    currentQuiz.requiredChallenges[currentQuiz.requiredChallenges.length - 1];
+  const lastRequiredIndex = allChallenges.findIndex(
+    (c) => c.id === lastRequiredId
+  );
+
+  // If there's a next challenge, load it
+  if (lastRequiredIndex >= 0 && lastRequiredIndex < allChallenges.length - 1) {
+    const nextChallenge = allChallenges[lastRequiredIndex + 1];
+    loadChallenge(nextChallenge.id);
+  } else {
+    // Otherwise go back to dashboard
+    navigateToDashboard();
+  }
+
   // Check if there are more quizzes available
   setTimeout(checkAndShowQuizNotification, 500);
 }

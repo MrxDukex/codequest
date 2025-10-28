@@ -980,7 +980,28 @@ function previousChallenge() {
   );
 
   if (currentIndex > 0) {
-    loadChallenge(allChallenges[currentIndex - 1].id);
+    const previousChallengeObj = allChallenges[currentIndex - 1];
+
+    // Check if there's a quiz between the previous challenge and current one
+    const quizzes = getQuizzes();
+    const pathQuizzes = Object.values(quizzes).filter(
+      (q) => q.category === currentPath.toUpperCase()
+    );
+
+    const quizAfterPrevious = pathQuizzes.find((quiz) => {
+      const lastRequiredChallenge =
+        quiz.requiredChallenges[quiz.requiredChallenges.length - 1];
+      return lastRequiredChallenge === previousChallengeObj.id;
+    });
+
+    // If there's a quiz after the previous challenge, navigate to it
+    if (quizAfterPrevious) {
+      navigateToQuiz(quizAfterPrevious.id);
+      return;
+    }
+
+    // Otherwise, navigate to the previous challenge
+    loadChallenge(previousChallengeObj.id);
   }
 }
 
@@ -993,6 +1014,34 @@ function nextChallenge() {
     (c) => c.id === currentChallengeId
   );
 
+  // Check if there's a quiz that should appear after this challenge
+  const quizzes = getQuizzes();
+  const pathQuizzes = Object.values(quizzes).filter(
+    (q) => q.category === currentPath.toUpperCase()
+  );
+
+  const currentChallenge = allChallenges[currentIndex];
+  const quizAfterCurrent = pathQuizzes.find((quiz) => {
+    const lastRequiredChallenge =
+      quiz.requiredChallenges[quiz.requiredChallenges.length - 1];
+    return lastRequiredChallenge === currentChallenge.id;
+  });
+
+  // If there's a quiz after this challenge, navigate to it
+  if (quizAfterCurrent) {
+    const progress = getProgress();
+    const isQuizUnlocked = quizAfterCurrent.requiredChallenges.every((id) =>
+      progress.completedChallenges.includes(id)
+    );
+
+    if (isQuizUnlocked) {
+      // Navigate to the quiz
+      navigateToQuiz(quizAfterCurrent.id);
+      return;
+    }
+  }
+
+  // Otherwise, navigate to next challenge
   if (currentIndex < allChallenges.length - 1) {
     loadChallenge(allChallenges[currentIndex + 1].id);
   } else {
