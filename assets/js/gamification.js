@@ -1311,3 +1311,137 @@ function showNotification(message, icon = "✨") {
     showAchievementNotification({ name: message, icon });
   }
 }
+
+// ===== RANK SYSTEM =====
+
+// Define rank thresholds and tier progression
+const RANKS = [
+  {
+    id: 1,
+    name: "Novice",
+    minLevel: 1,
+    maxLevel: 5,
+    tier: 1,
+    tierName: "Foundation",
+    description: "Beginning your journey into the arcane arts",
+    shield: "shield-tier1-foundation.png",
+  },
+  {
+    id: 2,
+    name: "Initiate",
+    minLevel: 6,
+    maxLevel: 10,
+    tier: 1,
+    tierName: "Foundation",
+    description: "Learning the fundamental principles of magic",
+    shield: "shield-tier1-foundation.png",
+  },
+  {
+    id: 3,
+    name: "Adept",
+    minLevel: 11,
+    maxLevel: 16,
+    tier: 1,
+    tierName: "Foundation",
+    description: "Mastering the basics of spellcraft",
+    shield: "shield-tier1-foundation.png",
+  },
+  {
+    id: 4,
+    name: "Battlemage",
+    minLevel: 17,
+    maxLevel: 23,
+    tier: 2,
+    tierName: "Specialization",
+    description: "Forging your own path in the magical arts",
+    shield: "shield-tier2-specialization.png",
+  },
+  {
+    id: 5,
+    name: "Sorcerer",
+    minLevel: 24,
+    maxLevel: 31,
+    tier: 2,
+    tierName: "Specialization",
+    description: "Wielding power with precision and intent",
+    shield: "shield-tier2-specialization.png",
+  },
+  {
+    id: 6,
+    name: "Arcanist",
+    minLevel: 32,
+    maxLevel: 39,
+    tier: 3,
+    tierName: "Mastery",
+    description: "Understanding the deeper mysteries of magic",
+    shield: "shield-tier3-mastery.png",
+  },
+  {
+    id: 7,
+    name: "Archmagus",
+    minLevel: 40,
+    maxLevel: 47,
+    tier: 3,
+    tierName: "Mastery",
+    description: "Commanding vast magical knowledge and power",
+    shield: "shield-tier3-mastery.png",
+  },
+  {
+    id: 8,
+    name: "Archmage",
+    minLevel: 48,
+    maxLevel: 54,
+    tier: 4,
+    tierName: "Transcendence",
+    description: "Standing among the greatest mages in history",
+    shield: "shield-tier4-transcendence.png",
+  },
+  {
+    id: 9,
+    name: "Ascendant",
+    minLevel: 55,
+    maxLevel: 999,
+    tier: 4,
+    tierName: "Transcendence",
+    description: "Transcending mortal limitations",
+    shield: "shield-tier4-transcendence.png",
+  },
+];
+
+// Get current rank based on level
+function getRank(level) {
+  for (let i = RANKS.length - 1; i >= 0; i--) {
+    if (level >= RANKS[i].minLevel) {
+      return RANKS[i];
+    }
+  }
+  return RANKS[0]; // Default to Novice
+}
+
+// Get next rank
+function getNextRank(currentLevel) {
+  const currentRank = getRank(currentLevel);
+  const nextRankIndex = RANKS.findIndex((r) => r.id === currentRank.id) + 1;
+
+  if (nextRankIndex < RANKS.length) {
+    return RANKS[nextRankIndex];
+  }
+  return null; // Max rank reached
+}
+
+// Calculate progress to next rank
+function getRankProgress(level, xp) {
+  const currentRank = getRank(level);
+  const nextRank = getNextRank(level);
+
+  if (!nextRank) {
+    return { percentage: 100, levelsRemaining: 0 };
+  }
+
+  const levelsIntoRank = level - currentRank.minLevel;
+  const totalLevelsInRank = currentRank.maxLevel - currentRank.minLevel + 1;
+  const percentage = (levelsIntoRank / totalLevelsInRank) * 100;
+  const levelsRemaining = nextRank.minLevel - level;
+
+  return { percentage, levelsRemaining };
+}

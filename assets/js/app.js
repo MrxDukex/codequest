@@ -232,6 +232,9 @@ function loadDashboard() {
   // Update level display
   updateLevelDisplay(progress);
 
+  // Update rank display
+  updateRankDisplay(progress);
+
   // Update path progress - Core paths
   updatePathProgress("html", progress);
   updatePathProgress("css", progress);
@@ -354,6 +357,37 @@ function updateLevelDisplay(progress) {
   document.getElementById("nav-level").textContent = `Lvl ${level}`;
   document.getElementById("nav-xp").textContent = `${currentXP} XP`;
   document.getElementById("nav-xp-progress").style.width = `${percentage}%`;
+}
+
+function updateRankDisplay(progress) {
+  const level = progress.level;
+
+  // Get rank information from gamification.js
+  if (typeof getRank !== "function") return;
+
+  const rank = getRank(level);
+  const nextRank = getNextRank ? getNextRank(level) : null;
+
+  // Update rank shield image
+  const rankShield = document.getElementById("rank-shield");
+  if (rankShield && rank.shield) {
+    rankShield.innerHTML = `<img src="assets/images/${rank.shield}" alt="${rank.name} Shield" style="width: 80px; height: 80px; margin-bottom: 10px;">`;
+  }
+
+  // Update rank text
+  const rankInfo = document.getElementById("rank-info");
+  if (rankInfo) {
+    rankInfo.innerHTML = `
+      <h3 class="rank-name" style="margin: 0; font-size: 1.2rem; color: var(--text-primary);">${rank.name}</h3>
+      <p class="rank-tier" style="margin: 5px 0; font-size: 0.9rem; color: var(--text-secondary); opacity: 0.8;">${rank.tierName}</p>
+    `;
+
+    // Add next rank info if available
+    if (nextRank) {
+      const levelsToNext = nextRank.minLevel - level;
+      rankInfo.innerHTML += `<p style="margin: 5px 0; font-size: 0.85rem; color: var(--text-muted);">${levelsToNext} levels to ${nextRank.name}</p>`;
+    }
+  }
 }
 
 function updatePathProgress(path, progress) {
