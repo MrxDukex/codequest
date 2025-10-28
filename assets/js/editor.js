@@ -13,6 +13,10 @@ function loadChallenge(challengeId) {
   }
 
   currentChallengeId = challengeId;
+
+  // Set currentPath based on the challenge's category
+  currentPath = challenge.category.toLowerCase().replace(/\./g, "");
+
   challengeStartTime = Date.now();
   currentHintsRevealed = 0;
   usedSolution = false;
@@ -972,6 +976,13 @@ function giveUpChallenge() {
 
 // Navigate to previous challenge
 function previousChallenge() {
+  // Safety check for currentPath
+  if (!currentPath) {
+    console.error("currentPath is not defined");
+    showToast("Unable to navigate to previous challenge", "error");
+    return;
+  }
+
   const allChallenges = getAllChallenges().filter(
     (c) => c.category === currentPath.toUpperCase()
   );
@@ -1007,6 +1018,13 @@ function previousChallenge() {
 
 // Navigate to next challenge
 function nextChallenge() {
+  // Safety check for currentPath
+  if (!currentPath) {
+    console.error("currentPath is not defined");
+    showToast("Unable to navigate to next challenge", "error");
+    return;
+  }
+
   const allChallenges = getAllChallenges().filter(
     (c) => c.category === currentPath.toUpperCase()
   );
