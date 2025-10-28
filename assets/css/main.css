@@ -501,10 +501,18 @@ body::before {
   width: 100%;
   position: relative;
   background: var(--bg-primary);
+  z-index: 1;
 }
 
 .view.active {
   display: block;
+  position: relative;
+  z-index: 10;
+}
+
+.view:not(.active) {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @keyframes fadeIn {

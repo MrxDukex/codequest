@@ -81,6 +81,12 @@ function loadQuiz(quizId) {
   const existingModals = document.querySelectorAll(".modal-overlay");
   existingModals.forEach((modal) => modal.remove());
 
+  // Clear preview iframe from challenge view to prevent content showing through
+  const previewFrame = document.getElementById("preview-frame");
+  if (previewFrame) {
+    previewFrame.srcdoc = "";
+  }
+
   // Switch to quiz view
   switchView("quiz");
 
