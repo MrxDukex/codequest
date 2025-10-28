@@ -2693,10 +2693,23 @@ body::before {
 }
 
 /* ===== QUIZ STYLES ===== */
+#quiz-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#quiz-view .view-header {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto 1.5rem;
+  box-sizing: border-box;
+}
+
 .quiz-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem 2rem 2rem;
   width: 100%;
   box-sizing: border-box;
 }
