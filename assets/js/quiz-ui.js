@@ -288,6 +288,20 @@ function loadQuizQuestion() {
         quizAnswers[currentQuestionIndex] = e.target.value;
       });
   }
+
+  // Scroll to top after content is rendered - force instant scroll by temporarily disabling smooth scrolling
+  const htmlElement = document.documentElement;
+  const originalScrollBehavior = htmlElement.style.scrollBehavior;
+
+  htmlElement.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+
+  // Restore smooth scrolling after a short delay
+  setTimeout(() => {
+    htmlElement.style.scrollBehavior = originalScrollBehavior;
+  }, 50);
 }
 
 // Select multiple choice answer
