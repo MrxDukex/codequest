@@ -287,7 +287,7 @@ function getAllChallenges() {
         "Use quotes around the attribute values",
       ],
       tests: [
-        "Must contain an &lt;img&gt; tag",
+        "Must contain an <img> tag",
         "Must have an alt attribute for accessibility",
       ],
       concepts: ["Images", "Accessibility", "Self-closing tags", "Attributes"],
