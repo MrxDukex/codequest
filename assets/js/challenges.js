@@ -88,7 +88,7 @@ function getAllChallenges() {
       title: "Lists and Items",
       category: "HTML",
       difficulty: "beginner",
-      $190,
+      xp: 90,
       description: "Learn how to create bullet point lists.",
       instructions: `
         <h4>📚 What are Lists?</h4>
@@ -142,7 +142,7 @@ function getAllChallenges() {
       title: "Links",
       category: "HTML",
       difficulty: "beginner",
-      $190,
+      xp: 90,
       description: "Learn how to create clickable links.",
       instructions: `
         <h4>📚 What are Links?</h4>
@@ -188,7 +188,7 @@ function getAllChallenges() {
       title: "Images",
       category: "HTML",
       difficulty: "beginner",
-      $190,
+      xp: 90,
       description: "Learn how to display images on your webpage.",
       instructions: `
         <h4>📚 What are Images?</h4>
@@ -233,7 +233,7 @@ function getAllChallenges() {
       title: "Semantic Sections",
       category: "HTML",
       difficulty: "beginner",
-      $1105,
+      xp: 105,
       description: "Learn how to structure pages with meaningful sections.",
       instructions: `
         <h4>📚 What is Semantic HTML?</h4>
@@ -285,7 +285,7 @@ function getAllChallenges() {
       title: "Forms Basics",
       category: "HTML",
       difficulty: "beginner",
-      $1105,
+      xp: 105,
       description: "Learn how to collect user input with forms.",
       instructions: `
         <h4>📚 What are Forms?</h4>
@@ -335,7 +335,7 @@ function getAllChallenges() {
       title: "Tables",
       category: "HTML",
       difficulty: "intermediate",
-      $1120,
+      xp: 120,
       description: "Learn how to display data in rows and columns.",
       instructions: `
         <h4>📚 What are Tables?</h4>
@@ -416,7 +416,7 @@ function getAllChallenges() {
       title: "Inline vs Block",
       category: "HTML",
       difficulty: "intermediate",
-      $1120,
+      xp: 120,
       description:
         "Understand the difference between block and inline elements.",
       instructions: `
@@ -462,7 +462,7 @@ function getAllChallenges() {
       title: "Accessibility Basics",
       category: "HTML",
       difficulty: "intermediate",
-      $1120,
+      xp: 120,
       description: "Make forms accessible by connecting labels to inputs.",
       instructions: `
         <h4>📚 What are Labels?</h4>
@@ -608,7 +608,7 @@ h1 {
       title: "Box Model Basics",
       category: "CSS",
       difficulty: "beginner",
-      $190,
+      xp: 90,
       description: "Understand spacing with margin and padding.",
       instructions: `
         <h4>📚 The CSS Box Model</h4>
@@ -665,7 +665,7 @@ h1 {
       title: "Center with Flexbox",
       category: "CSS",
       difficulty: "beginner",
-      $1105,
+      xp: 105,
       description: "Learn the modern way to center content with Flexbox.",
       instructions: `
         <h4>📚 What is Flexbox?</h4>
@@ -714,7 +714,7 @@ h1 {
       title: "Create a Grid",
       category: "CSS",
       difficulty: "intermediate",
-      $1135,
+      xp: 135,
       description: "Learn CSS Grid for powerful 2D layouts.",
       instructions: `
         <h4>📚 What is CSS Grid?</h4>
@@ -761,7 +761,7 @@ h1 {
       title: "Responsive Image",
       category: "CSS",
       difficulty: "intermediate",
-      $1120,
+      xp: 120,
       description: "Make images adapt to any screen size.",
       instructions: `
         <h4>📚 Responsive Images</h4>
@@ -814,7 +814,7 @@ img {
       title: "Variables",
       category: "JavaScript",
       difficulty: "beginner",
-      $1105,
+      xp: 105,
       description: "Write your first JavaScript code!",
       instructions: `
         <h4>📚 What is JavaScript?</h4>
@@ -863,7 +863,7 @@ document.getElementById('out').textContent = name;
       title: "Click Counter",
       category: "JavaScript",
       difficulty: "beginner",
-      $1120,
+      xp: 120,
       description: "Learn event handling by building a click counter.",
       instructions: `
         <h4>📚 Events in JavaScript</h4>
@@ -913,7 +913,7 @@ document.getElementById('btn').addEventListener('click', () => {
       title: "Conditionals",
       category: "JavaScript",
       difficulty: "beginner",
-      $1120,
+      xp: 120,
       description: "Make decisions with if/else statements.",
       instructions: `
         <h4>📚 Conditionals (Decision Making)</h4>
@@ -970,7 +970,7 @@ document.getElementById('out').textContent = status;
       title: "Arrays & Loops",
       category: "JavaScript",
       difficulty: "beginner",
-      $1135,
+      xp: 135,
       description: "Work with lists of data using arrays.",
       instructions: `
         <h4>📚 Arrays</h4>
@@ -1021,7 +1021,7 @@ document.getElementById('list').innerHTML = html;
       title: "Local Storage",
       category: "JavaScript",
       difficulty: "intermediate",
-      $1150,
+      xp: 150,
       description: "Save data in the browser that persists even after refresh!",
       instructions: `
         <h4>📚 LocalStorage</h4>
@@ -1168,7 +1168,7 @@ document.getElementById('out').textContent = name;
       title: "Your First React Component",
       category: "React",
       difficulty: "beginner",
-      $1150,
+      xp: 150,
       description:
         "Learn what React is and create your first functional component.",
       instructions: `
@@ -1212,7 +1212,7 @@ document.getElementById('out').textContent = name;
       title: "Understanding JSX",
       category: "React",
       difficulty: "beginner",
-      $1150,
+      xp: 150,
       description: "Learn how JSX works and its syntax rules.",
       instructions: `
         <h4>📚 What is JSX?</h4>
@@ -1280,7 +1280,7 @@ document.getElementById('out').textContent = name;
       title: "Introduction to Next.js",
       category: "Next.js",
       difficulty: "intermediate",
-      $1180,
+      xp: 180,
       description: "Learn what Next.js is and how it extends React.",
       instructions: `
         <h4>📚 What is Next.js?</h4>
@@ -1349,7 +1349,7 @@ document.getElementById('out').textContent = name;
       title: "Your First SQL Query",
       category: "MySQL",
       difficulty: "beginner",
-      $1135,
+      xp: 135,
       description: "Learn what SQL is and write your first SELECT query.",
       instructions: `
         <h4>📚 What is SQL?</h4>
@@ -1392,7 +1392,7 @@ document.getElementById('out').textContent = name;
       title: "Filtering with WHERE",
       category: "MySQL",
       difficulty: "beginner",
-      $1135,
+      xp: 135,
       description: "Learn to filter data using WHERE clause.",
       instructions: `
         <h4>📚 WHERE Clause</h4>
@@ -1458,7 +1458,7 @@ document.getElementById('out').textContent = name;
       title: "PostgreSQL Basics",
       category: "PostgreSQL",
       difficulty: "beginner",
-      $1150,
+      xp: 150,
       description: "Learn PostgreSQL-specific features and syntax.",
       instructions: `
         <h4>📚 What is PostgreSQL?</h4>
@@ -1531,7 +1531,7 @@ document.getElementById('out').textContent = name;
       title: "Introduction to SQLite",
       category: "SQLite",
       difficulty: "beginner",
-      $1135,
+      xp: 135,
       description: "Learn about SQLite and its use cases.",
       instructions: `
         <h4>📚 What is SQLite?</h4>
