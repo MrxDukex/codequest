@@ -2697,6 +2697,8 @@ body::before {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .quiz-intro {
@@ -2704,6 +2706,7 @@ body::before {
   justify-content: center;
   align-items: center;
   min-height: 60vh;
+  width: 100%;
 }
 
 .quiz-intro-card {
@@ -2944,6 +2947,8 @@ span.option-text {
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .quiz-results-card {
@@ -2954,6 +2959,7 @@ span.option-text {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .quiz-results-icon {
