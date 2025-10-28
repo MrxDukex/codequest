@@ -493,6 +493,12 @@ body::before {
   margin: 0 auto;
 }
 
+/* Remove side padding for quiz view to ensure perfect centering */
+.main-content:has(#quiz-view.active) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 /* ===== VIEW SYSTEM ===== */
 .view {
   display: none;
@@ -2694,15 +2700,16 @@ body::before {
 
 /* ===== QUIZ STYLES ===== */
 #quiz-view {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 #quiz-view .view-header {
   width: 100%;
   max-width: 1800px;
   margin: 0 auto 1.5rem;
+  padding: 1.5rem 2rem;
   box-sizing: border-box;
 }
 
