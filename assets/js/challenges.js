@@ -171,18 +171,10 @@ function getAllChallenges() {
         <h4>💻 What Your Code Should Look Like:</h4>
         <pre><code>&lt;a href="https://developer.mozilla.org/"&gt;MDN&lt;/a&gt;</code></pre>
         
-        <h4>🔍 Step-by-Step Example:</h4>
-        <pre><code>&lt;a href="https://google.com"&gt;Go to Google&lt;/a&gt;</code></pre>
-        <p>This creates a link that:</p>
-        <ul>
-          <li>Displays the text "Go to Google" on your page</li>
-          <li>When clicked, navigates to https://google.com</li>
-          <li>The user's cursor changes to a pointer when hovering over it</li>
-        </ul>
-        
-        <h4>💡 Understanding 'href'</h4>
+        <h4> Understanding 'href'</h4>
         <p>"<strong>href</strong>" = "<strong>h</strong>ypertext <strong>ref</strong>erence"</p>
         <p>Think of it as the "address" or "destination" attribute. It tells the browser: "When someone clicks this link, send them HERE."</p>
+        <p><strong>How it works:</strong> When you click on the text "MDN", your browser reads the href attribute and navigates to that URL.</p>
         
         <h4>🌐 Real-World Uses:</h4>
         <ul>
@@ -643,16 +635,11 @@ function getAllChallenges() {
           <li>Set <code>color: red;</code></li>
         </ol>
         
-        <h4>Example:</h4>
-        <pre><code>&lt;style&gt;
-p {
-  color: red;
-}
-&lt;/style&gt;
-&lt;p&gt;Hello&lt;/p&gt;</code></pre>
-        
         <h4>💡 Why CSS?</h4>
         <p>Without CSS, websites would be plain black text on white! CSS brings design to life.</p>
+        
+        <h4>✨ Remember:</h4>
+        <p>The selector goes first (p), then curly braces { }, then the property: value; inside. Don't forget the semicolon!</p>
       `,
       starterCode: `<style>\n/* Add your CSS here */\n</style>\n<p>Hello</p>`,
       solution: `<style>\np { color: red; }\n</style>\n<p>Hello</p>`,
