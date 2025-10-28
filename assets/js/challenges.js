@@ -38,7 +38,7 @@ function getAllChallenges() {
         "Type exactly: <h1>Hello, World!</h1>",
       ],
       tests: [
-        "Must contain an <h1> tag",
+        "Must contain an &lt;h1&gt; tag",
         "Must contain the text 'Hello, World!' inside the h1",
       ],
       concepts: ["Headings", "HTML basics", "Tags"],
@@ -78,8 +78,8 @@ function getAllChallenges() {
         "Put any text you want between the tags!",
       ],
       tests: [
-        "Must contain at least one <p> tag",
-        "Must have two closing </p> tags (two paragraphs)",
+        "Must contain at least one &lt;p&gt; tag",
+        "Must have two closing &lt;/p&gt; tags (two paragraphs)",
       ],
       concepts: ["Paragraphs", "Text content"],
     },
@@ -130,7 +130,7 @@ function getAllChallenges() {
         "Don't forget to close the list with </ul>",
       ],
       tests: [
-        "Must contain a <ul> tag for unordered list",
+        "Must contain a &lt;ul&gt; tag for unordered list",
         "Must contain 'Apple' as a list item",
         "Must contain 'Banana' as a list item",
         "Must contain 'Orange' as a list item",
@@ -207,7 +207,7 @@ function getAllChallenges() {
         "The text between <a> and </a> is what users click",
       ],
       tests: [
-        "Must contain an <a> anchor tag",
+        "Must contain an &lt;a&gt; anchor tag",
         "Must have an href attribute",
         "Must contain the text 'MDN'",
       ],
@@ -295,7 +295,7 @@ function getAllChallenges() {
         "Use quotes around the attribute values",
       ],
       tests: [
-        "Must contain an <img> tag",
+        "Must contain an &lt;img&gt; tag",
         "Must have an alt attribute for accessibility",
       ],
       concepts: ["Images", "Accessibility", "Self-closing tags", "Attributes"],
@@ -346,9 +346,9 @@ function getAllChallenges() {
         "You need all three: header, main, and footer",
       ],
       tests: [
-        "Must contain a <header> semantic tag",
-        "Must contain a <main> semantic tag",
-        "Must contain a <footer> semantic tag",
+        "Must contain a &lt;header&gt; semantic tag",
+        "Must contain a &lt;main&gt; semantic tag",
+        "Must contain a &lt;footer&gt; semantic tag",
       ],
       concepts: ["Semantic HTML", "Page Structure", "Accessibility"],
     },
@@ -396,9 +396,9 @@ function getAllChallenges() {
         "Button text goes between <button> and </button>",
       ],
       tests: [
-        "Must contain a <form> tag",
-        "Must contain an <input> element",
-        "Must contain a <button> element",
+        "Must contain a &lt;form&gt; tag",
+        "Must contain an &lt;input&gt; element",
+        "Must contain a &lt;button&gt; element",
       ],
       concepts: ["Forms", "User Input", "Buttons"],
     },
@@ -453,9 +453,9 @@ function getAllChallenges() {
         "The letters A, B, C, D go inside the <td> tags",
       ],
       tests: [
-        "Must have a <table> tag",
-        "Must have exactly 2 <tr> tags",
-        "Must have exactly 4 <td> tags",
+        "Must have a &lt;table&gt; tag",
+        "Must have exactly 2 &lt;tr&gt; tags",
+        "Must have exactly 4 &lt;td&gt; tags",
         "Must contain the letters A, B, C, and D",
       ],
       customValidator: function (code) {
@@ -554,8 +554,8 @@ function getAllChallenges() {
         "The span should be INSIDE the div",
       ],
       tests: [
-        "Must contain a <div> block element",
-        "Must contain a <span> inline element",
+        "Must contain a &lt;div&gt; block element",
+        "Must contain a &lt;span&gt; inline element",
       ],
       concepts: ["Block elements", "Inline elements", "Display types"],
     },
@@ -604,7 +604,7 @@ function getAllChallenges() {
         "Don't forget type='email' on the input",
       ],
       tests: [
-        "Must contain a <label> tag",
+        "Must contain a &lt;label&gt; tag",
         "Label must have for='email' attribute",
         "Input must have id='email' attribute",
       ],
@@ -1335,7 +1335,7 @@ document.getElementById('list').innerHTML = html;
       tests: [
         "Must create an array with square brackets",
         "Must use the .map() method",
-        "Must generate <li> tags",
+        "Must generate &lt;li&gt; tags",
       ],
       concepts: ["Arrays", "Array Methods", "Loops", "DOM"],
     },
@@ -1583,7 +1583,7 @@ document.getElementById('out').textContent = name;
       tests: [
         "Must declare a function named Welcome",
         "Must return JSX",
-        "Must contain an <h1> tag",
+        "Must contain an &lt;h1&gt; tag",
       ],
       concepts: ["Components", "JSX", "Functions"],
     },
@@ -1618,9 +1618,9 @@ document.getElementById('out').textContent = name;
       ],
       tests: [
         "Must return JSX",
-        "Must contain a <div> wrapper",
-        "Must contain an <h2> heading",
-        "Must contain a <p> paragraph",
+        "Must contain a &lt;div&gt; wrapper",
+        "Must contain an &lt;h2&gt; heading",
+        "Must contain a &lt;p&gt; paragraph",
       ],
       concepts: ["JSX", "Syntax", "Components"],
     },
