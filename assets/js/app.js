@@ -720,8 +720,9 @@ function formatTime(minutes) {
 }
 
 function calculateXPForLevel(level) {
-  // Exponential XP curve
-  return Math.floor(100 * Math.pow(1.5, level - 1));
+  // Very flat XP curve for 45-50 level progression
+  // 1.1 exponent supports reaching Level 45+ with available XP
+  return Math.floor(100 * Math.pow(1.1, level - 1));
 }
 
 // ===== TOAST NOTIFICATIONS =====

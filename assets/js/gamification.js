@@ -9,7 +9,7 @@ function initializeAchievements() {
       name: "First Step",
       description: "Complete your first challenge",
       icon: "🎯",
-      xp: 10,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -17,7 +17,7 @@ function initializeAchievements() {
       name: "HTML Novice",
       description: "Complete your first HTML challenge",
       icon: "📄",
-      xp: 10,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -25,7 +25,7 @@ function initializeAchievements() {
       name: "CSS Beginner",
       description: "Complete your first CSS challenge",
       icon: "🎨",
-      xp: 10,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -33,7 +33,7 @@ function initializeAchievements() {
       name: "JS Starter",
       description: "Complete your first JavaScript challenge",
       icon: "⚡",
-      xp: 10,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -41,7 +41,7 @@ function initializeAchievements() {
       name: "React Rookie",
       description: "Complete your first React challenge",
       icon: "⚛️",
-      xp: 15,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -49,7 +49,7 @@ function initializeAchievements() {
       name: "Next.js Novice",
       description: "Complete your first Next.js challenge",
       icon: "▲",
-      xp: 15,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -57,7 +57,7 @@ function initializeAchievements() {
       name: "MySQL Beginner",
       description: "Complete your first MySQL challenge",
       icon: "🐬",
-      xp: 15,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -65,7 +65,7 @@ function initializeAchievements() {
       name: "PostgreSQL Starter",
       description: "Complete your first PostgreSQL challenge",
       icon: "🐘",
-      xp: 15,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -73,7 +73,7 @@ function initializeAchievements() {
       name: "SQLite Learner",
       description: "Complete your first SQLite challenge",
       icon: "🗄️",
-      xp: 15,
+      xp: 375,
       unlocked: false,
     },
 
@@ -83,7 +83,7 @@ function initializeAchievements() {
       name: "HTML Apprentice",
       description: "Complete 5 HTML challenges",
       icon: "📝",
-      xp: 25,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -91,7 +91,7 @@ function initializeAchievements() {
       name: "HTML Journeyman",
       description: "Complete 10 HTML challenges",
       icon: "📘",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -99,7 +99,7 @@ function initializeAchievements() {
       name: "HTML Master",
       description: "Complete all HTML challenges",
       icon: "👑",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
 
@@ -108,7 +108,7 @@ function initializeAchievements() {
       name: "CSS Apprentice",
       description: "Complete 5 CSS challenges",
       icon: "🖌️",
-      xp: 25,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -116,7 +116,7 @@ function initializeAchievements() {
       name: "CSS Journeyman",
       description: "Complete 10 CSS challenges",
       icon: "🎭",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -124,7 +124,7 @@ function initializeAchievements() {
       name: "CSS Ninja",
       description: "Complete all CSS challenges",
       icon: "🥋",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
 
@@ -133,7 +133,7 @@ function initializeAchievements() {
       name: "JS Apprentice",
       description: "Complete 5 JavaScript challenges",
       icon: "💻",
-      xp: 25,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -141,7 +141,7 @@ function initializeAchievements() {
       name: "JS Journeyman",
       description: "Complete 10 JavaScript challenges",
       icon: "🔧",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -149,7 +149,7 @@ function initializeAchievements() {
       name: "JavaScript Wizard",
       description: "Complete all JavaScript challenges",
       icon: "🧙",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
 
@@ -158,7 +158,7 @@ function initializeAchievements() {
       name: "React Apprentice",
       description: "Complete 5 React challenges",
       icon: "⚛️",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -166,7 +166,7 @@ function initializeAchievements() {
       name: "React Developer",
       description: "Complete 10 React challenges",
       icon: "🔷",
-      xp: 60,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -174,7 +174,7 @@ function initializeAchievements() {
       name: "React Master",
       description: "Complete all React challenges",
       icon: "👨‍💻",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
 
@@ -183,7 +183,7 @@ function initializeAchievements() {
       name: "Next.js Apprentice",
       description: "Complete 5 Next.js challenges",
       icon: "▲",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -191,7 +191,7 @@ function initializeAchievements() {
       name: "Next.js Developer",
       description: "Complete 10 Next.js challenges",
       icon: "🔺",
-      xp: 60,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -199,7 +199,7 @@ function initializeAchievements() {
       name: "Next.js Expert",
       description: "Complete all Next.js challenges",
       icon: "🚀",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
 
@@ -208,7 +208,7 @@ function initializeAchievements() {
       name: "MySQL Apprentice",
       description: "Complete 5 MySQL challenges",
       icon: "🐬",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -216,7 +216,7 @@ function initializeAchievements() {
       name: "MySQL Developer",
       description: "Complete 10 MySQL challenges",
       icon: "🗃️",
-      xp: 60,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -224,7 +224,7 @@ function initializeAchievements() {
       name: "MySQL Master",
       description: "Complete all MySQL challenges",
       icon: "🎯",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
 
@@ -233,7 +233,7 @@ function initializeAchievements() {
       name: "PostgreSQL Apprentice",
       description: "Complete 5 PostgreSQL challenges",
       icon: "🐘",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -241,7 +241,7 @@ function initializeAchievements() {
       name: "PostgreSQL Developer",
       description: "Complete 10 PostgreSQL challenges",
       icon: "📊",
-      xp: 60,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -249,7 +249,7 @@ function initializeAchievements() {
       name: "PostgreSQL Expert",
       description: "Complete all PostgreSQL challenges",
       icon: "💎",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
 
@@ -258,7 +258,7 @@ function initializeAchievements() {
       name: "SQLite Apprentice",
       description: "Complete 5 SQLite challenges",
       icon: "🗄️",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -266,7 +266,7 @@ function initializeAchievements() {
       name: "SQLite Developer",
       description: "Complete 10 SQLite challenges",
       icon: "📱",
-      xp: 60,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -274,7 +274,7 @@ function initializeAchievements() {
       name: "SQLite Master",
       description: "Complete all SQLite challenges",
       icon: "🏅",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
 
@@ -292,7 +292,7 @@ function initializeAchievements() {
       name: "Flawless",
       description: "Complete 5 challenges without hints",
       icon: "✨",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -300,7 +300,7 @@ function initializeAchievements() {
       name: "No Help Needed",
       description: "Complete 10 challenges without hints",
       icon: "💪",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
 
@@ -310,7 +310,7 @@ function initializeAchievements() {
       name: "Getting Started",
       description: "Maintain a 3-day streak",
       icon: "🔥",
-      xp: 25,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -318,7 +318,7 @@ function initializeAchievements() {
       name: "Week Warrior",
       description: "Maintain a 7-day streak",
       icon: "📅",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -326,7 +326,7 @@ function initializeAchievements() {
       name: "Two Weeks Strong",
       description: "Maintain a 14-day streak",
       icon: "💪",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -334,7 +334,7 @@ function initializeAchievements() {
       name: "Monthly Master",
       description: "Maintain a 30-day streak",
       icon: "🏆",
-      xp: 200,
+      xp: 4000,
       unlocked: false,
     },
     {
@@ -342,7 +342,7 @@ function initializeAchievements() {
       name: "Century Club",
       description: "Maintain a 100-day streak",
       icon: "👑",
-      xp: 500,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -350,7 +350,7 @@ function initializeAchievements() {
       name: "Weekend Warrior",
       description: "Complete challenges on 10 different weekends",
       icon: "🏋️",
-      xp: 75,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -358,7 +358,7 @@ function initializeAchievements() {
       name: "Early Bird",
       description: "Complete 10 challenges before 9 AM",
       icon: "🌅",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -366,7 +366,7 @@ function initializeAchievements() {
       name: "Night Owl",
       description: "Complete 10 challenges after 10 PM",
       icon: "🦉",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
 
@@ -376,7 +376,7 @@ function initializeAchievements() {
       name: "Rising Star",
       description: "Reach Level 5",
       icon: "🌟",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -384,7 +384,7 @@ function initializeAchievements() {
       name: "Skilled Coder",
       description: "Reach Level 10",
       icon: "💫",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -392,7 +392,7 @@ function initializeAchievements() {
       name: "Expert Developer",
       description: "Reach Level 25",
       icon: "🎓",
-      xp: 250,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -400,7 +400,7 @@ function initializeAchievements() {
       name: "Legendary",
       description: "Reach Level 50",
       icon: "👑",
-      xp: 500,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -408,7 +408,7 @@ function initializeAchievements() {
       name: "XP Collector",
       description: "Earn 1,000 total XP",
       icon: "💰",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -416,7 +416,7 @@ function initializeAchievements() {
       name: "XP Hoarder",
       description: "Earn 5,000 total XP",
       icon: "💸",
-      xp: 150,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -424,7 +424,7 @@ function initializeAchievements() {
       name: "XP Master",
       description: "Earn 10,000 total XP",
       icon: "💎",
-      xp: 300,
+      xp: 1500,
       unlocked: false,
     },
 
@@ -442,7 +442,7 @@ function initializeAchievements() {
       name: "Dedicated",
       description: "Spend 10 hours learning",
       icon: "⏱️",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -450,7 +450,7 @@ function initializeAchievements() {
       name: "Committed",
       description: "Spend 50 hours learning",
       icon: "📚",
-      xp: 250,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -458,7 +458,7 @@ function initializeAchievements() {
       name: "100 Hour Club",
       description: "Spend 100 hours learning",
       icon: "🎯",
-      xp: 500,
+      xp: 2500,
       unlocked: false,
     },
 
@@ -468,7 +468,7 @@ function initializeAchievements() {
       name: "Speed Demon",
       description: "Complete a challenge in under 5 minutes",
       icon: "⚡",
-      xp: 30,
+      xp: 750,
       unlocked: false,
     },
     {
@@ -476,7 +476,7 @@ function initializeAchievements() {
       name: "Quick Learner",
       description: "Complete 10 challenges in one day",
       icon: "🚀",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -484,7 +484,7 @@ function initializeAchievements() {
       name: "Marathon Session",
       description: "Complete 20 challenges in one day",
       icon: "🏃",
-      xp: 200,
+      xp: 4000,
       unlocked: false,
     },
     {
@@ -492,7 +492,7 @@ function initializeAchievements() {
       name: "First Try Hero",
       description: "Complete 5 challenges on the first attempt",
       icon: "🎯",
-      xp: 75,
+      xp: 375,
       unlocked: false,
     },
     {
@@ -500,7 +500,7 @@ function initializeAchievements() {
       name: "Persistent",
       description: "Retry a challenge 5 times before succeeding",
       icon: "💪",
-      xp: 40,
+      xp: 4000,
       unlocked: false,
     },
 
@@ -510,7 +510,7 @@ function initializeAchievements() {
       name: "Explorer",
       description: "Try challenges from HTML, CSS, and JavaScript",
       icon: "🗺️",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -518,7 +518,7 @@ function initializeAchievements() {
       name: "Full Stack Explorer",
       description: "Try challenges from all 8 categories",
       icon: "🌐",
-      xp: 100,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -526,7 +526,7 @@ function initializeAchievements() {
       name: "Frontend Specialist",
       description: "Complete all HTML, CSS, and JavaScript challenges",
       icon: "🎨",
-      xp: 250,
+      xp: 1250,
       unlocked: false,
     },
     {
@@ -534,7 +534,7 @@ function initializeAchievements() {
       name: "React Ecosystem Master",
       description: "Complete all React and Next.js challenges",
       icon: "⚛️",
-      xp: 300,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -542,7 +542,7 @@ function initializeAchievements() {
       name: "Database Master",
       description: "Complete all MySQL, PostgreSQL, and SQLite challenges",
       icon: "�",
-      xp: 300,
+      xp: 1500,
       unlocked: false,
     },
     {
@@ -560,7 +560,7 @@ function initializeAchievements() {
       name: "Note Taker",
       description: "Export progress to Obsidian",
       icon: "📓",
-      xp: 25,
+      xp: 2500,
       unlocked: false,
     },
     {
@@ -568,7 +568,7 @@ function initializeAchievements() {
       name: "Comeback Kid",
       description: "Return after a broken streak",
       icon: "💪",
-      xp: 50,
+      xp: 1250,
       unlocked: false,
     },
 
@@ -578,7 +578,7 @@ function initializeAchievements() {
       name: "The Completionist",
       description: "Complete ALL challenges",
       icon: "🏆",
-      xp: 1000,
+      xp: 4000,
       unlocked: false,
     },
     {
@@ -586,7 +586,7 @@ function initializeAchievements() {
       name: "Ultimate Perfectionist",
       description: "Complete all challenges without using hints",
       icon: "👑",
-      xp: 2000,
+      xp: 5000,
       unlocked: false,
     },
   ];
@@ -1203,4 +1203,111 @@ function recheckAllAchievements() {
   }
 
   return progress;
+}
+
+// ===== DAILY CHALLENGES & STREAKS =====
+
+// Check if user completed daily challenge
+function checkDailyChallenge(progress) {
+  const today = new Date().toDateString();
+  const lastDaily = progress.lastDailyChallenge || "";
+
+  if (lastDaily !== today && progress.challengesCompletedToday >= 1) {
+    progress.lastDailyChallenge = today;
+    progress.dailyChallengesCompleted =
+      (progress.dailyChallengesCompleted || 0) + 1;
+    progress.xp += 25; // Small daily bonus XP
+
+    // Update streak
+    updateStreak(progress);
+
+    return true;
+  }
+  return false;
+}
+
+// Update login/completion streak
+function updateStreak(progress) {
+  const today = new Date().toDateString();
+  const lastLogin = progress.lastLoginDate || "";
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+  if (lastLogin === yesterday) {
+    // Consecutive day - increment streak
+    progress.currentStreak = (progress.currentStreak || 0) + 1;
+  } else if (lastLogin !== today) {
+    // Streak broken - reset to 1
+    progress.currentStreak = 1;
+  }
+
+  progress.lastLoginDate = today;
+  progress.longestStreak = Math.max(
+    progress.longestStreak || 0,
+    progress.currentStreak
+  );
+
+  // Award streak bonuses
+  checkStreakBonuses(progress);
+}
+
+// Award XP bonuses for streaks
+function checkStreakBonuses(progress) {
+  const streak = progress.currentStreak || 0;
+
+  // Weekly streak bonus (7 days)
+  if (streak === 7 && !progress.weeklyStreakAwarded) {
+    progress.xp += 100;
+    progress.weeklyStreakAwarded = true;
+    showNotification("7-Day Streak! +100 XP bonus!", "🔥");
+  } else if (streak !== 7) {
+    progress.weeklyStreakAwarded = false;
+  }
+
+  // Monthly streak bonus (30 days)
+  if (streak === 30 && !progress.monthlyStreakAwarded) {
+    progress.xp += 500;
+    progress.monthlyStreakAwarded = true;
+    showNotification("30-Day Streak! +500 XP bonus!", "🌟");
+  } else if (streak !== 30) {
+    progress.monthlyStreakAwarded = false;
+  }
+
+  // Epic streak bonus (100 days)
+  if (streak === 100 && !progress.epicStreakAwarded) {
+    progress.xp += 2000;
+    progress.epicStreakAwarded = true;
+    showNotification("100-Day Streak! +2000 XP bonus!", "👑");
+  } else if (streak !== 100) {
+    progress.epicStreakAwarded = false;
+  }
+}
+
+// Award course completion bonuses
+function awardCourseBonus(progress, category) {
+  const bonuses = {
+    HTML: 5000,
+    CSS: 5000,
+    JavaScript: 8000,
+    React: 10000,
+    "Next.js": 10000,
+    MySQL: 7000,
+    PostgreSQL: 7000,
+    SQLite: 7000,
+  };
+
+  const bonus = bonuses[category] || 3000;
+  const bonusKey = `${category.toLowerCase()}_course_bonus`;
+
+  if (!progress[bonusKey]) {
+    progress.xp += bonus;
+    progress[bonusKey] = true;
+    showNotification(`${category} Course Complete! +${bonus} XP bonus!`, "🎓");
+  }
+}
+
+// Show notification helper
+function showNotification(message, icon = "✨") {
+  if (typeof showAchievementNotification === "function") {
+    showAchievementNotification({ name: message, icon });
+  }
 }
