@@ -119,8 +119,23 @@ function loadQuizIntro() {
     const quizResult = progress.quizResults?.[currentQuiz.id];
     if (quizResult?.passed) {
       startBtn.innerHTML = '<i class="fas fa-redo"></i> Retake Quiz';
+
+      // Show and enable the Next button if quiz has been passed
+      const nextBtn = document.getElementById("quiz-intro-next-btn");
+      if (nextBtn) {
+        nextBtn.style.display = "inline-block";
+        nextBtn.disabled = false;
+        nextBtn.classList.remove("btn-disabled");
+        nextBtn.classList.add("btn-success");
+      }
     } else {
       startBtn.innerHTML = '<i class="fas fa-play"></i> Start Quiz';
+
+      // Hide the Next button if quiz hasn't been passed yet
+      const nextBtn = document.getElementById("quiz-intro-next-btn");
+      if (nextBtn) {
+        nextBtn.style.display = "none";
+      }
     }
   }
 
@@ -528,11 +543,27 @@ function showQuizResults(score, correctCount, passed, results) {
 
   // Show/hide retake button
   const retakeBtn = document.getElementById("retake-quiz-btn");
+  const nextBtn = document.getElementById("quiz-next-btn");
+
   if (passed) {
     retakeBtn.style.display = "inline-flex";
     retakeBtn.innerHTML = '<i class="fas fa-redo"></i> Retake for Better Score';
+
+    // Enable Next button only if quiz is passed
+    if (nextBtn) {
+      nextBtn.disabled = false;
+      nextBtn.classList.add("btn-success");
+      nextBtn.classList.remove("btn-disabled");
+    }
   } else {
     retakeBtn.style.display = "none";
+
+    // Keep Next button disabled if quiz is failed
+    if (nextBtn) {
+      nextBtn.disabled = true;
+      nextBtn.classList.remove("btn-success");
+      nextBtn.classList.add("btn-disabled");
+    }
   }
 }
 
@@ -593,4 +624,34 @@ function backFromQuizResults() {
 
   // Check if there are more quizzes available
   setTimeout(checkAndShowQuizNotification, 500);
+}
+
+// Continue to next challenge after passing quiz
+function continueAfterQuiz() {
+  if (!currentQuiz) {
+    navigateToDashboard();
+    return;
+  }
+
+  const allChallenges = getAllChallenges().filter(
+    (c) => c.category === currentQuiz.category
+  );
+
+  // Find the challenge that comes after the last required challenge
+  const lastRequiredId =
+    currentQuiz.requiredChallenges[currentQuiz.requiredChallenges.length - 1];
+  const lastRequiredIndex = allChallenges.findIndex(
+    (c) => c.id === lastRequiredId
+  );
+
+  // If there's a next challenge, load it
+  if (lastRequiredIndex >= 0 && lastRequiredIndex < allChallenges.length - 1) {
+    const nextChallenge = allChallenges[lastRequiredIndex + 1];
+    loadChallenge(nextChallenge.id);
+    showToast(`Continuing to ${nextChallenge.title}`, "success");
+  } else {
+    // Otherwise go back to challenge list
+    showToast("You've completed all challenges in this path!", "success");
+    backToChallengeList();
+  }
 }
