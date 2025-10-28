@@ -77,6 +77,10 @@ function loadQuiz(quizId) {
   // Mark quiz as shown
   markQuizShown(quizId);
 
+  // Clear any existing modals before switching views
+  const existingModals = document.querySelectorAll(".modal-overlay");
+  existingModals.forEach((modal) => modal.remove());
+
   // Switch to quiz view
   switchView("quiz");
 

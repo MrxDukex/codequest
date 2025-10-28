@@ -497,6 +497,10 @@ body::before {
 .view {
   display: none;
   animation: fadeIn 0.3s ease;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background: var(--bg-primary);
 }
 
 .view.active {
@@ -2695,9 +2699,13 @@ body::before {
 /* ===== QUIZ STYLES ===== */
 #quiz-view {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--bg-primary);
+  position: relative;
+  z-index: 1;
 }
 
 #quiz-view .view-header {
@@ -2719,8 +2727,9 @@ body::before {
 .quiz-intro {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 60vh;
+  align-items: flex-start;
+  padding-top: 2rem;
+  min-height: calc(100vh - 200px);
   width: 100%;
 }
 
