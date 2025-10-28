@@ -248,7 +248,10 @@
   display: none;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1.5rem;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .tab-content.active {
@@ -283,6 +286,39 @@
   font-family: var(--font-code);
   font-size: 0.875rem;
   color: var(--color-primary);
+  word-break: break-word;
+}
+
+.instructions-content pre {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.instructions-content pre code {
+  background: transparent;
+  padding: 0;
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.instructions-content table {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.instructions-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* ===== HINTS ===== */
