@@ -1,0 +1,10 @@
+{
+  "chat.tools.autoApprove": true,
+  "chat.agent.maxRequests": 100,
+  "chat.experimental.defaultAgent": "copilot",
+  "chat.experimental.offtopic.enabled": true,
+  "workbench.commandPalette.experimental.suggestCommands": true,
+  "editor.experimental.asyncTokenization": true,
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.shellIntegration.decorationsEnabled": "both"
+}

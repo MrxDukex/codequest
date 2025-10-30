@@ -1,0 +1,42 @@
+{
+  "name": "mtg-judge-bot",
+  "version": "2.0.0",
+  "description": "A Discord bot that helps with Magic: The Gathering rules questions and card lookups",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node scripts/run-tests.js",
+    "test:unit": "node scripts/run-tests.js unit",
+    "test:integration": "node scripts/run-tests.js integration",
+    "test:stress": "node scripts/run-tests.js stress",
+    "update-rules": "node -e \"require('./src/rulesManager').downloadRules()\"",
+    "clean": "rm -rf node_modules package-lock.json && npm install"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "mtg",
+    "magic",
+    "judge",
+    "scryfall",
+    "rules"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@langchain/openai": "^0.6.7",
+    "axios": "^1.11.0",
+    "canvas": "^3.1.2",
+    "cheerio": "^1.1.2",
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.1",
+    "langchain": "^0.3.30",
+    "node-cache": "^5.1.2",
+    "node-cron": "^4.2.1",
+    "openai": "^5.11.0",
+    "puppeteer": "^24.16.0",
+    "rss-parser": "^3.13.0",
+    "sqlite3": "^5.1.7"
+  }
+}

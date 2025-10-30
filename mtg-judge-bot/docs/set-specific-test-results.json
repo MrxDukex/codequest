@@ -1,0 +1,177 @@
+{
+  "timestamp": "2025-08-10T02:52:53.559Z",
+  "summary": {
+    "total": 33,
+    "passed": 28,
+    "failed": 5,
+    "successRate": "84.8%",
+    "duration": "0.57s"
+  },
+  "tests": [
+    {
+      "name": "Parse \"!card lightning bolt from m21\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card sol ring cmr\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card lightning bolt\" (no set)",
+      "status": "FAILED",
+      "details": "Test returned false"
+    },
+    {
+      "name": "Parse \"!card sol ring CMR\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card lightning bolt from core set 2021\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Gifts from Above\"",
+      "status": "FAILED",
+      "details": "Test returned false"
+    },
+    {
+      "name": "Parse \"!card Gifts from Above from vow\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Escape from Orthanc ltr\"",
+      "status": "FAILED",
+      "details": "Test returned false"
+    },
+    {
+      "name": "Parse \"!card Blessings from Beyond from emn\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Urza's Saga from mh2\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Thalia, Guardian of Thraben dka\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Asmoranomardicadaistinaculdacar mh2\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card The Ur-Dragon from c17\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Force of Will 2xm\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Mox Opal\" (Opal not a set)",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Lightning Axe\" (Axe not a set)",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Lightning Axe soi\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Sword of Fire and Ice\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "API: Fetch \"Lightning Bolt\" from M21",
+      "status": "FAILED",
+      "details": "Test returned false"
+    },
+    {
+      "name": "API: \"Black Lotus\" not in M21",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "API: Fuzzy match \"lightening bolt\" in M21",
+      "status": "FAILED",
+      "details": "Test returned false"
+    },
+    {
+      "name": "API: Get all sets for \"Sol Ring\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "API: Invalid set code \"xyz123\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Ignore \"!judge how does cascade work?\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Ignore \"!cards lightning bolt, counterspell\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Only parse commands starting with \"!card \"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse card with em dash",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Void Winnower (Borderless) from 2xm\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card Fire // Ice from mh2\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card lightning bolt from core 2021\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card sol ring from commander legends: battle for baldur's gate\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card force of will 2xm\"",
+      "status": "PASSED",
+      "details": true
+    },
+    {
+      "name": "Parse \"!card lightning bolt mb1\"",
+      "status": "PASSED",
+      "details": true
+    }
+  ]
+}
