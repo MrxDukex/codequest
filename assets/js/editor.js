@@ -83,10 +83,10 @@ function loadChallenge(challengeId) {
   }
 
   // Ensure page is scrolled to top after all content loads
-  // This prevents the browser from auto-scrolling to textarea or iframe
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 100);
+  // Multiple attempts with delays to prevent browser auto-scroll to textarea/iframe
+  setTimeout(() => window.scrollTo(0, 0), 50);
+  setTimeout(() => window.scrollTo(0, 0), 150);
+  setTimeout(() => window.scrollTo(0, 0), 300);
 }
 
 // Load hints
