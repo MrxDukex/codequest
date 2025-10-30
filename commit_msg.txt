@@ -1,0 +1,9 @@
+Fix: Challenge page now loads at top instead of scrolling to bottom
+
+- Added setTimeout scroll to top after loadChallenge() completes
+- Prevents browser auto-scroll to textarea/iframe elements
+- Users now see challenge header and instructions first
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>

@@ -1,0 +1,12 @@
+{
+  "name": "CodeQuest - Web Development Learning",
+  "short_name": "CodeQuest",
+  "description": "Learn HTML, CSS, and JavaScript through interactive gamified challenges",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "orientation": "any",
+  "icons": [],
+  "categories": ["education", "productivity"]
+}

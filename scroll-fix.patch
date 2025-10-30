@@ -1,0 +1,17 @@
+diff --git a/assets/js/editor.js b/assets/js/editor.js
+index 2472312..27efca3 100644
+--- a/assets/js/editor.js
++++ b/assets/js/editor.js
+@@ -81,6 +81,12 @@ function loadChallenge(challengeId) {
+     progress.challengeStates[challengeId].status = "in-progress";
+     saveProgress(progress);
+   }
++
++  // Ensure page is scrolled to top after all content loads
++  // This prevents the browser from auto-scrolling to textarea or iframe
++  setTimeout(() => {
++    window.scrollTo(0, 0);
++  }, 100);
+ }
+
+ // Load hints

@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CodeQuest - Learn HTML, CSS, and JavaScript through interactive challenges"
+    />
+    <meta name="theme-color" content="#1a1a2e" />
+    <title>CodeQuest - Learn Web Development</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="assets/css/main.css?v=5" />
+    <link rel="stylesheet" href="assets/css/themes.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="logo-animation">
+          <i class="fas fa-code"></i>
+        </div>
+        <h2>CodeQuest</h2>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- First Time Tutorial Overlay -->
+    <div id="tutorial-overlay" class="tutorial-overlay hidden">
+      <div class="tutorial-content">
+        <div class="tutorial-step" data-step="1">
+          <h2>🎉 Welcome to CodeQuest!</h2>
+          <p>
+            Your journey to mastering web development starts here. Let's take a
+            quick tour!
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Let's Go!
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="2">
+          <h2>📊 Your Dashboard</h2>
+          <p>
+            Track your progress, XP, level, and daily streaks all in one place.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="3">
+          <h2>📚 Three Learning Paths</h2>
+          <p>
+            Master HTML, CSS, and JavaScript through 60+ interactive challenges.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="4">
+          <h2>🎮 Gamified Learning</h2>
+          <p>
+            Earn XP, unlock achievements, complete daily quests, and maintain
+            your streak!
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="5">
+          <h2>💡 Get Help When Stuck</h2>
+          <p>
+            Use progressive hints or the "Really Stuck" option to keep learning
+            without frustration.
+          </p>
+          <button class="btn btn-primary" onclick="nextTutorialStep()">
+            Next
+          </button>
+        </div>
+        <div class="tutorial-step hidden" data-step="6">
+          <h2>🚀 Ready to Start!</h2>
+          <p>
+            Your progress auto-saves and syncs across devices. Let's begin your
+            coding journey!
+          </p>
+          <button class="btn btn-primary" onclick="completeTutorial()">
+            Start Learning
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container hidden">
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <div
+          class="nav-brand"
+          onclick="switchView('dashboard')"
+          style="cursor: pointer"
+        >
+          <i class="fas fa-code"></i>
+          <span>CodeQuest</span>
+        </div>
+        <div class="nav-user">
+          <button
+            class="btn-sync"
+            onclick="showSyncCode()"
+            title="Sync with other devices"
+          >
+            <i class="fas fa-sync"></i>
+            <span class="sync-text">Sync</span>
+          </button>
+          <div class="menu-dropdown">
+            <button class="btn-menu" onclick="toggleMenu()" title="Menu">
+              <i class="fas fa-bars"></i>
+            </button>
+            <div class="menu-content" id="menuDropdown">
+              <button onclick="navigateToAchievements(); toggleMenu();">
+                <i class="fas fa-trophy"></i> Achievements
+              </button>
+              <button onclick="openSettings(); toggleMenu();">
+                <i class="fas fa-cog"></i> Settings
+              </button>
+              <button onclick="openHelp(); toggleMenu();">
+                <i class="fas fa-question-circle"></i> Help
+              </button>
+              <button onclick="syncToObsidian(); toggleMenu();">
+                <i class="fas fa-sync"></i> Sync to Obsidian
+              </button>
+              <button
+                onclick="navigateToProfile(); toggleMenu();"
+                class="hide-on-mobile"
+              >
+                <i class="fas fa-user"></i> Profile
+              </button>
+            </div>
+          </div>
+          <div class="user-xp">
+            <span class="xp-amount" id="nav-xp">0 XP</span>
+            <div class="xp-bar-small">
+              <div class="xp-progress-small" id="nav-xp-progress"></div>
+            </div>
+          </div>
+          <div class="user-level">
+            <span id="nav-level">Lvl 1</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view active">
+          <div class="dashboard-hero">
+            <div class="hero-left">
+              <h1 class="greeting" id="greeting">Welcome Back!</h1>
+              <p class="subtitle" id="subtitle">
+                Let's continue your learning journey
+              </p>
+              <div class="quick-stats">
+                <div class="stat-item">
+                  <i class="fas fa-fire"></i>
+                  <div>
+                    <span class="stat-value" id="streak-value">0</span>
+                    <span class="stat-label">Day Streak</span>
+                  </div>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-trophy"></i>
+                  <div>
+                    <span class="stat-value" id="achievements-value">0</span>
+                    <span class="stat-label">Achievements</span>
+                  </div>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <div>
+                    <span class="stat-value" id="time-value">0h</span>
+                    <span class="stat-label">Total Time</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-right">
+              <div class="level-card">
+                <div class="rank-shield" id="rank-shield">
+                  <img
+                    src="assets/images/shield-tier1-foundation.png"
+                    alt="Rank Shield"
+                    style="width: 80px; height: 80px; margin-bottom: 10px"
+                  />
+                </div>
+                <div class="rank-info" id="rank-info">
+                  <h3 class="rank-name">Novice</h3>
+                  <p class="rank-tier">Foundation</p>
+                </div>
+                <div class="level-circle">
+                  <span id="level-display">1</span>
+                </div>
+                <h3>Level <span id="level-text">1</span></h3>
+                <div class="xp-bar">
+                  <div class="xp-fill" id="xp-fill"></div>
+                </div>
+                <p class="xp-text">
+                  <span id="current-xp">0</span> /
+                  <span id="needed-xp">100</span> XP
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Continue Learning Section -->
+          <section class="continue-section" id="continue-section">
+            <div class="section-header">
+              <h2>
+                <i class="fas fa-play-circle"></i> Continue Where You Left Off
+              </h2>
+            </div>
+            <div class="continue-card" id="continue-card">
+              <div class="continue-info">
+                <span class="continue-category">HTML</span>
+                <h3 class="continue-title">No challenges in progress</h3>
+                <p class="continue-progress">Start a new challenge below!</p>
+              </div>
+              <button class="btn btn-primary" onclick="startFirstChallenge()">
+                <i class="fas fa-rocket"></i> Start Learning
+              </button>
+            </div>
+          </section>
+
+          <!-- Daily Quest Section -->
+          <section class="daily-quest-section">
+            <div class="section-header">
+              <h2><i class="fas fa-calendar-check"></i> Daily Quest</h2>
+              <span class="quest-timer" id="quest-timer"
+                >Resets in 12h 34m</span
+              >
+            </div>
+            <div class="quest-card" id="daily-quest">
+              <div class="quest-icon">🎯</div>
+              <div class="quest-details">
+                <h3 id="quest-title">Complete any challenge</h3>
+                <p id="quest-description">
+                  Complete any challenge to maintain your streak
+                </p>
+                <div class="quest-reward">
+                  <i class="fas fa-star"></i>
+                  <span id="quest-xp">+50 Bonus XP</span>
+                </div>
+              </div>
+              <div class="quest-status" id="quest-status">
+                <i class="fas fa-circle-notch"></i>
+              </div>
+            </div>
+          </section>
+
+          <!-- Learning Paths Section -->
+          <section class="learning-paths">
+            <div class="section-header">
+              <h2><i class="fas fa-map"></i> Choose Your Path</h2>
+            </div>
+
+            <div class="paths-scroll-wrapper">
+              <button
+                class="scroll-arrow scroll-arrow-left"
+                onclick="scrollPaths('left')"
+                aria-label="Scroll left"
+              >
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div class="paths-scroll-container" id="paths-scroll-container">
+                <!-- HTML Path -->
+                <div
+                  class="path-card html-card"
+                  onclick="navigateToPath('html')"
+                >
+                  <div class="path-icon">
+                    <i class="fab fa-html5"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>HTML</h3>
+                    <p>Master the structure of the web</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="html-completed"
+                        >0/20 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill html-progress"
+                          id="html-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="html-quizzes">
+                      <!-- Quiz checkpoints will be loaded here -->
+                    </div>
+                    <button class="btn btn-outline-html">
+                      <span id="html-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- CSS Path -->
+                <div class="path-card css-card" onclick="navigateToPath('css')">
+                  <div class="path-icon">
+                    <i class="fab fa-css3-alt"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>CSS</h3>
+                    <p>Design beautiful interfaces</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="css-completed"
+                        >0/20 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill css-progress"
+                          id="css-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="css-quizzes">
+                      <!-- Quiz checkpoints will be loaded here -->
+                    </div>
+                    <button class="btn btn-outline-css">
+                      <span id="css-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- JavaScript Path -->
+                <div
+                  class="path-card js-card"
+                  onclick="navigateToPath('javascript')"
+                >
+                  <div class="path-icon">
+                    <i class="fab fa-js"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>JavaScript</h3>
+                    <p>Bring your pages to life</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="js-completed"
+                        >0/25 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill js-progress"
+                          id="js-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="js-quizzes">
+                      <!-- Quiz checkpoints will be loaded here -->
+                    </div>
+                    <button class="btn btn-outline-js">
+                      <span id="js-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- React Path -->
+                <div
+                  class="path-card react-card"
+                  onclick="navigateToPath('react')"
+                >
+                  <div class="path-icon">
+                    <i class="fab fa-react"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>React</h3>
+                    <p>Build dynamic user interfaces</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="react-completed"
+                        >0/20 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill react-progress"
+                          id="react-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="react-quizzes"></div>
+                    <button class="btn btn-outline-react">
+                      <span id="react-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Next.js Path -->
+                <div
+                  class="path-card nextjs-card"
+                  onclick="navigateToPath('nextjs')"
+                >
+                  <div class="path-icon">
+                    <i class="fas fa-layer-group"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>Next.js</h3>
+                    <p>Full-stack React framework</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="nextjs-completed"
+                        >0/15 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill nextjs-progress"
+                          id="nextjs-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="nextjs-quizzes"></div>
+                    <button class="btn btn-outline-nextjs">
+                      <span id="nextjs-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- MySQL Path -->
+                <div
+                  class="path-card mysql-card"
+                  onclick="navigateToPath('mysql')"
+                >
+                  <div class="path-icon">
+                    <i class="fas fa-database"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>MySQL</h3>
+                    <p>Popular relational database</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="mysql-completed"
+                        >0/15 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill mysql-progress"
+                          id="mysql-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="mysql-quizzes"></div>
+                    <button class="btn btn-outline-mysql">
+                      <span id="mysql-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- PostgreSQL Path -->
+                <div
+                  class="path-card postgres-card"
+                  onclick="navigateToPath('postgresql')"
+                >
+                  <div class="path-icon">
+                    <i class="fas fa-elephant"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>PostgreSQL</h3>
+                    <p>Advanced relational database</p>
+                    <div class="path-stats">
+                      <span
+                        class="challenges-completed"
+                        id="postgresql-completed"
+                        >0/15 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill postgresql-progress"
+                          id="postgresql-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="postgresql-quizzes"></div>
+                    <button class="btn btn-outline-postgresql">
+                      <span id="postgresql-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- SQLite Path -->
+                <div
+                  class="path-card sqlite-card"
+                  onclick="navigateToPath('sqlite')"
+                >
+                  <div class="path-icon">
+                    <i class="fas fa-feather"></i>
+                  </div>
+                  <div class="path-content">
+                    <h3>SQLite</h3>
+                    <p>Lightweight embedded database</p>
+                    <div class="path-stats">
+                      <span class="challenges-completed" id="sqlite-completed"
+                        >0/15 Complete</span
+                      >
+                      <div class="progress-bar">
+                        <div
+                          class="progress-fill sqlite-progress"
+                          id="sqlite-progress"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="path-quizzes" id="sqlite-quizzes"></div>
+                    <button class="btn btn-outline-sqlite">
+                      <span id="sqlite-btn-text">Start Path</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="scroll-arrow scroll-arrow-right"
+                onclick="scrollPaths('right')"
+                aria-label="Scroll right"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </section>
+
+          <!-- Advanced Section -->
+          <section class="paths-section">
+            <h2 class="section-title">
+              <i class="fas fa-trophy"></i> Advanced
+            </h2>
+            <div class="paths-grid">
+              <!-- Projects Path -->
+              <div
+                class="path-card projects-card locked"
+                id="projects-card"
+                onclick="checkAndNavigateToProjects()"
+              >
+                <div class="path-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <div class="path-content">
+                  <h3>Final Projects</h3>
+                  <p>Build real-world applications</p>
+                  <div class="path-stats">
+                    <span class="challenges-completed" id="projects-completed"
+                      >0/5 Complete</span
+                    >
+                    <div class="lock-message" id="projects-lock-message">
+                      <i class="fas fa-lock"></i>
+                      <span>Pass all path final exams to unlock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Final Exam -->
+              <div
+                class="path-card final-exam-card locked"
+                id="final-exam-card"
+                onclick="checkAndTakeFinalExam()"
+              >
+                <div class="path-icon">
+                  <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="path-content">
+                  <h3>Grand Final Exam</h3>
+                  <p>Test your complete knowledge</p>
+                  <div class="path-stats">
+                    <span class="exam-info" id="final-exam-info">
+                      <i class="fas fa-lock"></i> Pass all path final exams
+                      first
+                    </span>
+                  </div>
+                  <div
+                    class="exam-details"
+                    id="final-exam-details"
+                    style="display: none"
+                  >
+                    <div class="exam-meta">
+                      <span
+                        ><i class="fas fa-question-circle"></i> 10
+                        Questions</span
+                      >
+                      <span><i class="fas fa-trophy"></i> +200 XP</span>
+                      <span><i class="fas fa-chart-line"></i> 75% to Pass</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sandbox Section -->
+          <section class="sandbox-section">
+            <div class="sandbox-card" onclick="navigateToPlayground()">
+              <div class="sandbox-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div class="sandbox-content">
+                <h3>🧪 Code Playground</h3>
+                <p>Experiment freely with HTML, CSS, and JavaScript</p>
+              </div>
+              <button class="btn btn-outline">
+                Open Playground
+                <i class="fas fa-external-link-alt"></i>
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Challenge List View -->
+        <div id="challenge-list-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1 id="path-title">HTML Challenges</h1>
+              <p id="path-subtitle">Master the structure of the web</p>
+            </div>
+            <div class="path-progress-header">
+              <span id="path-progress-text">0/20 Complete</span>
+            </div>
+          </div>
+          <div class="challenges-list" id="challenges-list">
+            <!-- Challenges will be dynamically loaded here -->
+          </div>
+        </div>
+
+        <!-- Challenge View -->
+        <div id="challenge-view" class="view">
+          <div class="challenge-header">
+            <button class="btn-back" onclick="backToChallengeList()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="challenge-title-section">
+              <h2 id="challenge-title">Challenge Title</h2>
+              <div class="challenge-meta">
+                <span class="challenge-category" id="challenge-category"
+                  >HTML</span
+                >
+                <span class="challenge-difficulty" id="challenge-difficulty"
+                  >Beginner</span
+                >
+                <span class="challenge-xp" id="challenge-xp">+10 XP</span>
+              </div>
+            </div>
+            <div class="challenge-actions">
+              <button
+                class="btn btn-secondary btn-sm"
+                onclick="giveUpChallenge()"
+              >
+                <i class="fas fa-flag"></i> Give Up
+              </button>
+              <button
+                class="btn btn-outline btn-sm"
+                id="prev-challenge-btn"
+                onclick="previousChallenge()"
+              >
+                <i class="fas fa-chevron-left"></i> Previous
+              </button>
+              <button
+                class="btn btn-primary btn-sm"
+                id="next-challenge-btn"
+                onclick="nextChallenge()"
+                disabled
+              >
+                Next <i class="fas fa-chevron-right"></i>
+              </button>
+              <button
+                class="btn btn-icon"
+                onclick="resetChallenge()"
+                title="Reset Code"
+              >
+                <i class="fas fa-redo"></i>
+              </button>
+              <button
+                class="btn btn-icon"
+                id="code-buttons-toggle"
+                onclick="toggleCodeButtons()"
+                title="Toggle Quick Buttons"
+              >
+                <i class="fas fa-keyboard"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="challenge-container">
+            <!-- Instructions Panel -->
+            <div class="instructions-panel">
+              <div class="panel-tabs">
+                <button
+                  class="tab-btn active"
+                  data-tab="instructions"
+                  onclick="switchTab('instructions')"
+                >
+                  <i class="fas fa-list"></i> Instructions
+                </button>
+                <button
+                  class="tab-btn"
+                  data-tab="hints"
+                  onclick="switchTab('hints')"
+                >
+                  <i class="fas fa-lightbulb"></i> Hints
+                </button>
+                <button
+                  class="tab-btn"
+                  data-tab="tests"
+                  onclick="switchTab('tests')"
+                >
+                  <i class="fas fa-check-circle"></i> Tests
+                </button>
+              </div>
+
+              <div class="tab-content active" data-tab="instructions">
+                <div class="instructions-content" id="instructions-content">
+                  <p>Loading challenge...</p>
+                </div>
+              </div>
+
+              <div class="tab-content" data-tab="hints">
+                <div class="hints-content">
+                  <div class="hints-header">
+                    <p>Need help? Use hints to guide you!</p>
+                    <span class="hints-counter" id="hints-counter"
+                      >0/3 hints used</span
+                    >
+                  </div>
+                  <div class="hints-list" id="hints-list">
+                    <!-- Hints will be loaded here -->
+                  </div>
+                  <div class="really-stuck-section">
+                    <button
+                      class="btn btn-warning"
+                      id="really-stuck-btn"
+                      onclick="showSolution()"
+                    >
+                      <i class="fas fa-eye"></i> I'm Really Stuck - Show
+                      Solution
+                    </button>
+                    <p class="warning-text">
+                      Using this will reduce XP and mark for review
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-content" data-tab="tests">
+                <div class="tests-content">
+                  <div class="tests-header">
+                    <p>Your code must pass these tests:</p>
+                  </div>
+                  <div class="tests-list" id="tests-list">
+                    <!-- Tests will be loaded here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code Editor Panel -->
+            <div class="editor-panel">
+              <div class="editor-header">
+                <span><i class="fas fa-code"></i> Your Code</span>
+                <div class="editor-actions">
+                  <button
+                    class="btn btn-sm btn-success"
+                    onclick="checkAnswer()"
+                  >
+                    <i class="fas fa-check-circle"></i> Check Answer
+                  </button>
+                </div>
+              </div>
+              <div class="quick-code-buttons hidden" id="quick-code-buttons">
+                <!-- Will be populated based on challenge type -->
+              </div>
+              <div class="code-editor" id="code-editor">
+                <textarea id="code-input" spellcheck="false"></textarea>
+              </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+              <div class="preview-header">
+                <span><i class="fas fa-eye"></i> Preview</span>
+                <button class="btn btn-sm" onclick="refreshPreview()">
+                  <i class="fas fa-sync"></i> Refresh
+                </button>
+              </div>
+              <div class="preview-content">
+                <iframe
+                  id="preview-frame"
+                  sandbox="allow-scripts"
+                  title="Code Preview"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="backFromQuiz()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1>
+                <i class="fas fa-graduation-cap"></i>
+                <span id="quiz-title">Quiz</span>
+              </h1>
+            </div>
+          </div>
+
+          <div class="quiz-container">
+            <!-- Quiz Intro -->
+            <div id="quiz-intro" class="quiz-intro">
+              <div class="quiz-intro-card">
+                <h2 id="quiz-intro-title">Ready for a Quiz?</h2>
+                <p id="quiz-intro-description">
+                  Test your knowledge of the concepts you've learned.
+                </p>
+
+                <div class="quiz-info">
+                  <div class="quiz-info-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span
+                      ><strong id="quiz-question-count">5</strong>
+                      Questions</span
+                    >
+                  </div>
+                  <div class="quiz-info-item">
+                    <i class="fas fa-trophy"></i>
+                    <span
+                      ><strong id="quiz-passing-score">70</strong>% to
+                      Pass</span
+                    >
+                  </div>
+                  <div class="quiz-info-item">
+                    <i class="fas fa-star"></i>
+                    <span
+                      ><strong>+<span id="quiz-xp-reward">50</span> XP</strong>
+                      Reward</span
+                    >
+                  </div>
+                </div>
+
+                <div id="quiz-status-message" class="quiz-status-message"></div>
+
+                <div
+                  class="quiz-previous-attempts"
+                  id="quiz-previous-attempts"
+                  style="display: none"
+                >
+                  <h4>Previous Attempts:</h4>
+                  <div id="quiz-attempts-list"></div>
+                </div>
+
+                <div class="quiz-intro-buttons">
+                  <button
+                    class="btn btn-primary btn-large"
+                    id="start-quiz-btn"
+                    onclick="startQuiz()"
+                  >
+                    <i class="fas fa-play"></i> Start Quiz
+                  </button>
+                  <button
+                    class="btn btn-success btn-large"
+                    id="quiz-intro-next-btn"
+                    onclick="continueAfterQuiz()"
+                    style="display: none"
+                    disabled
+                  >
+                    <i class="fas fa-arrow-right"></i> Next Challenge
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quiz Questions -->
+            <div
+              id="quiz-questions"
+              class="quiz-questions"
+              style="display: none"
+            >
+              <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                <span class="quiz-progress-text" id="quiz-progress-text"
+                  >Question 1 of 5</span
+                >
+              </div>
+
+              <div id="quiz-question-container" class="quiz-question-container">
+                <!-- Questions will be loaded here -->
+              </div>
+
+              <div class="quiz-navigation">
+                <button
+                  class="btn btn-secondary"
+                  id="quiz-prev-btn"
+                  onclick="previousQuizQuestion()"
+                  disabled
+                >
+                  <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="quiz-next-btn"
+                  onclick="nextQuizQuestion()"
+                >
+                  Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button
+                  class="btn btn-success"
+                  id="quiz-submit-btn"
+                  onclick="submitQuiz()"
+                  style="display: none"
+                >
+                  <i class="fas fa-check"></i> Submit Quiz
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quiz-results" class="quiz-results" style="display: none">
+              <div class="quiz-results-card">
+                <div class="quiz-results-icon" id="quiz-results-icon">
+                  <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="quiz-results-title">Quiz Complete!</h2>
+                <div class="quiz-score">
+                  <span id="quiz-score-text">85%</span>
+                  <p id="quiz-score-message">Great job! You passed!</p>
+                </div>
+
+                <div class="quiz-breakdown">
+                  <div class="quiz-breakdown-item">
+                    <span>Correct Answers:</span>
+                    <strong id="quiz-correct-count">4/5</strong>
+                  </div>
+                  <div class="quiz-breakdown-item">
+                    <span>XP Earned:</span>
+                    <strong id="quiz-xp-earned">+50 XP</strong>
+                  </div>
+                </div>
+
+                <div
+                  id="quiz-remedial-message"
+                  class="quiz-remedial-message"
+                  style="display: none"
+                >
+                  <i class="fas fa-book"></i>
+                  <p>
+                    To retake this quiz, please review and complete the
+                    following challenges:
+                  </p>
+                  <ul id="quiz-remedial-list"></ul>
+                </div>
+
+                <div class="quiz-review-section">
+                  <h4>Review Your Answers:</h4>
+                  <div id="quiz-review-list"></div>
+                </div>
+
+                <div class="quiz-results-actions">
+                  <button
+                    class="btn btn-secondary"
+                    onclick="backFromQuizResults()"
+                  >
+                    <i class="fas fa-arrow-left"></i> Back to List
+                  </button>
+                  <button
+                    class="btn btn-secondary"
+                    id="retake-quiz-btn"
+                    onclick="retakeQuiz()"
+                    style="display: none"
+                  >
+                    <i class="fas fa-redo"></i> Retake Quiz
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    id="quiz-next-btn"
+                    onclick="continueAfterQuiz()"
+                    disabled
+                  >
+                    <i class="fas fa-arrow-right"></i> Next Challenge
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Playground View -->
+        <div id="playground-view" class="view">
+          <div class="playground-header">
+            <div class="playground-header-top">
+              <button class="btn-back" onclick="navigateToDashboard()">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <h2>🧪 Code Playground</h2>
+            </div>
+            <div class="playground-header-bottom">
+              <select
+                id="playground-language"
+                onchange="switchPlaygroundLanguage()"
+                class="language-select"
+              >
+                <option value="web">Web (HTML/CSS/JS)</option>
+                <option value="javascript">JavaScript</option>
+                <option value="react">React JSX</option>
+                <option value="sql">SQL</option>
+              </select>
+              <div class="playground-buttons">
+                <button
+                  class="btn btn-sm btn-outline"
+                  onclick="clearPlayground()"
+                >
+                  <i class="fas fa-trash"></i> Clear
+                </button>
+                <button
+                  class="btn btn-sm btn-primary"
+                  onclick="runPlaygroundCode()"
+                >
+                  <i class="fas fa-play"></i> Run
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="playground-container">
+            <!-- Web Development Mode (HTML/CSS/JS) -->
+            <div id="playground-web-mode" class="playground-mode">
+              <div class="playground-editors">
+                <div class="playground-editor">
+                  <div class="editor-tab">
+                    <i class="fab fa-html5"></i> HTML
+                  </div>
+                  <textarea id="playground-html" spellcheck="false"></textarea>
+                </div>
+                <div class="playground-editor">
+                  <div class="editor-tab">
+                    <i class="fab fa-css3-alt"></i> CSS
+                  </div>
+                  <textarea id="playground-css" spellcheck="false"></textarea>
+                </div>
+                <div class="playground-editor">
+                  <div class="editor-tab">
+                    <i class="fab fa-js"></i> JavaScript
+                  </div>
+                  <textarea id="playground-js" spellcheck="false"></textarea>
+                </div>
+              </div>
+              <div class="playground-preview">
+                <div class="preview-header">
+                  <span><i class="fas fa-eye"></i> Live Preview</span>
+                  <button
+                    class="btn btn-sm"
+                    onclick="refreshPlaygroundPreview()"
+                  >
+                    <i class="fas fa-sync"></i> Refresh
+                  </button>
+                </div>
+                <iframe
+                  id="playground-frame"
+                  sandbox="allow-scripts allow-modals"
+                  title="Playground Preview"
+                ></iframe>
+              </div>
+            </div>
+
+            <!-- Single Language Mode -->
+            <div
+              id="playground-single-mode"
+              class="playground-mode"
+              style="display: none"
+            >
+              <div class="playground-single-editor">
+                <div class="editor-header">
+                  <div class="editor-tab">
+                    <i class="fas fa-code" id="single-editor-icon"></i>
+                    <span id="single-editor-label">Code</span>
+                  </div>
+                  <span class="editor-info" id="editor-info-text"
+                    >Write your code here</span
+                  >
+                </div>
+                <textarea
+                  id="playground-single"
+                  spellcheck="false"
+                  placeholder="Start coding..."
+                ></textarea>
+              </div>
+              <div class="playground-output">
+                <div class="output-header">
+                  <span><i class="fas fa-terminal"></i> Output</span>
+                  <button class="btn btn-sm" onclick="clearPlaygroundOutput()">
+                    <i class="fas fa-eraser"></i> Clear
+                  </button>
+                </div>
+                <div id="playground-output-content" class="output-content">
+                  <div class="output-placeholder">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Click "Run" to see the output</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Achievements View -->
+        <div id="achievements-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1><i class="fas fa-trophy"></i> Achievements</h1>
+              <p id="achievements-subtitle">0 of 40 unlocked</p>
+            </div>
+          </div>
+          <div class="achievements-grid" id="achievements-grid">
+            <!-- Achievements will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Profile/Stats View -->
+        <div id="profile-view" class="view">
+          <div class="view-header">
+            <button class="btn-back" onclick="navigateToDashboard()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="view-title">
+              <h1><i class="fas fa-user"></i> Your Profile</h1>
+            </div>
+          </div>
+          <div class="profile-container">
+            <div class="profile-header-card">
+              <div class="profile-avatar">
+                <span id="profile-level">1</span>
+              </div>
+              <div class="profile-info">
+                <h2 id="profile-name">CodeQuest Learner</h2>
+                <p id="profile-title">Beginner Developer</p>
+                <div class="profile-xp">
+                  <span id="profile-xp-text">0 / 100 XP</span>
+                  <div class="xp-bar">
+                    <div class="xp-fill" id="profile-xp-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <i class="fas fa-code"></i>
+                <h3 id="total-challenges">0</h3>
+                <p>Challenges Completed</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3 id="total-time">0h 0m</h3>
+                <p>Time Spent Learning</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-fire"></i>
+                <h3 id="current-streak">0</h3>
+                <p>Day Streak</p>
+              </div>
+              <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <h3 id="accuracy-stat">0%</h3>
+                <p>Success Rate</p>
+              </div>
+            </div>
+
+            <div class="detailed-stats">
+              <h3>Detailed Statistics</h3>
+              <div class="stat-row">
+                <span>Total XP Earned:</span>
+                <strong id="total-xp">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Challenges Attempted:</span>
+                <strong id="attempted-challenges">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Average Time per Challenge:</span>
+                <strong id="avg-time">0m</strong>
+              </div>
+              <div class="stat-row">
+                <span>Hints Used:</span>
+                <strong id="total-hints">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Perfect Completions:</span>
+                <strong id="perfect-completions">0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Longest Streak:</span>
+                <strong id="longest-streak">0 days</strong>
+              </div>
+            </div>
+
+            <div class="progress-breakdown">
+              <h3>Progress by Category</h3>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-html5"></i> HTML</span>
+                  <span id="html-progress-text">0/20</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill html-progress"
+                    id="profile-html-progress"
+                  ></div>
+                </div>
+              </div>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-css3-alt"></i> CSS</span>
+                  <span id="css-progress-text">0/20</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill css-progress"
+                    id="profile-css-progress"
+                  ></div>
+                </div>
+              </div>
+              <div class="category-progress">
+                <div class="category-header">
+                  <span><i class="fab fa-js"></i> JavaScript</span>
+                  <span id="js-progress-text">0/25</span>
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill js-progress"
+                    id="profile-js-progress"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-actions">
+              <button class="btn btn-outline" onclick="exportProgress()">
+                <i class="fas fa-download"></i> Export Progress
+              </button>
+              <button class="btn btn-outline" onclick="syncToObsidian()">
+                <i class="fas fa-sync"></i> Sync to Obsidian
+              </button>
+              <button class="btn btn-danger" onclick="resetProgress()">
+                <i class="fas fa-exclamation-triangle"></i> Reset All Progress
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Bottom Navigation (Mobile) -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" onclick="navigateToDashboard()">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="navigateToPath('html')">
+          <i class="fas fa-book"></i>
+          <span>Learn</span>
+        </button>
+        <button class="nav-item" onclick="navigateToPlayground()">
+          <i class="fas fa-flask"></i>
+          <span>Play</span>
+        </button>
+        <button class="nav-item" onclick="navigateToAchievements()">
+          <i class="fas fa-trophy"></i>
+          <span>Wins</span>
+        </button>
+        <button class="nav-item" onclick="navigateToProfile()">
+          <i class="fas fa-user"></i>
+          <span>Me</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="achievement-popup hidden">
+      <div class="achievement-content">
+        <div class="achievement-icon">🏆</div>
+        <h3>Achievement Unlocked!</h3>
+        <p id="achievement-name">Achievement Name</p>
+        <span id="achievement-xp">+50 XP</span>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+      <div class="modal-content settings-modal">
+        <div class="modal-header">
+          <h2><i class="fas fa-cog"></i> Settings</h2>
+          <button class="btn-close" onclick="closeSettings()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Theme Settings -->
+          <div class="settings-section">
+            <h3><i class="fas fa-palette"></i> Appearance</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Theme</label>
+                <p>Choose your preferred color theme</p>
+              </div>
+              <div class="setting-control">
+                <select id="theme-select" onchange="changeTheme(this.value)">
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editor Settings -->
+          <div class="settings-section">
+            <h3><i class="fas fa-code"></i> Code Editor</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Font Size</label>
+                <p>Adjust editor text size</p>
+              </div>
+              <div class="setting-control">
+                <select
+                  id="editor-font-size"
+                  onchange="changeEditorFontSize(this.value)"
+                >
+                  <option value="small">Small (14px)</option>
+                  <option value="medium" selected>Medium (16px)</option>
+                  <option value="large">Large (18px)</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Editor Theme</label>
+                <p>Syntax highlighting color scheme</p>
+              </div>
+              <div class="setting-control">
+                <select
+                  id="editor-theme"
+                  onchange="changeEditorTheme(this.value)"
+                >
+                  <option value="dark" selected>Dark</option>
+                  <option value="light">Light</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Line Numbers</label>
+                <p>Show line numbers in editor</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="line-numbers"
+                    onchange="toggleLineNumbers(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Auto-Complete</label>
+                <p>Enable code suggestions</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="auto-complete"
+                    onchange="toggleAutoComplete(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Word Wrap</label>
+                <p>Wrap long lines of code</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="word-wrap"
+                    onchange="toggleWordWrap(this.checked)"
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Tab Size</label>
+                <p>Spaces per indentation level</p>
+              </div>
+              <div class="setting-control">
+                <select id="tab-size" onchange="changeTabSize(this.value)">
+                  <option value="2" selected>2 Spaces</option>
+                  <option value="4">4 Spaces</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Learning Settings -->
+          <div class="settings-section">
+            <h3><i class="fas fa-graduation-cap"></i> Learning</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Auto-Hints</label>
+                <p>Show hints after failed attempts</p>
+              </div>
+              <div class="setting-control">
+                <select id="auto-hints" onchange="changeAutoHints(this.value)">
+                  <option value="off">Off</option>
+                  <option value="3">After 3 attempts</option>
+                  <option value="5" selected>After 5 attempts</option>
+                  <option value="7">After 7 attempts</option>
+                </select>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Progressive Difficulty</label>
+                <p>Skip easier challenges if advanced</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="progressive-difficulty"
+                    onchange="toggleProgressiveDifficulty(this.checked)"
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Solution Timer</label>
+                <p>Show time spent on challenge</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="solution-timer"
+                    onchange="toggleSolutionTimer(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notification Settings -->
+          <div class="settings-section">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Achievement Pop-ups</label>
+                <p>Show notifications for achievements</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="achievement-popups"
+                    onchange="toggleAchievementPopups(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Daily Quest Reminders</label>
+                <p>Remind about incomplete daily quests</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="daily-reminders"
+                    onchange="toggleDailyReminders(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info">
+                <label>Streak Warnings</label>
+                <p>Alert when about to lose streak</p>
+              </div>
+              <div class="setting-control">
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="streak-warnings"
+                    onchange="toggleStreakWarnings(this.checked)"
+                    checked
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal hidden">
+      <div class="modal-content help-modal">
+        <div class="modal-header">
+          <h2><i class="fas fa-question-circle"></i> Help & Guide</h2>
+          <button class="btn-close" onclick="closeHelp()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Getting Started -->
+          <div class="help-section">
+            <h3><i class="fas fa-rocket"></i> Getting Started</h3>
+            <div class="help-item">
+              <h4>How to Use CodeQuest</h4>
+              <p>
+                CodeQuest helps you learn web development through interactive
+                coding challenges. Choose a learning path (HTML, CSS, or
+                JavaScript), complete challenges, and earn XP to level up!
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Writing Code</h4>
+              <p>
+                Type your code in the editor on the left. Click
+                <strong>"Check Answer"</strong> to test your solution. The
+                preview updates automatically as you type.
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Getting Hints</h4>
+              <p>
+                Stuck on a challenge? Click <strong>"Get Hint"</strong> for
+                progressive tips. Need more help? Use
+                <strong>"I'm Really Stuck"</strong> for direct guidance.
+              </p>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="help-section">
+            <h3><i class="fas fa-star"></i> Features</h3>
+            <div class="help-item">
+              <h4>XP & Leveling</h4>
+              <p>
+                Earn XP by completing challenges. Level up to unlock
+                achievements and show your progress!
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Daily Quests</h4>
+              <p>
+                Complete daily quests for bonus XP. Quests reset every 24 hours.
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Streaks</h4>
+              <p>
+                Maintain your learning streak by completing at least one
+                challenge per day. Don't break the chain!
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Achievements</h4>
+              <p>
+                Unlock 40+ achievements by completing challenges, maintaining
+                streaks, and reaching milestones.
+              </p>
+            </div>
+          </div>
+
+          <!-- Keyboard Shortcuts -->
+          <div class="help-section">
+            <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+            <div class="shortcut-grid">
+              <div class="shortcut-item">
+                <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+                <span>Run Preview</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                <span>Check Answer</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Ctrl</kbd> + <kbd>H</kbd>
+                <span>Get Hint</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Ctrl</kbd> + <kbd>/</kbd>
+                <span>Toggle Comment</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Tab</kbd>
+                <span>Indent</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Shift</kbd> + <kbd>Tab</kbd>
+                <span>Unindent</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tips -->
+          <div class="help-section">
+            <h3><i class="fas fa-lightbulb"></i> Tips for Success</h3>
+            <ul class="tips-list">
+              <li>
+                <strong>Practice Daily:</strong> Even 15 minutes a day helps
+                build skills consistently.
+              </li>
+              <li>
+                <strong>Read Error Messages:</strong> They often tell you
+                exactly what's wrong.
+              </li>
+              <li>
+                <strong>Experiment:</strong> Try different approaches to
+                understand concepts better.
+              </li>
+              <li>
+                <strong>Use Hints Wisely:</strong> Try solving independently
+                before asking for help.
+              </li>
+              <li>
+                <strong>Review Completed Challenges:</strong> Revisit them to
+                reinforce learning.
+              </li>
+            </ul>
+          </div>
+
+          <!-- FAQ -->
+          <div class="help-section">
+            <h3><i class="fas fa-question"></i> FAQ</h3>
+            <div class="help-item">
+              <h4>Is my progress saved?</h4>
+              <p>
+                Yes! Your progress auto-saves locally and syncs to the cloud if
+                you're signed in.
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>Can I use CodeQuest on mobile?</h4>
+              <p>
+                Absolutely! CodeQuest is fully responsive and works great on
+                phones and tablets.
+              </p>
+            </div>
+            <div class="help-item">
+              <h4>What if I want to reset my progress?</h4>
+              <p>
+                Go to your Profile page and click "Reset All Progress" at the
+                bottom.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/challenges.js"></script>
+    <script src="assets/js/quizzes.js"></script>
+    <script src="assets/js/quiz-ui.js"></script>
+    <script src="assets/js/progress.js"></script>
+    <script src="assets/js/gamification.js"></script>
+    <script src="assets/js/editor.js"></script>
+    <script src="assets/js/obsidian.js"></script>
+    <script src="assets/js/settings.js"></script>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInAnonymously,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDoc,
+        onSnapshot,
+        collection,
+        query,
+        where,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAL9lcbHr3wOK2froZplZqVDH5shGO_zp0",
+        authDomain: "codequest-aa300.firebaseapp.com",
+        projectId: "codequest-aa300",
+        storageBucket: "codequest-aa300.firebasestorage.app",
+        messagingSenderId: "679800324705",
+        appId: "1:679800324705:web:d676858ed9d598ce3c2020",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // Make Firebase accessible globally
+      window.firebaseApp = app;
+      window.firebaseAuth = auth;
+      window.firebaseDb = db;
+      window.firebaseModules = {
+        doc,
+        setDoc,
+        getDoc,
+        onSnapshot,
+        collection,
+        query,
+        where,
+        getDocs,
+        signInAnonymously,
+        onAuthStateChanged,
+      };
+
+      // Auto-login anonymously and start sync
+      signInAnonymously(auth)
+        .then(() => {
+          console.log("✅ Firebase: Signed in anonymously");
+          // Initialize sync after auth
+          if (window.initializeFirebaseSync) {
+            window.initializeFirebaseSync();
+          }
+        })
+        .catch((error) => {
+          console.error("❌ Firebase auth error:", error);
+        });
+    </script>
+    <script src="assets/js/firebase-sync.js"></script>
+  </body>
+</html>
