@@ -1,0 +1,23 @@
+# Personal sync information - DO NOT COMMIT
+SYNC_INFO.md
+.copilot-instructions.md
+
+# Local environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Personal notes
+*_PERSONAL.md
+*_private.md

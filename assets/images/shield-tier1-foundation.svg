@@ -1,0 +1,177 @@
+<svg width="160" height="200" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Metallic gradients with realistic shading -->
+    <linearGradient id="bronzeDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B87333;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#CD7F32;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8B6914;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#6B5321;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3E2F1B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF4E0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="emeraldField" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5FAD56;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#3E7B34;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#2A5F23;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1B3A19;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="emboss" cx="50%" cy="40%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.4" />
+      <stop offset="60%" style="stop-color:#000000;stop-opacity:0" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <!-- Advanced filters -->
+    <filter id="deepShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="3" dy="4" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="engraving">
+      <feMorphology operator="dilate" radius="0.5"/>
+      <feGaussianBlur stdDeviation="0.5"/>
+      <feComposite operator="out" in="SourceGraphic"/>
+    </filter>
+    <filter id="metalGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Decorative mantling frame (cloth draping) -->
+  <path d="M80 5 Q75 8 72 15 Q68 25 65 35 L60 45 Q55 40 50 38 Q45 36 40 35 Q35 34 30 35 L25 40 Q20 50 18 60 L15 80 Q13 95 15 110 L20 125 Q25 135 35 140" 
+        fill="#2A5F23" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
+  <path d="M80 5 Q85 8 88 15 Q92 25 95 35 L100 45 Q105 40 110 38 Q115 36 120 35 Q125 34 130 35 L135 40 Q140 50 142 60 L145 80 Q147 95 145 110 L140 125 Q135 135 125 140" 
+        fill="#2A5F23" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- Main heraldic heater shield with embossed edge -->
+  <path d="M80 15 L85 12 L90 15 L135 35 L145 55 L148 80 L148 105 Q148 130 125 152 Q105 170 80 180 Q55 170 35 152 Q12 130 12 105 L12 80 L15 55 L25 35 L70 15 L75 12 Z" 
+        fill="url(#bronzeDeep)" stroke="#3E2F1B" stroke-width="4" filter="url(#deepShadow)"/>
+  
+  <!-- Beveled edge detail -->
+  <path d="M80 18 L132 37 L142 57 L145 80 L145 105 Q145 128 123 148 Q105 165 80 175 Q55 165 37 148 Q15 128 15 105 L15 80 L18 57 L28 37 Z" 
+        fill="none" stroke="url(#goldHighlight)" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Inner field (per pale division - split field) -->
+  <path d="M80 25 L125 42 L135 60 L138 82 L138 105 Q138 125 118 143 Q102 157 80 165 Q58 157 42 143 Q22 125 22 105 L22 82 L25 60 L35 42 Z" 
+        fill="url(#emeraldField)" stroke="#FFD700" stroke-width="2.5"/>
+  
+  <!-- Embossed pattern overlay -->
+  <ellipse cx="80" cy="85" rx="50" ry="60" fill="url(#emboss)" opacity="0.5"/>
+  
+  <!-- Ornate Gothic tracery border -->
+  <g id="tracery">
+    <!-- Trefoil patterns -->
+    <circle cx="45" cy="55" r="4" fill="none" stroke="#DAA520" stroke-width="1.5"/>
+    <circle cx="40" cy="60" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="50" cy="60" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    
+    <circle cx="115" cy="55" r="4" fill="none" stroke="#DAA520" stroke-width="1.5"/>
+    <circle cx="110" cy="60" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="120" cy="60" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    
+    <!-- Quatrefoil bottom -->
+    <circle cx="55" cy="135" r="4" fill="none" stroke="#DAA520" stroke-width="1.5"/>
+    <circle cx="51" cy="140" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="59" cy="140" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="55" cy="143" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    
+    <circle cx="105" cy="135" r="4" fill="none" stroke="#DAA520" stroke-width="1.5"/>
+    <circle cx="101" cy="140" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="109" cy="140" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+    <circle cx="105" cy="143" r="3" fill="none" stroke="#DAA520" stroke-width="1"/>
+  </g>
+  
+  <!-- Central charged device: Elaborate oak tree growing from tome -->
+  <g id="centralCharge" filter="url(#metalGlow)">
+    <!-- Ancient tome/grimoire base -->
+    <rect x="60" y="100" width="40" height="32" rx="2" fill="#3E2F1B" stroke="#DAA520" stroke-width="2"/>
+    <rect x="62" y="102" width="36" height="28" rx="1" fill="#6B5321" stroke="#FFD700" stroke-width="1"/>
+    <!-- Book clasp -->
+    <circle cx="80" cy="116" r="4" fill="#CD7F32" stroke="#FFD700" stroke-width="1"/>
+    <rect x="78" y="112" width="4" height="8" fill="#FFD700"/>
+    <!-- Book pages -->
+    <line x1="80" y1="104" x2="80" y2="128" stroke="#FFE4B5" stroke-width="1.5"/>
+    <path d="M66 108 L74 108 M86 108 L94 108 M66 112 L74 112 M86 112 L94 112 M66 120 L74 120 M86 120 L94 120 M66 124 L74 124 M86 124 L94 124" 
+          stroke="#DAA520" stroke-width="0.5" opacity="0.7"/>
+    
+    <!-- Oak tree trunk rising from book -->
+    <path d="M80 100 L80 70 Q78 65 80 60" stroke="#6B5321" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M80 100 L80 70 Q78 65 80 60" stroke="#8B6914" stroke-width="4" fill="none" stroke-linecap="round"/>
+    
+    <!-- Oak branches with acanthus style -->
+    <path d="M80 85 Q70 83 65 80 Q62 78 62 75" stroke="#6B5321" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M80 85 Q90 83 95 80 Q98 78 98 75" stroke="#6B5321" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M80 75 Q72 73 68 70" stroke="#6B5321" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M80 75 Q88 73 92 70" stroke="#6B5321" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    
+    <!-- Oak leaves (Victorian detailed style) -->
+    <g id="oakLeaf">
+      <path d="M62 75 Q60 73 62 71 Q64 69 66 71 Q68 73 66 75 Q64 77 62 75" fill="#5FAD56" stroke="#3E7B34" stroke-width="0.8"/>
+      <line x1="64" y1="73" x2="64" y2="77" stroke="#3E7B34" stroke-width="0.5"/>
+    </g>
+    <use href="#oakLeaf" transform="translate(36, 0)"/>
+    <use href="#oakLeaf" transform="translate(6, -5)"/>
+    <use href="#oakLeaf" transform="translate(30, -5)"/>
+    <use href="#oakLeaf" transform="translate(10, -10)"/>
+    <use href="#oakLeaf" transform="translate(26, -10)"/>
+    
+    <!-- Gilded acorns -->
+    <ellipse cx="63" cy="80" rx="2.5" ry="3.5" fill="#CD7F32" stroke="#FFD700" stroke-width="0.8"/>
+    <ellipse cx="97" cy="80" rx="2.5" ry="3.5" fill="#CD7F32" stroke="#FFD700" stroke-width="0.8"/>
+    <circle cx="63" cy="78" r="2" fill="#8B6914" stroke="#FFD700" stroke-width="0.5"/>
+    <circle cx="97" cy="78" r="2" fill="#8B6914" stroke="#FFD700" stroke-width="0.5"/>
+    
+    <!-- Mystical light rays -->
+    <path d="M80 58 L80 48 M75 59 L72 52 M85 59 L88 52 M73 62 L68 57 M87 62 L92 57" 
+          stroke="#FFD700" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Elaborate acanthus leaf scrollwork corners -->
+  <g id="acanthusCorner">
+    <path d="M30 45 Q28 48 30 51 Q32 54 35 53 Q38 52 37 49 Q36 46 33 45 Q30 44 28 46" 
+          fill="#CD7F32" stroke="#FFD700" stroke-width="1" filter="url(#engraving)"/>
+    <path d="M32 47 Q30 49 31 52 M34 46 Q36 48 35 51" stroke="#FFD700" stroke-width="0.5"/>
+  </g>
+  <use href="#acanthusCorner" transform="translate(98, 0) scale(-1, 1)"/>
+  <use href="#acanthusCorner" transform="translate(0, 85)"/>
+  <use href="#acanthusCorner" transform="translate(98, 85) scale(-1, 1)"/>
+  
+  <!-- Ornamental filigree bands -->
+  <path d="M35 38 Q45 36 55 38 Q65 36 75 38 Q85 36 95 38 Q105 36 115 38 Q125 36 135 38" 
+        stroke="#DAA520" stroke-width="1.2" fill="none" opacity="0.7"/>
+  <path d="M40 145 Q50 143 60 145 Q70 143 80 145 Q90 143 100 145 Q110 143 120 145" 
+        stroke="#DAA520" stroke-width="1.2" fill="none" opacity="0.7"/>
+  
+  <!-- Grand banner scroll with dimensional depth -->
+  <path d="M10 170 Q10 167 13 166 L147 166 Q150 167 150 170 L150 182 Q150 186 147 187 L120 187 L80 195 L40 187 L13 187 Q10 186 10 182 Z" 
+        fill="#1B3A19" stroke="#CD7F32" stroke-width="3" filter="url(#deepShadow)"/>
+  <path d="M15 169 L145 169 L145 182 L120 182 L80 189 L40 182 L15 182 Z" 
+        fill="#2A5F23" stroke="url(#goldHighlight)" stroke-width="1.5"/>
+  <path d="M20 172 L140 172 L140 179 L120 179 L80 185 L40 179 L20 179 Z" 
+        fill="#3E7B34" stroke="#FFD700" stroke-width="0.5"/>
+  
+  <!-- Banner ornamental ends with jewels -->
+  <circle cx="18" cy="176" r="5" fill="#CD7F32" stroke="#FFD700" stroke-width="1.5"/>
+  <circle cx="18" cy="176" r="3" fill="#FFD700" stroke="#FFF" stroke-width="0.5"/>
+  <circle cx="142" cy="176" r="5" fill="#CD7F32" stroke="#FFD700" stroke-width="1.5"/>
+  <circle cx="142" cy="176" r="3" fill="#FFD700" stroke="#FFF" stroke-width="0.5"/>
+  
+  <!-- Elaborate Roman numeral with serifs -->
+  <text x="80" y="180" font-family="Trajan Pro, Cinzel, serif" font-size="14" 
+        fill="url(#goldHighlight)" text-anchor="middle" font-weight="bold" letter-spacing="3" 
+        stroke="#3E2F1B" stroke-width="0.5">I</text>
+  
+  <!-- Crest helm above shield -->
+  <path d="M70 8 Q80 5 90 8 L88 15 Q80 12 72 15 Z" fill="#6B5321" stroke="#FFD700" stroke-width="1.5"/>
+  <ellipse cx="80" cy="10" rx="8" ry="4" fill="#CD7F32" stroke="#FFD700" stroke-width="1"/>
+  
+  <!-- Title on crest -->
+  <text x="80" y="9" font-family="Trajan Pro, Cinzel, serif" font-size="6" 
+        fill="#FFD700" text-anchor="middle" font-weight="bold" letter-spacing="1.5">FOUNDATION</text>
+</svg>
