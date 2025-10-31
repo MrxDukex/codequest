@@ -486,7 +486,7 @@ body::before {
 .main-content {
   flex: 1;
   padding: 2rem;
-  padding-bottom: 2rem; /* Reduced bottom padding */
+  padding-bottom: 1rem; /* Minimal bottom padding */
   max-width: 1800px;
   width: 100%;
   margin: 0 auto;

@@ -199,10 +199,10 @@
 .challenge-container {
   display: grid;
   grid-template-columns: 420px 1.2fr 0.8fr;
-  grid-auto-rows: auto;
   gap: 1.5rem;
   margin-bottom: 0;
   align-content: start;
+  align-items: start;
 }
 
 /* ===== INSTRUCTIONS PANEL ===== */
@@ -431,7 +431,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
 }
 
 .editor-header {
@@ -517,7 +516,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
 }
 
 .preview-header {
