@@ -486,7 +486,7 @@ body::before {
 .main-content {
   flex: 1;
   padding: 2rem;
-  padding-bottom: 6rem; /* Space for bottom nav on mobile */
+  padding-bottom: 2rem; /* Reduced bottom padding */
   max-width: 1800px;
   width: 100%;
   margin: 0 auto;
@@ -2219,7 +2219,7 @@ body::before {
   }
 
   .main-content {
-    padding-bottom: 80px;
+    padding-bottom: 70px; /* Reduced for better spacing */
   }
 
   #sync-status {
