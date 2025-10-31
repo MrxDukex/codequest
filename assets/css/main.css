@@ -484,9 +484,8 @@ body::before {
 
 /* ===== MAIN CONTENT ===== */
 .main-content {
-  flex: 1;
-  padding: 2rem;
-  padding-bottom: 1rem; /* Minimal bottom padding */
+  flex: 1 0 auto;
+  padding: 2rem 2rem 0.5rem 2rem;
   max-width: 1800px;
   width: 100%;
   margin: 0 auto;
@@ -500,6 +499,8 @@ body::before {
   position: relative;
   background: var(--bg-primary);
   z-index: 1;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .view.active {
