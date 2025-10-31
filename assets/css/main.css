@@ -101,6 +101,7 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: auto;
+  height: auto; /* Explicitly set height to auto */
 }
 
 body::before {
@@ -306,6 +307,8 @@ body::before {
   flex-direction: column;
   opacity: 1;
   transition: opacity 0.3s ease;
+  min-height: auto; /* Ensure no minimum height */
+  height: auto; /* Size to content */
 }
 
 .app-container.hidden {
