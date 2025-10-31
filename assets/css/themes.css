@@ -214,8 +214,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  height: fit-content; /* Size to content */
-  max-height: none; /* Remove any max-height */
+  min-height: 300px; /* Minimum height for visibility */
   align-self: start; /* Align to start */
 }
 
@@ -438,7 +437,6 @@
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  height: fit-content; /* Size to content, respect min-height */
   align-self: start; /* Align to start */
 }
 
@@ -527,7 +525,6 @@
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  height: fit-content; /* Size to content, respect min-height */
   align-self: start; /* Align to start */
 }
 
