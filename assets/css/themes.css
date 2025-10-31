@@ -539,8 +539,8 @@
 .preview-content {
   background: white;
   position: relative;
+  flex: 1;
   min-height: 300px;
-  max-height: calc(100vh - 280px);
   overflow: auto;
   display: flex;
   flex-direction: column;
