@@ -351,28 +351,16 @@ function takeFinalExam() {
 
 function updateLevelDisplay(progress) {
   const level = progress.level;
-  const currentXP = progress.xp;
-  const currentLevelXP = calculateXPForLevel(level); // Minimum XP to be at this level
-  const nextLevelXP = calculateXPForLevel(level + 1); // Minimum XP to reach next level
+  const currentXP = progress.xp; // Total XP accumulated
+  const nextLevelXP = calculateXPForLevel(level + 1); // Total XP needed to reach next level
   
-  // Calculate XP progress: how much XP beyond current level requirement
-  // XP needed to get to next level from current level
-  let xpProgress = currentXP - currentLevelXP;
-  const xpNeeded = nextLevelXP - currentLevelXP;
-  
-  // If XP progress exceeds what's needed, cap it (shouldn't happen if leveling works correctly)
-  // This handles edge cases where level might not be updated correctly
-  if (xpProgress >= xpNeeded) {
-    xpProgress = xpNeeded; // Cap at needed amount
-  }
-  
-  // Calculate percentage and ensure bounds
-  const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
+  // Calculate percentage: how much of the way to next level
+  const percentage = Math.min(100, Math.max(0, (currentXP / nextLevelXP) * 100));
 
   document.getElementById("level-display").textContent = level;
   document.getElementById("level-text").textContent = level;
-  document.getElementById("current-xp").textContent = Math.max(0, Math.min(xpProgress, xpNeeded));
-  document.getElementById("needed-xp").textContent = xpNeeded;
+  document.getElementById("current-xp").textContent = currentXP; // Show total XP
+  document.getElementById("needed-xp").textContent = nextLevelXP; // Show total XP needed for next level
   document.getElementById("xp-fill").style.width = `${percentage}%`;
 
   // Update navbar
