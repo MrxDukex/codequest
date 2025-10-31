@@ -199,11 +199,12 @@
 .challenge-container {
   display: grid;
   grid-template-columns: 420px 1.2fr 0.8fr;
-  grid-template-rows: auto;
+  grid-template-rows: 1fr;
   gap: 1.5rem;
   margin-bottom: 0;
   align-content: start;
-  align-items: start;
+  align-items: stretch;
+  min-height: 400px;
 }
 
 /* ===== INSTRUCTIONS PANEL ===== */
@@ -434,6 +435,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 400px;
+  height: auto;
 }
 
 .editor-header {
@@ -485,8 +488,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  flex: 1;
   min-height: 300px;
-  max-height: calc(100vh - 280px);
 }
 
 #code-input {
@@ -521,6 +524,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 400px;
+  height: auto;
 }
 
 .preview-header {
