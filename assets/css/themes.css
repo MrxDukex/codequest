@@ -199,12 +199,12 @@
 .challenge-container {
   display: grid;
   grid-template-columns: 420px 1.2fr 0.8fr;
-  grid-template-rows: 1fr; /* Use 1fr to ensure all rows render */
+  grid-template-rows: auto; /* Changed back to auto - size to content */
   gap: 1.5rem;
   margin-bottom: 0;
   padding-bottom: 0; /* Ensure no padding */
   align-content: start;
-  align-items: stretch; /* Use stretch so panels match height */
+  align-items: start; /* Changed to start - panels size to content */
 }
 
 /* ===== INSTRUCTIONS PANEL ===== */
@@ -215,7 +215,7 @@
   display: flex;
   flex-direction: column;
   min-height: 300px; /* Minimum height for visibility */
-  /* Removed align-self - will use grid stretch */
+  align-self: start; /* Explicitly align to start */
 }
 
 .panel-tabs {
@@ -450,7 +450,7 @@
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  /* Removed align-self - will use grid stretch */
+  align-self: start; /* Explicitly align to start */
 }
 
 .editor-header {
@@ -538,7 +538,7 @@
   display: flex;
   flex-direction: column;
   min-height: 300px;
-  /* Removed align-self - will use grid stretch */
+  align-self: start; /* Explicitly align to start */
 }
 
 .preview-header {
