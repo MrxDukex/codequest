@@ -507,12 +507,13 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  min-height: 250px;
-  flex: 1; /* Add this to fill available space */
+  flex: 1; /* Fill available space in editor-panel */
+  min-height: 0; /* Important for flex children */
 }
 
 #code-input {
   width: 100%;
+  height: 100%; /* Fill the code-editor container */
   min-height: 250px;
   background: var(--bg-tertiary);
   color: var(--text-primary);
@@ -521,7 +522,7 @@
   font-family: var(--font-code);
   font-size: 0.95rem;
   line-height: 1.7;
-  resize: vertical;
+  resize: none; /* Changed from vertical to none - prevents manual resize that breaks matching */
   outline: none;
   white-space: pre-wrap;
   word-wrap: break-word;
