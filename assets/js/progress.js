@@ -305,10 +305,10 @@ function loadProfile() {
   const nextLevelXP = calculateXPForLevel(level + 1);
   const xpProgress = currentXP - currentLevelXP;
   const xpNeeded = nextLevelXP - currentLevelXP;
-  const percentage = Math.min(100, (xpProgress / xpNeeded) * 100);
+  const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("profile-level").textContent = level;
-  document.getElementById("profile-xp-text").textContent = `${xpProgress} / ${xpNeeded} XP`;
+  document.getElementById("profile-xp-text").textContent = `${Math.max(0, xpProgress)} / ${xpNeeded} XP`;
   document.getElementById("profile-xp-fill").style.width = `${percentage}%`;
 
   // Update stats cards

@@ -352,15 +352,20 @@ function takeFinalExam() {
 function updateLevelDisplay(progress) {
   const level = progress.level;
   const currentXP = progress.xp;
-  const currentLevelXP = calculateXPForLevel(level); // XP required for current level
-  const nextLevelXP = calculateXPForLevel(level + 1); // XP required for next level
-  const xpProgress = currentXP - currentLevelXP; // XP earned towards next level
-  const xpNeeded = nextLevelXP - currentLevelXP; // XP needed to reach next level
-  const percentage = Math.min(100, (xpProgress / xpNeeded) * 100); // Cap at 100%
+  const currentLevelXP = calculateXPForLevel(level); // Minimum XP to be at this level
+  const nextLevelXP = calculateXPForLevel(level + 1); // Minimum XP to reach next level
+  
+  // Calculate XP progress: how much XP beyond current level requirement
+  // XP needed to get to next level from current level
+  const xpProgress = currentXP - currentLevelXP;
+  const xpNeeded = nextLevelXP - currentLevelXP;
+  
+  // Cap at 100% and ensure non-negative
+  const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("level-display").textContent = level;
   document.getElementById("level-text").textContent = level;
-  document.getElementById("current-xp").textContent = xpProgress;
+  document.getElementById("current-xp").textContent = Math.max(0, xpProgress);
   document.getElementById("needed-xp").textContent = xpNeeded;
   document.getElementById("xp-fill").style.width = `${percentage}%`;
 
@@ -469,7 +474,7 @@ function loadPathQuizCheckpoints(path, category, progress) {
       ${passedQuizzes
         .map((quiz) => {
           return `
-          <div class="checkpoint-item passed" 
+          <div class="checkpoint-item passed"
                onclick="event.stopPropagation(); navigateToQuiz('${quiz.id}')">
             <span class="checkpoint-icon">✅</span>
             <span class="checkpoint-text">${quiz.title}</span>
