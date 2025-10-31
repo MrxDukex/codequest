@@ -2222,7 +2222,7 @@ body::before {
   }
 
   .main-content {
-    padding-bottom: 70px; /* Reduced for better spacing */
+    padding-bottom: 60px; /* Space for bottom nav */
   }
 
   #sync-status {
