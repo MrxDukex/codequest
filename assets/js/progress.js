@@ -293,22 +293,49 @@ function getCompletionStats() {
   };
 }
 
+// Recalculate level based on current XP
+function recalculateLevel(progress) {
+  let calculatedLevel = progress.level;
+  while (progress.xp >= calculateXPForLevel(calculatedLevel + 1) && calculatedLevel < 100) {
+    calculatedLevel++;
+  }
+  if (calculatedLevel !== progress.level) {
+    progress.level = calculatedLevel;
+    saveProgress(progress);
+  }
+  return progress;
+}
+
 // Load profile view
 function loadProfile() {
   const progress = getProgress();
+
+  // Recalculate level to ensure it's in sync with XP
+  recalculateLevel(progress);
+  const progressUpdated = getProgress(); // Get updated progress after recalculation
+
   const stats = getCompletionStats();
 
   // Update profile header
-  const level = progress.level;
-  const currentXP = progress.xp; // Total XP accumulated
+  const level = progressUpdated.level;
+  const currentXP = progressUpdated.xp; // Total XP accumulated
+  const currentLevelXP = calculateXPForLevel(level); // XP needed for current level
   const nextLevelXP = calculateXPForLevel(level + 1); // Total XP needed to reach next level
   
-  // Calculate percentage: how much of the way to next level
-  const percentage = Math.min(100, Math.max(0, (currentXP / nextLevelXP) * 100));
+  // Calculate progress: how much XP earned towards next level
+  const xpProgress = currentXP - currentLevelXP;
+  const xpNeeded = nextLevelXP - currentLevelXP;
+  
+  // Calculate percentage for progress bar: how close to next level
+  const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("profile-level").textContent = level;
-  document.getElementById("profile-xp-text").textContent = `${currentXP} / ${nextLevelXP} XP`;
+  
+  // Update progress bar to show progression to next level
   document.getElementById("profile-xp-fill").style.width = `${percentage}%`;
+  
+  // Show just the current XP below the bar (no fraction)
+  document.getElementById("profile-xp-text").textContent = `${currentXP} XP`;
 
   // Update stats cards
   document.getElementById("total-challenges").textContent = stats.completed;

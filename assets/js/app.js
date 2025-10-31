@@ -349,19 +349,44 @@ function takeFinalExam() {
   navigateToQuiz("final-exam");
 }
 
+function recalculateLevel(progress) {
+  // Recalculate level based on current XP to fix any sync issues
+  let calculatedLevel = progress.level;
+  while (progress.xp >= calculateXPForLevel(calculatedLevel + 1) && calculatedLevel < 100) {
+    calculatedLevel++;
+  }
+  if (calculatedLevel !== progress.level) {
+    progress.level = calculatedLevel;
+    saveProgress(progress);
+  }
+  return progress;
+}
+
 function updateLevelDisplay(progress) {
+  // Recalculate level to ensure it's in sync with XP
+  progress = recalculateLevel(progress);
+  
   const level = progress.level;
   const currentXP = progress.xp; // Total XP accumulated
+  const currentLevelXP = calculateXPForLevel(level); // XP needed for current level
   const nextLevelXP = calculateXPForLevel(level + 1); // Total XP needed to reach next level
   
-  // Calculate percentage: how much of the way to next level
-  const percentage = Math.min(100, Math.max(0, (currentXP / nextLevelXP) * 100));
+  // Calculate progress: how much XP earned towards next level
+  const xpProgress = currentXP - currentLevelXP;
+  const xpNeeded = nextLevelXP - currentLevelXP;
+  
+  // Calculate percentage for progress bar: how close to next level
+  const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("level-display").textContent = level;
   document.getElementById("level-text").textContent = level;
-  document.getElementById("current-xp").textContent = currentXP; // Show total XP
-  document.getElementById("needed-xp").textContent = nextLevelXP; // Show total XP needed for next level
+  
+  // Update progress bar to show progression to next level
   document.getElementById("xp-fill").style.width = `${percentage}%`;
+  
+  // Show just the current XP below the bar (no fraction)
+  document.getElementById("current-xp").textContent = currentXP;
+  // Hide or don't update needed-xp since we're not showing fraction anymore
 
   // Update navbar
   document.getElementById("nav-level").textContent = `Lvl ${level}`;
