@@ -486,7 +486,7 @@ body::before {
 
 /* ===== MAIN CONTENT ===== */
 .main-content {
-  flex: 1 0 auto;
+  flex: 0 0 auto; /* Changed from flex: 1 0 auto - prevents expansion */
   padding: 2rem 2rem 0 2rem;
   max-width: 1800px;
   width: 100%;
