@@ -352,13 +352,16 @@ function takeFinalExam() {
 function updateLevelDisplay(progress) {
   const level = progress.level;
   const currentXP = progress.xp;
-  const neededXP = calculateXPForLevel(level + 1);
-  const percentage = (currentXP / neededXP) * 100;
+  const currentLevelXP = calculateXPForLevel(level); // XP required for current level
+  const nextLevelXP = calculateXPForLevel(level + 1); // XP required for next level
+  const xpProgress = currentXP - currentLevelXP; // XP earned towards next level
+  const xpNeeded = nextLevelXP - currentLevelXP; // XP needed to reach next level
+  const percentage = Math.min(100, (xpProgress / xpNeeded) * 100); // Cap at 100%
 
   document.getElementById("level-display").textContent = level;
   document.getElementById("level-text").textContent = level;
-  document.getElementById("current-xp").textContent = currentXP;
-  document.getElementById("needed-xp").textContent = neededXP;
+  document.getElementById("current-xp").textContent = xpProgress;
+  document.getElementById("needed-xp").textContent = xpNeeded;
   document.getElementById("xp-fill").style.width = `${percentage}%`;
 
   // Update navbar

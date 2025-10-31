@@ -299,13 +299,17 @@ function loadProfile() {
   const stats = getCompletionStats();
 
   // Update profile header
-  document.getElementById("profile-level").textContent = progress.level;
-  document.getElementById("profile-xp-text").textContent = `${
-    progress.xp
-  } / ${calculateXPForLevel(progress.level + 1)} XP`;
-  document.getElementById("profile-xp-fill").style.width = `${
-    (progress.xp / calculateXPForLevel(progress.level + 1)) * 100
-  }%`;
+  const level = progress.level;
+  const currentXP = progress.xp;
+  const currentLevelXP = calculateXPForLevel(level);
+  const nextLevelXP = calculateXPForLevel(level + 1);
+  const xpProgress = currentXP - currentLevelXP;
+  const xpNeeded = nextLevelXP - currentLevelXP;
+  const percentage = Math.min(100, (xpProgress / xpNeeded) * 100);
+
+  document.getElementById("profile-level").textContent = level;
+  document.getElementById("profile-xp-text").textContent = `${xpProgress} / ${xpNeeded} XP`;
+  document.getElementById("profile-xp-fill").style.width = `${percentage}%`;
 
   // Update stats cards
   document.getElementById("total-challenges").textContent = stats.completed;
