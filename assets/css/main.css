@@ -90,6 +90,7 @@ body.light-theme {
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  height: auto;
 }
 
 body {
@@ -99,6 +100,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  min-height: auto;
 }
 
 body::before {
@@ -485,7 +487,7 @@ body::before {
 /* ===== MAIN CONTENT ===== */
 .main-content {
   flex: 1 0 auto;
-  padding: 2rem 2rem 0.5rem 2rem;
+  padding: 2rem 2rem 0 2rem;
   max-width: 1800px;
   width: 100%;
   margin: 0 auto;
