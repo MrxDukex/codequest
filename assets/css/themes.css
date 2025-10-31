@@ -436,6 +436,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: fit-content;
   max-height: calc(100vh - 220px);
   align-self: start;
 }
@@ -525,6 +526,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: fit-content;
   max-height: calc(100vh - 220px);
   align-self: start;
 }
