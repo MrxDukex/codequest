@@ -303,12 +303,18 @@ function loadProfile() {
   const currentXP = progress.xp;
   const currentLevelXP = calculateXPForLevel(level);
   const nextLevelXP = calculateXPForLevel(level + 1);
-  const xpProgress = currentXP - currentLevelXP;
+  let xpProgress = currentXP - currentLevelXP;
   const xpNeeded = nextLevelXP - currentLevelXP;
+  
+  // Cap XP progress if it exceeds what's needed (shouldn't happen if leveling works correctly)
+  if (xpProgress >= xpNeeded) {
+    xpProgress = xpNeeded;
+  }
+  
   const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("profile-level").textContent = level;
-  document.getElementById("profile-xp-text").textContent = `${Math.max(0, xpProgress)} / ${xpNeeded} XP`;
+  document.getElementById("profile-xp-text").textContent = `${Math.max(0, Math.min(xpProgress, xpNeeded))} / ${xpNeeded} XP`;
   document.getElementById("profile-xp-fill").style.width = `${percentage}%`;
 
   // Update stats cards

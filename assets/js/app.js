@@ -357,15 +357,21 @@ function updateLevelDisplay(progress) {
   
   // Calculate XP progress: how much XP beyond current level requirement
   // XP needed to get to next level from current level
-  const xpProgress = currentXP - currentLevelXP;
+  let xpProgress = currentXP - currentLevelXP;
   const xpNeeded = nextLevelXP - currentLevelXP;
   
-  // Cap at 100% and ensure non-negative
+  // If XP progress exceeds what's needed, cap it (shouldn't happen if leveling works correctly)
+  // This handles edge cases where level might not be updated correctly
+  if (xpProgress >= xpNeeded) {
+    xpProgress = xpNeeded; // Cap at needed amount
+  }
+  
+  // Calculate percentage and ensure bounds
   const percentage = Math.min(100, Math.max(0, (xpProgress / xpNeeded) * 100));
 
   document.getElementById("level-display").textContent = level;
   document.getElementById("level-text").textContent = level;
-  document.getElementById("current-xp").textContent = Math.max(0, xpProgress);
+  document.getElementById("current-xp").textContent = Math.max(0, Math.min(xpProgress, xpNeeded));
   document.getElementById("needed-xp").textContent = xpNeeded;
   document.getElementById("xp-fill").style.width = `${percentage}%`;
 
