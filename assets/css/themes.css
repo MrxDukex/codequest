@@ -199,12 +199,12 @@
 .challenge-container {
   display: grid;
   grid-template-columns: 420px 1.2fr 0.8fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   gap: 1.5rem;
   margin-bottom: 0;
   align-content: start;
-  align-items: stretch;
-  min-height: 400px;
+  align-items: start;
+  max-height: calc(100vh - 200px);
 }
 
 /* ===== INSTRUCTIONS PANEL ===== */
@@ -215,7 +215,8 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 220px);
+  align-self: start;
 }
 
 .panel-tabs {
@@ -435,8 +436,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  height: auto;
+  max-height: calc(100vh - 220px);
+  align-self: start;
 }
 
 .editor-header {
@@ -489,12 +490,12 @@
   flex-direction: column;
   overflow: hidden;
   flex: 1;
-  min-height: 300px;
+  min-height: 200px;
 }
 
 #code-input {
   width: 100%;
-  min-height: 300px;
+  min-height: 200px;
   flex: 1;
   background: var(--bg-tertiary);
   color: var(--text-primary);
@@ -524,8 +525,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 400px;
-  height: auto;
+  max-height: calc(100vh - 220px);
+  align-self: start;
 }
 
 .preview-header {
@@ -540,7 +541,7 @@
   background: white;
   position: relative;
   flex: 1;
-  min-height: 300px;
+  min-height: 200px;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -548,7 +549,7 @@
 
 #preview-frame {
   width: 100%;
-  min-height: 300px;
+  min-height: 200px;
   flex: 1;
   border: none;
   background: white;
