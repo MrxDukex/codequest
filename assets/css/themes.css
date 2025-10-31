@@ -199,12 +199,15 @@
 .challenge-container {
   display: grid;
   grid-template-columns: 420px 1.2fr 0.8fr;
-  grid-template-rows: auto; /* Changed back to auto - size to content */
+  grid-template-rows: 1fr; /* Use 1fr to fill available space */
   gap: 1.5rem;
   margin-bottom: 0;
   padding-bottom: 0; /* Ensure no padding */
   align-content: start;
-  align-items: start; /* Changed to start - panels size to content */
+  align-items: stretch; /* Stretch to fill grid row */
+  height: calc(100vh - 220px); /* Fill viewport minus header/nav */
+  min-height: 500px; /* Minimum usable height */
+  max-height: calc(100vh - 220px); /* Don't exceed viewport */
 }
 
 /* ===== INSTRUCTIONS PANEL ===== */
@@ -214,8 +217,9 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  height: 100%; /* Fill parent grid cell */
   min-height: 300px; /* Minimum height for visibility */
-  align-self: start; /* Explicitly align to start */
+  /* align-self removed - uses grid stretch */
 }
 
 .panel-tabs {
@@ -449,8 +453,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%; /* Fill parent grid cell */
   min-height: 300px;
-  align-self: start; /* Explicitly align to start */
+  /* align-self removed - uses grid stretch */
 }
 
 .editor-header {
@@ -537,8 +542,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%; /* Fill parent grid cell */
   min-height: 300px;
-  align-self: start; /* Explicitly align to start */
+  /* align-self removed - uses grid stretch */
 }
 
 .preview-header {
